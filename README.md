@@ -1,13 +1,5 @@
 # React
 
-Source code and student resources for the React Ultimate Guide course.
-
-Open your course section, then the folder with the matching lecture title. Lecture folders retain their original identifiers so references in the lesson materials remain useful.
-
-Each available student package is extracted into its lecture folder. Follow that package's README or setup instructions, and keep starter and completed projects separate when both are supplied. Lectures without a student ZIP have a short README explaining the lesson's focus.
-
-The React introduction and setup lessons are combined in course Section 4; both groups retain their original lecture identifiers inside that section.
-
 | Course section | Video lectures | Student packages |
 | --- | ---: | ---: |
 | [01. Course Introduction](01.%20Course%20Introduction/) | 3 | 0 |
