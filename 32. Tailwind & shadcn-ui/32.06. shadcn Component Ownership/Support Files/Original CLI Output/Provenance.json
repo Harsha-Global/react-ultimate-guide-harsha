@@ -1,0 +1,15 @@
+{
+  "date": "2026-10-09",
+  "command": "npm exec --yes --package=shadcn@4.21.4 -- shadcn add button input label --yes",
+  "configuration": "Existing Tailwind4.3.3/new-york/rscfalse/tsxtrue/neutral/cssVariablestrue; aliasesconfiguredwithoutbaseUrl",
+  "actual_output": "Created src/components/ui/button.tsx,input.tsx,label.tsx; added cn0.4.0 andradix-ui1.7.0 dependencies; existingutils.ts andtheme preserved. Registry mutable: this snapshot records exact fetched/generatedbytes.",
+  "sha256": {
+    "src/components/ui/button.tsx": "79dd6f75f8136394442202d6b8b922fb269eaad0a5dba579397c9d5b41f893bb",
+    "src/components/ui/input.tsx": "0c9457181f6ddc80969bcf854e92c362903a55b6e889fbef3fd85343ecc4af5b",
+    "src/components/ui/label.tsx": "b823de7355666bd6a6a2cf88a6630e436d021b38fdbef5b749fac0921b86f44d",
+    "components.json": "aa1b56411ed0e8fc2ac14315f211c7059406e03d68666e1921f640186b8c096f",
+    "package.json": "d2eb7cd4c2104acf56279909dd81eb903fdb14d7094c8dd2c3d0dda3dda69ca4",
+    "package-lock.json": "0128fb1a39b9ca734b372465707ba1d9f8dc47fe6e5265c36a7f7f3bb95771e6",
+    "src/index.css": "1f1fc06e49daa959454a3715d8466d1933749f2c883be2547f836409bf767300"
+  }
+}

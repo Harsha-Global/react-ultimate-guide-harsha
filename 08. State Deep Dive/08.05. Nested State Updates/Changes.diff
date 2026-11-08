@@ -1,0 +1,85 @@
+--- before/src/BookingPanel.tsx
++++ after/src/BookingPanel.tsx
+@@ -3,6 +3,7 @@
+ import type { Quote } from "./Quote";
+ import { createStarterCart } from "./starterCart";
+ import type { ChangeEvent } from "react";
++import { createGuest, changeCity } from "./guest";
+ import { addBooking, changeCartQuantity } from "./cart";
+ import type { CartItem } from "./cart";
+ import TicketCart from "./TicketCart";
+@@ -12,7 +13,7 @@
+ export default function BookingPanel() {
+   const [quantity, setQuantity] = useState(1);
+   const [adjustment, setAdjustment] = useState("");
+-  const [guestName, setGuestName] = useState("");
++  const [guest, setGuest] = useState(createGuest);
+   const [showtime, setShowtime] = useState("18:00");
+   const [cart, setCart] = useState<CartItem[]>(createStarterCart);
+   const [selectedId, setSelectedId] = useState<string | null>(null);
+@@ -22,7 +23,7 @@
+   const total = quantity * ticketPrice;
+ 
+   function handlePrepareQuote() {
+-    const requestedQuote: Quote = { guestName, showtime, quantity, total };
++    const requestedQuote: Quote = { guestName: guest.name, showtime, quantity, total };
+     setIsPreparing(true);
+     setQuote(null);
+     window.setTimeout(() => {
+@@ -48,7 +49,17 @@
+   }
+ 
+   function handleGuestNameChange(event: ChangeEvent<HTMLInputElement>) {
+-    setGuestName(event.currentTarget.value);
++    const name = event.currentTarget.value;
++    setGuest(current => ({ ...current, name }));
++  }
++
++  function handleCityChange(event: ChangeEvent<HTMLInputElement>) {
++    const city = event.currentTarget.value;
++    setGuest(current => changeCity(current, city));
++  }
++
++  function handleSortCart() {
++    setCart(current => [...current].sort((a, b) => b.showtime.localeCompare(a.showtime)));
+   }
+ 
+   function handleAddBooking() {
+@@ -68,7 +79,9 @@
+   return (
+     <>
+       <label htmlFor="guest-name">Guest name</label>
+-      <input id="guest-name" value={guestName} onChange={handleGuestNameChange} />
++      <input id="guest-name" value={guest.name} onChange={handleGuestNameChange} />
++      <label htmlFor="guest-city">City</label>
++      <input id="guest-city" value={guest.contact.city} onChange={handleCityChange} />
+       <label htmlFor="showtime">Showtime</label>
+       <select id="showtime" value={showtime} onChange={event => setShowtime(event.currentTarget.value)}>
+         <option value="18:00">18:00 — $12</option>
+@@ -78,11 +91,12 @@
+       <TicketControls quantity={quantity} onQuantityChange={handleQuantityChange} />
+       <button type="button" disabled={quantity === 6} onClick={handleAddAndDescribe}>Add ticket and describe</button>
+       {adjustment && <p className="feedback" role="status">{adjustment}</p>}
+-      <BookingSummary quantity={quantity} guestName={guestName} showtime={showtime} total={total} />
++      <BookingSummary quantity={quantity} guestName={guest.name} showtime={showtime} total={total} />
+       <button type="button" disabled={isPreparing} onClick={handlePrepareQuote}>Prepare quote</button>
+       {isPreparing && <p role="status">Preparing your quote…</p>}
+       {quote && <QuoteCard quote={quote} />}
+       <button type="button" onClick={handleAddBooking}>Add booking to cart</button>
++      <button type="button" onClick={handleSortCart}>Latest show first</button>
+       <TicketCart items={cart} selectedId={selectedId} onSelect={setSelectedId}
+         onChangeQuantity={handleCartQuantityChange} onRemove={handleRemove} />
+     </>
+--- before/src/guest.ts
++++ after/src/guest.ts
+@@ -0,0 +1,10 @@
++export type Guest = {
++  readonly name: string;
++  readonly contact: { readonly city: string; readonly email: string };
++};
++export function createGuest(): Guest {
++  return { name: '', contact: { city: 'Seattle', email: '' } };
++}
++export function changeCity(guest: Guest, city: string): Guest {
++  return { ...guest, contact: { ...guest.contact, city } };
++}

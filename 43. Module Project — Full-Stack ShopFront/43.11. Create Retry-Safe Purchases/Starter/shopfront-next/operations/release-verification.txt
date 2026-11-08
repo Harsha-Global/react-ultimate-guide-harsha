@@ -1,0 +1,29 @@
+Record the exact commit/build, origin, database name, environment, time and observed result.
+Use synthetic course data and the intended isolated accounts. A deployment marked Live is
+only the first check; preserve these observations separately from the CI report.
+
+1. Runtime: /api/workshop/health reports ready; no private connection string in the response.
+2. Routing: direct reload of /products/studio-desk-lamp works; missing slug shows the fallback.
+3. Sessions: sign in, reload a private order, sign out and revisit its direct URL.
+4. Isolation: Alex can access O-1001; Bob cannot read or mutate it. Check the same endpoint
+   directly as well as the UI. A hidden button is not an authorization test.
+5. Caching: private API responses use private/no-store; account switching cannot show earlier
+   private records. Inspect the actual host response before enabling a CDN cache rule.
+6. Payment: sandbox Checkout, verified provider event, matching session/order/amount/currency,
+   database paid state, duplicate event unchanged. A success redirect is insufficient evidence.
+7. Storage: valid owner upload attaches a normalized private image; forged type/oversize/cross-user
+   operations fail. The image survives a web-process restart because storage is separate.
+8. Jobs: paid order and outbox committed together, dispatch delivered, receipt present. Replay
+   the controlled event/job and confirm one receipt. Failed dispatch remains recoverable.
+9. Telemetry: controlled event appears at the exact ID in the separate Sentry project; no account,
+   request body, note, cookie or query token appears. Disable the demonstration endpoint again.
+10. Runtime limits: inspect connection/worker counts and host quota; verify reconnect/retry after
+    a controlled restart. Do not use synthetic health pings to disguise free-service sleep limits.
+11. Recovery: retained backup restored into a separate database; old app compatible with expanded
+    schema. Record backup age and possible lost writes before a real rollback decision.
+
+Tests: test:auth, test:orders, test:signatures, test:workflows, test:uploads, test:security,
+test:unit and test:database are complementary. The provider dashboard and a hosted browser
+check cannot be replaced by a mocked CI checkout response or a local synthetic paid fixture.
+Report each environment accurately; never label a missing provider check as passed.
+The next module connects these taught pieces into the full customer/merchant application.

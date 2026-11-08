@@ -1,0 +1,7 @@
+# Admin Workspace — a shared table-density preference with Zustand
+
+The Admin Workspace project in its own working folder (zustand-workspace) with Zustand 5.0.15 (installed with --save-exact). src/workspaceStore.ts creates a typed store (create<WorkspaceState>()(...)) holding the table density ("comfortable" or "compact") and its setDensity action; src/components/DensityControl.tsx selects both and renders the labelled Table density select; src/App.tsx shows it beside the Product catalog heading in a wrapping flex container; src/components/ProductTable.tsx selects the same density and puts it on the table (the inventory-table class and data-density attribute), where the two rules appended to src/index.css tighten the compact rows. The URL search, the API products and every other behaviour are unchanged; the density is held in memory only, so a reload returns to Comfortable.
+
+## Run
+
+Copy the project into your React workspace (for example C:\react\zustand-workspace) and open it in VS Code. In one terminal run `npm ci`, then `npm run api` (the local catalog service on http://127.0.0.1:5191, in memory: a restart restores the four sample products). In a second terminal run `npm run dev` and open http://127.0.0.1:5190 (stop any other app using ports 5190 or 5191 first, and use the same 127.0.0.1 address throughout: localhost is a different browser-storage origin). Validate with `npm run lint` and `npm run build`.

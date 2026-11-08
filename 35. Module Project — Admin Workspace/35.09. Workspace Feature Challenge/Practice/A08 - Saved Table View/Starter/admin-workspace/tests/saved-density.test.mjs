@@ -1,0 +1,12 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import { readSavedView, viewUpdate } from "../src/savedView.ts";
+import { createSavedViewStore } from "../src/savedViewStore.ts";
+const view={q:"studio",sort:"name",dir:"desc",size:2,density:"compact"};
+const storage=(initial=null)=>{let value=initial;return {getItem:()=>value,setItem:(_k,next)=>{value=next;},removeItem:()=>{value=null;}};};
+test("capture keeps the density snapshot",()=>assert.deepEqual(readSavedView(view),view));
+test("unknown density rejects the complete snapshot",()=>assert.equal(readSavedView({...view,density:"tiny"}),null));
+test("URL update excludes density and resets page",()=>assert.deepEqual(viewUpdate(view),{q:"studio",sort:"name",dir:"desc",size:2,page:1}));
+test("saved format2 restores density and real actions",()=>{const disk=storage();const one=createSavedViewStore(disk);one.getState().save(view);const two=createSavedViewStore(disk);assert.equal(two.getState().saved.density,"compact");assert.equal(JSON.parse(disk.getItem()).version,2);assert.equal(typeof two.getState().clear,"function");});
+test("version1 preserves URL fields and supplies comfortable density",()=>{const {density,...old}=view;const store=createSavedViewStore(storage(JSON.stringify({version:1,state:{saved:old}})));assert.deepEqual(store.getState().saved,{...old,density:"comfortable"});});
+test("malformed legacy data is not coerced",()=>{const store=createSavedViewStore(storage(JSON.stringify({version:1,state:{saved:{q:5}}})));assert.equal(store.getState().saved,null);});

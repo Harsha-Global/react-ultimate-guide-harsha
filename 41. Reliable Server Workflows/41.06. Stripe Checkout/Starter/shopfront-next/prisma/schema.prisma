@@ -1,0 +1,152 @@
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Customer {
+  id     String  @id
+  name   String
+  email  String  @unique
+  orders Order[]
+  userId String? @unique
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+}
+
+model Product {
+  id         String      @id
+  slug       String      @unique
+  name       String
+  priceMinor Int
+  stock      Int
+  items      OrderItem[]
+}
+
+model Order {
+  id         String      @id @default(cuid())
+  customerId String
+  customer   Customer    @relation(fields: [customerId], references: [id], onDelete: Restrict)
+  status     String      @default("pending")
+  note       String      @default("")
+  requestKey String?
+  requestFingerprint String?
+  createdAt  DateTime    @default(now())
+  items      OrderItem[]
+
+  @@index([customerId, createdAt])
+  @@unique([customerId, requestKey])
+}
+
+model OrderItem {
+  orderId        String
+  productId      String
+  quantity       Int
+  unitPriceMinor Int
+  order          Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product        Product @relation(fields: [productId], references: [id], onDelete: Restrict)
+
+  @@id([orderId, productId])
+  @@index([productId])
+}
+
+model User {
+  id            String    @id
+  name          String
+  email         String
+  emailVerified Boolean   @default(false)
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  memberships   Membership[]
+  customer      Customer?
+  sessions      Session[]
+  accounts      Account[]
+
+  @@unique([email])
+  @@map("user")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([token])
+  @@index([userId])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@index([userId])
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([identifier])
+  @@map("verification")
+}
+
+model RateLimit {
+  id          String @id
+  key         String
+  count       Int
+  lastRequest BigInt
+
+  @@unique([key])
+  @@map("rateLimit")
+}
+
+model Workspace {
+  id String @id
+  name String
+  members Membership[]
+  notes WorkspaceNote[]
+}
+model Membership {
+  workspaceId String
+  userId String
+  role String @default("viewer")
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@id([workspaceId, userId])
+  @@index([userId])
+}
+model WorkspaceNote {
+  id String @id
+  workspaceId String
+  body String
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  @@index([workspaceId])
+}

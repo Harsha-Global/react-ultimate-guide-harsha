@@ -1,0 +1,20 @@
+import { expect, test } from "@playwright/test";
+test("a group keeps its booking kind and place count on direct reload", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("button", { name: "A group", exact: true }).click();
+  await page.getByRole("textbox", { name: "Group name", exact: true }).fill("Studio friends");
+  const people = page.getByRole("textbox", { name: "Attendee name", exact: true });
+  await expect(people).toHaveCount(2);
+  await people.nth(0).fill("Jordan Lee");
+  await people.nth(1).fill("Casey Reed");
+  await page.getByRole("textbox", { name: "Contact name", exact: true }).fill("Alex Morgan");
+  await page.getByRole("textbox", { name: "Email address", exact: true }).fill("alex@example.com");
+  await page.getByRole("button", { name: "Book this visit", exact: true }).click();
+  await expect(page.getByRole("heading", { name: "Your booking is confirmed.", exact: true })).toBeVisible();
+  await page.getByRole("link", { name: "Open this confirmation", exact: true }).click();
+  await expect(page.getByText("Group booking", { exact: true })).toBeVisible();
+  await expect(page.getByText(/2 places · morning session/)).toBeVisible();
+  await page.reload();
+  await expect(page.getByText("Group booking", { exact: true })).toBeVisible();
+  await expect(page.getByText(/2 places · morning session/)).toBeVisible();
+});

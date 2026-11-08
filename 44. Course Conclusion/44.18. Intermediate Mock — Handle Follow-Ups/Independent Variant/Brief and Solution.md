@@ -1,0 +1,7 @@
+# Event-date editor
+
+Use Starter first. A selected event starts on 2026-11-02 at revision 1. Filter for that date, then save 2026-11-03. The row must leave that date filter while the selected editor stays open. An accepted save remains confirmed if its refresh fails. A late old read must not revert it. An unfinished draft survives leaving the editor and returning in the same application session. Typing 2026-11-04 while the earlier save is pending must remain in the draft. Full reload resets the fixture.
+
+Solution keeps request generation separate from server revision, applies accepted records, reports refresh failure independently, and keeps drafts outside background reads. The shared provider owns the controller above the template. A draft version prevents the earlier response from replacing new typing. The fixture's revision check rejects conflicting edits. Filtering affects the list projection, not the selected editor. The date validator rejects malformed or impossible dates; it is supplied support, not the interview's repair.
+
+Checks: slow read plus accepted save plus failed refresh; retry read with write count unchanged; old-date filter removes the row but leaves the editor; pending new typing; leave/return draft; external edit conflict retaining draft; invalid 2026-02-30 rejected. Review this complete solution after your own attempt. No real transport, offline, cross-device or durable storage guarantee is claimed.

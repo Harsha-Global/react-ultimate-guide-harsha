@@ -1,0 +1,7 @@
+
+
+.vitals-banner-space { min-height: 0; }
+.vitals-banner { min-height: 140px; box-sizing: border-box; padding: 24px; background: #ede9fe; border-radius: 16px; }
+.vitals-readings { min-height: 290px; }
+.vitals-readings dl > div { display: grid; grid-template-columns: 80px 1fr; min-height: 32px; }
+.vitals-readings dd { margin: 0; }

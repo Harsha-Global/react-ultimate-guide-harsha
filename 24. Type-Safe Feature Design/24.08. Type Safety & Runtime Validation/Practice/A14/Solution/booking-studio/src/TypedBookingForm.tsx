@@ -1,0 +1,39 @@
+import { useActionState, useEffect, useId, useState } from "react";
+import { bookingRequestSchema } from "../shared/bookingSchema";
+import type { BookingConfirmation } from "../shared/bookingSchema";
+import type { BookingDraft } from "./bookingTypes";
+import type { Slot } from "./slots";
+import { submitTypedBooking } from "./typedBookingApi";
+type FormState = {
+    message: string;
+    phoneError: string;
+    confirmation: BookingConfirmation | null;
+};
+const initialState: FormState = { message: "", phoneError: "", confirmation: null };
+export function TypedBookingForm({ draft, slot, onLockedChange }: {
+    draft: BookingDraft;
+    slot: Slot;
+    onLockedChange: (locked: boolean) => void;
+}) {
+    const id = useId();
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [phone, setPhone] = useState("");
+    const [requestId] = useState(() => crypto.randomUUID());
+    async function submit(_previous: FormState, data: FormData): Promise<FormState> {
+        const checked = bookingRequestSchema.safeParse({ ...draft, slot, requestId, name: data.get("name"), email: data.get("email"), ...(draft.kind === "group" ? { phone: data.get("phone") } : {}) });
+        if (!checked.success)
+            return { message: "Check the highlighted contact details and every name in this booking.", phoneError: checked.error.issues.find(issue => issue.path[0] === "phone")?.message ?? "", confirmation: null };
+        try {
+            return { message: "Your booking is confirmed.", phoneError: "", confirmation: await submitTypedBooking(checked.data) };
+        }
+        catch (error) {
+            return { phoneError: "", message: error instanceof Error ? error.message : "We could not confirm the result. Keep the same details when you retry.", confirmation: null };
+        }
+    }
+    const [state, formAction, pending] = useActionState(submit, initialState);
+    useEffect(() => { onLockedChange(pending || state.confirmation !== null); }, [pending, state.confirmation, onLockedChange]);
+    if (state.confirmation)
+        return <div role="status"><h3>Your booking is confirmed.</h3><p>{state.confirmation.places} {state.confirmation.places === 1 ? "place" : "places"} · {state.confirmation.slot} session · {state.confirmation.reference}</p><a href={"?booking=" + encodeURIComponent(state.confirmation.reference)}>Open this confirmation</a><p><a href="/">Start another booking</a></p></div>;
+    return <form className="typed-form" action={formAction} aria-busy={pending}><fieldset disabled={pending}><legend>{draft.kind === "group" ? "Group contact" : "Guest details"}</legend><label htmlFor={id + "-name"}>Contact name</label><input id={id + "-name"} name="name" value={name} onChange={event => setName(event.target.value)} required/><label htmlFor={id + "-email"}>Email address</label><input id={id + "-email"} name="email" type="email" value={email} onChange={event => setEmail(event.target.value)} required/><>{draft.kind === "group" && <><label htmlFor={id + "-phone"}>Contact phone (required for groups)</label><input id={id + "-phone"} name="phone" type="tel" autoComplete="tel" aria-required="true" value={phone} onChange={event => setPhone(event.target.value)} aria-invalid={!pending && Boolean(state.phoneError)} aria-describedby={!pending && state.phoneError ? id + "-phone-error" : undefined}/>{!pending && state.phoneError && <p className="error" id={id + "-phone-error"}>{state.phoneError}</p>}</>}</><button type="submit" disabled={pending}>{pending ? "Saving booking…" : "Book this visit"}</button></fieldset>{!pending && state.message && <p role="alert">{state.message}</p>}</form>;
+}

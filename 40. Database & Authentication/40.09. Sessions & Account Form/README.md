@@ -1,0 +1,24 @@
+# Sessions & Account Form
+
+The completed application is the exact source demonstrated in the video.
+
+- Starter/shopfront-next: the ShopFront app as completed in the previous lecture.
+- Support Files/shopfront-next/components/AccountPanel.tsx: the unfinished account form (its labels, form state and placeholders for the authentication calls), copied into the project in the video and completed there.
+- Completed/shopfront-next: the app at the end of this lecture. Keep it for the next lecture.
+- Not included: the private .env and Prisma's generated client folder (generated/), which you create as Run describes.
+
+The account page: lib/authClient.ts (the Better Auth React client); lib/session.ts with getCurrentUser, which awaits connection() and headers(), asks the server instance for the session with the cookie cache disabled and returns only the user's id and name; the completed components/AccountPanel.tsx (useSession; sign up and sign in with email and password, sign out, a pending state, feedback for a rejected request or a connection failure, router.refresh after success); and app/(store)/workshop/account/page.tsx, which shows the server's own session check beside the client form.
+
+## Run
+
+Work in C:\react\shopfront-next: continue your own working copy there, or copy this ZIP's Starter (to follow the video) or Completed shopfront-next folder there. No folder anywhere in the path may contain the & character, so never run npm inside the extracted section folder. Open the folder in VS Code. The ZIP leaves out the private .env file and Prisma's generated client (generated/): you create both below.
+
+PostgreSQL must be running with the course role shopfront and its two databases, shopfront_dev (development) and shopfront_test (automated tests only), as set up in Setting the Environment: in SQL Shell, as the postgres administrator, `CREATE ROLE shopfront LOGIN;`, `\password shopfront` (a private password), `CREATE DATABASE shopfront_dev OWNER shopfront;` and `CREATE DATABASE shopfront_test OWNER shopfront;`. Reuse existing course databases; never drop or reset one.
+
+Copy .env.example to .env (Git ignores it) and enter your own private values: in DATABASE_URL and DIRECT_URL (both shopfront_dev) and TEST_DATABASE_URL (shopfront_test) replace REPLACE_ME with the shopfront role's password, and 5432 with your PostgreSQL port if you chose another one. URL-encode special characters in that password (for example @ as %40, : as %3A, / as %2F, # as %23, % as %25), or they are read as parts of the connection string. Keep COURSE_ALLOW_WRITES=disabled in .env, in an .env.local left from the previous section, and in the terminal before you start Next (PowerShell: `$env:COURSE_ALLOW_WRITES="disabled"`; macOS/Linux: `export COURSE_ALLOW_WRITES=disabled`): a terminal value or .env.local takes priority over .env. Set BETTER_AUTH_URL=http://localhost:3000 and replace the BETTER_AUTH_SECRET placeholder with your own random secret, generated privately with `node -e "console.log(require('node:crypto').randomBytes(32).toString('base64url'))"` (never share it or commit it).
+
+Stop any other app using ports 3000 or 5211 first. In a first terminal run `npm ci` (the first installation needs registry access), then `npm run db:check`: it prints the connected database (shopfront_dev) and user (shopfront), never the password. Then run `npm run db:deploy` (applies the saved migrations to shopfront_dev; a repeated run reports none pending), `npm run db:generate` (writes Prisma's typed client into generated/; rerun it, and restart Next, after every schema change) and `npm run db:seed` (the sample customers, products and order; safe to repeat, and it restores the sample stock). The seed script refuses any database other than the local shopfront_dev or shopfront_test. To open the app, run `npm run api` in a second terminal (the public catalog still reads its sample catalog API on http://127.0.0.1:5211), then, in another terminal, `npm run dev -- --port 3000` and open http://localhost:3000 (the npm scripts bind 127.0.0.1; keep using localhost, the origin in BETTER_AUTH_URL: 127.0.0.1 is a different browser origin). `npm run check` checks the TypeScript code; restart Next after `npm run db:generate` or a change to .env. Stop each process with Ctrl+C when you finish.
+
+## Try it
+
+Restart Next and open http://localhost:3000/workshop/account. Select Need an account? and create a disposable account with an example.test address and a password of at least 12 characters: the client greeting and the server session check both show you signed in; reload, and they still do. Sign out: both views return to signed out. Try a wrong password (the form reports the rejection), then the right one. Email verification is not required yet. If Next keeps reloading the page, stop it and start it again.

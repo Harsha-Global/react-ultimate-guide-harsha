@@ -1,0 +1,3 @@
+# Supplied Provider Boundaries demonstration
+
+This is an isolated prepared demonstration, not the main Booking Desk source. Run npm ci and npm run dev beneath a separate C:\react folder. Add to Outer: Outer and Outer sibling change; Inner stays at zero. Add to Inner: only Inner changes. Toggle missing-provider example: its nearest provider is absent and the guard throws a helpful error into the supplied native React boundary. Toggle it off/on to retry. Class boundary is the already-taught native error-boundary exception; no new class-component lesson. StrictMode may duplicate development logs; visible outcomes are the check.

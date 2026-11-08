@@ -1,0 +1,7 @@
+describe("Clear the Bag After Success", function () {
+function makeUI(events) { return {showConfirmation:function(order){events.push(["confirmed",order]);},clearBag:function(){events.push(["cleared"]);},showError:function(message){events.push(["error",message]);}}; }
+it("shows the actual result before clearing", async function () { const events=[], order={id:"order-a",total:79}; let calls=0; await submitOrder(async function(){calls++;return order;},makeUI(events)); expect(events).toEqual([["confirmed",order],["cleared"]]);expect(calls).toBe(1); });
+it("keeps the bag and shows the service message on rejection", async function () { const events=[]; await submitOrder(async function(){throw new Error("Availability changed.");},makeUI(events)); expect(events).toEqual([["error","Availability changed."]]); });
+it("does nothing to the UI while the request is unresolved", async function () { const events=[];let finish;const pending=new Promise(function(resolve){finish=resolve;});const done=submitOrder(function(){return pending;},makeUI(events));await Promise.resolve();expect(events.length).toBe(0);finish({id:"later",total:12});await done;expect(events[0][0]).toBe("confirmed");expect(events[1][0]).toBe("cleared"); });
+it("shows a fallback for an unknown rejection value", async function () { const events=[];await submitOrder(async function(){throw null;},makeUI(events));expect(events).toEqual([["error","We could not confirm the order."]]); });
+});

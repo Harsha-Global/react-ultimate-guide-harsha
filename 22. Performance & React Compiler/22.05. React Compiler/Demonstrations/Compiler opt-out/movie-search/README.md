@@ -1,0 +1,20 @@
+# Framehouse movie search
+
+A self-contained fictional480-film catalogue for the performance section. Copy to `C:\react\movie-search` on Windows, run `npm ci`, then `npm run dev`. The local address is http://localhost:5250. No API, account or paid service is required. Styles, original SVG poster art and licensed local Manrope/DM Sans fonts are supplied. The initial example deliberately repeats a deterministic scoring workload; it is not a real recommendation engine. Keep the workload and catalogue fixed during comparisons.
+
+For matched profiling runs: stop the development server, run `npm run build:profile`, then `npm run preview`. The profiling mode resolves react-dom/client to the official react-dom/profiling entry. Use that same build mode and device for every React timing comparison. `npm run build` creates the normal production build, whose React Profiler callbacks are disabled. Use normal production for final behavior/loading checks; don't compare its missing profiler rows as an optimization result. `npm run lint` and both build modes are author checks.
+
+Open the measurement panel near the bottom. Its isolated external store is prepared instrumentation, not the application's state-ownership example. It keeps the last20 observations, outside the profiled result tree. The React value is actualDuration for MovieResults, not total event latency or paint time. Event to frame is measured from our handler start to the next requestAnimationFrame callback and exposes a User Timing measure; it is not INP. The Long Tasks observer is optional and browser-dependent. Clear the rows before each interaction; repeated runs vary.
+
+Baseline protocol: empty query/Best match/show years; warm up once. Clear measurements; enter “Tea” into Note for tonight, using one edit per run. Clear; toggle Collection guide. Repeat each three times with the same input/state and build. Search Paper and inspect results; search an unmatched title and restore empty query. Save/remove a title, open/close its details, and check the release-year checkbox and Title A–Z ordering. Notes have maxLength120. State lasts until reload. Profile the rendering subtree and inspect browser CPU/rendering/loading separately; fast React output alone does not establish fast loading or paint.
+
+Optional recording tools: React Developer Tools Profiler and the browser Performance/Network panels. The saved measurement panel makes the essential observations reproducible without an extension. Browser extension installation is not part of source setup. https://react.dev/reference/react/Profiler ; https://react.dev/learn/react-developer-tools .
+
+
+## React Compiler checkpoint
+
+The official Babel compiler runs through @rolldown/plugin-babel and reactCompilerPreset. The supplied exact versions and lockfile are the tested setup. Run npm ci after switching checkpoints. The logger prints actual compile events during dev transforms and builds; a successful Vite build alone does not prove every component was compiled. Review CompileError/CompileSkip reasons rather than suppressing them. Manual memo/useMemo/useCallback wrappers were removed from MovieResults and MovieCard only after enabling the compiler. Ownership and functional state updates remain.
+
+Compare the completed manual checkpoint (useMemo, useCallback and memo) with this automatic checkpoint using the same build:profile protocol and480 films. Do not compare development timings against profiling production. The catalogue and expensive scoring loop are unchanged. A separate Demonstrations/Compiler opt-out/movie-search copy contains a temporary "use no memo" directive in MovieResults; the logger identifies the skip, and saving a film repeats the ranking. It is a diagnostic comparison, not the main solution. Remove that directive to allow compilation again. A compiler cannot replace correct React code or optimize away real work required by changed inputs.
+
+Official references: https://react.dev/learn/react-compiler/installation ; https://react.dev/reference/react-compiler/logger ; https://react.dev/reference/react-compiler/directives/use-no-memo .

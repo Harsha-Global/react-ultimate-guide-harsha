@@ -1,0 +1,1 @@
+Begin in an empty folder. Read the lecture Setup Guide. Do not copy the completed app; create package, config, layout and page live. The Support folder supplies only stylesheet, repeated strict TypeScript configuration and .gitignore.

@@ -1,0 +1,5 @@
+Hint 1
+For one entry, identify which two properties determine its line total. Then consider what the callback should receive from the previous entry.
+
+Hint 2
+The returned callback value becomes the next accumulator. Choose an initial numeric value that also gives the intended answer when there are no entries.

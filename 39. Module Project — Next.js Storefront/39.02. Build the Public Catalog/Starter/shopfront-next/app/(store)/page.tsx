@@ -1,0 +1,1 @@
+export default function Home(){return <section className="project-intro"><p className="eyebrow">ShopFront</p><h1>A public storefront, built step by step.</h1><p>Our collection will bring together the routing, rendering and data patterns from the focused examples.</p></section>;}

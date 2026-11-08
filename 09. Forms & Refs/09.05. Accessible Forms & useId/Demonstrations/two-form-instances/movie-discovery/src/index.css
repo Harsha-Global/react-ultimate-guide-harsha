@@ -1,0 +1,81 @@
+body {
+  margin: 0;
+  background: #f4f7fb;
+  color: #172536;
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+}
+
+main {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+article {
+  margin-block: 16px;
+  padding: 20px;
+  background: white;
+  border: 1px solid #c6d2df;
+  border-radius: 12px;
+}
+
+ul { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+section { margin-block: 28px; }
+footer { color: #42576c; }
+
+summary { cursor: pointer; padding: 8px 0; }
+summary:focus-visible, a:focus-visible { outline: 3px solid #005bbb; outline-offset: 4px; }
+.skip-link { position: absolute; left: 16px; top: -80px; padding: 12px; background: white; color: #003d77; }
+.skip-link:focus { top: 12px; }
+
+button, input, select { font: inherit; }
+button { padding: .55rem .8rem; margin: .25rem; cursor: pointer; }
+button:disabled { cursor: default; opacity: .55; }
+label { display: block; margin-top: .75rem; }
+input, select { padding: .5rem; max-width: 100%; }
+.booking-summary { margin-top: 1rem; padding: 1rem; background: #eef5ff; }
+.at-limit { border-left: 4px solid #795900; }
+
+.event-boundary { margin: 1rem 0; padding: 1rem; border: 2px solid #67758d; }
+
+* { box-sizing: border-box; }
+h1, h2, h3 { line-height: 1.2; }
+main { max-width: 1080px; }
+button { border: 1px solid #70869d; border-radius: 8px; background: #fff; color: #17344d; }
+button:hover:not(:disabled) { background: #e6eff8; }
+input, select { border: 1px solid #70869d; border-radius: 7px; color: #17344d; background: white; }
+:focus-visible { outline: 3px solid #1468d4; outline-offset: 3px; }
+.booking-summary { border: 1px solid #cadcec; border-radius: 12px; }
+section[aria-label="Ticket cart"] li { padding: 16px; border: 1px solid #d2dce7; border-radius: 12px; background: #fff; }
+.action-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.feedback { padding: 12px; border-left: 3px solid #1468d4; background: #e9f2fb; }
+.quote { padding: 16px; border: 1px solid #9bc8b7; border-radius: 12px; background: #eef9f3; }
+.field-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); gap: 16px; }
+.field-grid input { width: 100%; }
+.booking-note { padding: 16px; border: 1px solid #b3becf; border-radius: 12px; background: #fff; }
+.compact .booking-note { padding: 10px; }
+.lab { max-width: 800px; margin: 40px auto; padding: 24px; background: #fff; border: 1px solid #cadcec; border-radius: 16px; }
+.lab pre { overflow: auto; }
+@media (max-width: 600px) { main { padding: 24px 16px; } ul { grid-template-columns: 1fr; } }
+
+/* Prepared customer-form presentation. React behavior is explained in the lecture. */
+.customer-form { display: grid; gap: 1rem; }
+.customer-form .fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem 1.5rem; }
+.customer-form .field { min-width: 0; display: grid; align-content: start; gap: .35rem; }
+.customer-form input:not([type=checkbox]):not([type=radio]), .customer-form select, .customer-form textarea { width:100%; min-width:0; box-sizing:border-box; font:inherit; padding:.75rem; border:1px solid #718098; border-radius:.45rem; background:#fff; color:#202b3d; }
+.customer-form textarea { min-height:6rem; resize:vertical; }
+.customer-form label, .customer-form legend { font-weight:600; }
+.customer-form fieldset { min-width:0; border:1px solid #b2bcc9; border-radius:.5rem; padding:1rem; }
+.customer-form .choice { display:inline-flex; align-items:center; gap:.5rem; margin-right:1.25rem; }
+.customer-form input[type=checkbox], .customer-form input[type=radio] { width:1.15rem; height:1.15rem; accent-color:#1E4C7C; }
+.customer-form .error { color:#9a243b; margin:0; font-size:.95rem; }
+.customer-form .hint { color:#49566b; margin:0; font-size:.9rem; }
+.customer-form [aria-invalid=true] { border:2px solid #9a243b!important; }
+.customer-form .error-summary { border-left:4px solid #9a243b; padding:1rem; background:#fff1ef; color:#64202c; }
+.customer-form .receipt { border-left:4px solid #43882b; padding:1rem; background:#f2f8ef; color:#23421c; }
+.customer-form .actions { display:flex; flex-wrap:wrap; gap:.75rem; }
+.customer-form .actions button { margin:0; }
+.customer-form .draft-summary { background:#eef2f7; color:#263850; padding:1rem; border-radius:.5rem; }
+.customer-form :focus-visible { outline:3px solid #8C275D; outline-offset:3px; }
+@media(max-width:640px) { .customer-form .fields { grid-template-columns:1fr; } }

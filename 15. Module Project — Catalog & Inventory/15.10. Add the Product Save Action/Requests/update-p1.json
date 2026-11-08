@@ -1,0 +1,8 @@
+{
+  "name": "Trail Backpack",
+  "category": "Travel",
+  "price": 89,
+  "description": "A light everyday backpack with a padded laptop sleeve.",
+  "inStock": true,
+  "maxQuantity": 2
+}

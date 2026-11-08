@@ -1,0 +1,16 @@
+[
+  {
+    "family": "Manrope",
+    "file": "Manrope-variable.ttf",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/manrope/Manrope%5Bwght%5D.ttf",
+    "license": "https://raw.githubusercontent.com/google/fonts/main/ofl/manrope/OFL.txt",
+    "sha256": "3ae11c49db0455a3cc33e37d380f20fdb8c7f8b41dc07625c177e3d87a9d6ae6"
+  },
+  {
+    "family": "DM Sans",
+    "file": "DMSans-variable.ttf",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/dmsans/DMSans%5Bopsz%2Cwght%5D.ttf",
+    "license": "https://raw.githubusercontent.com/google/fonts/main/ofl/dmsans/OFL.txt",
+    "sha256": "8cd08d97e89c24d0aa92edd2f0f4c8ee6195eee9b7c9f154865a58b02f0c1c0d"
+  }
+]

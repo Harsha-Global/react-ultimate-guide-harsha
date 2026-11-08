@@ -1,0 +1,110 @@
+--- before/src/App.tsx
++++ after/src/App.tsx
+@@ -8,15 +8,24 @@
+   const [query, setQuery] = useState("");
+   const [category, setCategory] = useState("all");
+   const [inStockOnly, setInStockOnly] = useState(false);
++  const [favoriteIds, setFavoriteIds] = useState<string[]>([]);
++  const [favoritesOnly, setFavoritesOnly] = useState(false);
+   const [selectedId, setSelectedId] = useState<string | null>(null);
+   const selectedProduct = products.find(product => product.id === selectedId);
+   const normalizedQuery = query.trim().toLowerCase();
+   const visibleProducts = products.filter(product =>
+     product.name.toLowerCase().includes(normalizedQuery) &&
+     (category === "all" || product.category === category) &&
+-    (!inStockOnly || product.inStock));
++    (!inStockOnly || product.inStock) &&
++    (!favoritesOnly || favoriteIds.includes(product.id)));
+ 
+   const isSelectionVisible = visibleProducts.some(product => product.id === selectedId);
++
++  function handleToggleFavorite(id: string) {
++    setFavoriteIds(current => current.includes(id)
++      ? current.filter(favoriteId => favoriteId !== id)
++      : [...current, id]);
++  }
+ 
+   return (
+     <>
+@@ -24,13 +33,13 @@
+       <main id="main-content" tabIndex={-1}>
+         <header><p className="eyebrow">Everyday finds</p><h1>Product Explorer</h1>
+           <p>Find useful things for your day.</p></header>
+-        <ProductFilters query={query} category={category} inStockOnly={inStockOnly}
++        <ProductFilters favoritesOnly={favoritesOnly} onFavoritesOnlyChange={setFavoritesOnly} query={query} category={category} inStockOnly={inStockOnly}
+           onQueryChange={setQuery} onCategoryChange={setCategory} onInStockChange={setInStockOnly} />
+         <p role="status">Products found: {visibleProducts.length}</p>
+         <div className="explorer-layout">
+         <section aria-labelledby="products-heading">
+           <h2 id="products-heading">Products</h2>
+-          <ProductGrid products={visibleProducts} selectedId={selectedId} onSelect={setSelectedId} />
++          <ProductGrid favoriteIds={favoriteIds} onToggleFavorite={handleToggleFavorite} products={visibleProducts} selectedId={selectedId} onSelect={setSelectedId} />
+         </section>
+         <ProductDetails product={selectedProduct} isVisible={isSelectionVisible} />
+         </div>
+--- before/src/ProductCard.tsx
++++ after/src/ProductCard.tsx
+@@ -1,8 +1,8 @@
+ import type { Product } from "./types";
+ 
+-type ProductCardProps = { readonly product: Product; readonly isSelected: boolean; readonly onSelect: (id: string) => void };
++type ProductCardProps = { readonly isFavorite: boolean; readonly onToggleFavorite: (id: string) => void; readonly product: Product; readonly isSelected: boolean; readonly onSelect: (id: string) => void };
+ 
+-export default function ProductCard({ product, isSelected, onSelect }: ProductCardProps) {
++export default function ProductCard({ isFavorite, onToggleFavorite, product, isSelected, onSelect }: ProductCardProps) {
+   return (
+     <article className={isSelected ? "product-card selected" : "product-card"}>
+       <img src={product.image} alt="" width="240" height="240" />
+@@ -13,6 +13,8 @@
+         {product.inStock ? "In stock" : "Out of stock"}
+       </p>
+       <button type="button" aria-pressed={isSelected} onClick={() => onSelect(product.id)}>View {product.name}</button>
++      <button type="button" aria-pressed={isFavorite} aria-label={`Favorite ${product.name}`}
++        onClick={() => onToggleFavorite(product.id)}>{isFavorite ? "Favorited" : "Favorite"}</button>
+     </article>
+   );
+ }
+--- before/src/ProductFilters.tsx
++++ after/src/ProductFilters.tsx
+@@ -1,4 +1,6 @@
+ type ProductFiltersProps = {
++  readonly favoritesOnly: boolean;
++  readonly onFavoritesOnlyChange: (value: boolean) => void;
+   readonly query: string;
+   readonly category: string;
+   readonly inStockOnly: boolean;
+@@ -7,7 +9,7 @@
+   readonly onInStockChange: (inStockOnly: boolean) => void;
+ };
+ 
+-export default function ProductFilters({ query, category, inStockOnly, onQueryChange, onCategoryChange, onInStockChange }: ProductFiltersProps) {
++export default function ProductFilters({ favoritesOnly, onFavoritesOnlyChange, query, category, inStockOnly, onQueryChange, onCategoryChange, onInStockChange }: ProductFiltersProps) {
+   return (
+     <section className="filters" aria-label="Product filters">
+       <label htmlFor="search">Search products
+@@ -21,6 +23,8 @@
+       </label>
+       <label className="check"><input type="checkbox" checked={inStockOnly}
+         onChange={event => onInStockChange(event.currentTarget.checked)} /> In stock only</label>
++      <label className="check"><input type="checkbox" checked={favoritesOnly}
++        onChange={event => onFavoritesOnlyChange(event.currentTarget.checked)} /> Favorites only</label>
+     </section>
+   );
+ }
+--- before/src/ProductGrid.tsx
++++ after/src/ProductGrid.tsx
+@@ -1,11 +1,11 @@
+ import type { Product } from "./types";
+ import ProductCard from "./ProductCard";
+ 
+-type ProductGridProps = { readonly products: readonly Product[]; readonly selectedId: string | null; readonly onSelect: (id: string) => void };
++type ProductGridProps = { readonly favoriteIds: readonly string[]; readonly onToggleFavorite: (id: string) => void; readonly products: readonly Product[]; readonly selectedId: string | null; readonly onSelect: (id: string) => void };
+ 
+-export default function ProductGrid({ products, selectedId, onSelect }: ProductGridProps) {
++export default function ProductGrid({ favoriteIds, onToggleFavorite, products, selectedId, onSelect }: ProductGridProps) {
+   if (products.length === 0) return <p role="status">No products match your filters.</p>;
+   return <ul className="product-grid">{products.map(product => (
+-    <li key={product.id}><ProductCard product={product} isSelected={product.id === selectedId} onSelect={onSelect} /></li>
++    <li key={product.id}><ProductCard product={product} isFavorite={favoriteIds.includes(product.id)} onToggleFavorite={onToggleFavorite} isSelected={product.id === selectedId} onSelect={onSelect} /></li>
+   ))}</ul>;
+ }

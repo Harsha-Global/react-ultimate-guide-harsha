@@ -1,0 +1,21 @@
+import assert from "node:assert/strict";
+import {bookingReducer} from "../src/bookingReducer.ts";
+import {bookingRequestSchema,bookingConfirmationSchema,bookingReferenceSchema} from "../shared/bookingSchema.ts";
+let checks=0;function check(name,run){run();checks++;console.log("PASS "+name);}
+const people=[{id:crypto.randomUUID(),name:"Maya Chen"},{id:crypto.randomUUID(),name:"Sam Taylor"}];
+const group={kind:"group",phone:"+44 7700 900123",groupName:"Saturday Friends",attendees:people};
+const contact={name:"Maya Chen",email:"maya@example.com",slot:"morning",requestId:crypto.randomUUID()};
+check("Individual request needs no group fields",()=>assert.equal(bookingRequestSchema.safeParse({...contact,kind:"individual"}).success,true));
+check("Complete group is accepted",()=>assert.equal(bookingRequestSchema.safeParse({...contact,...group}).success,true));
+for(const [name,override] of [["Missing group name",{groupName:""}],["Too few people",{attendees:people.slice(0,1)}],["Duplicate identifiers",{attendees:[people[0],people[0]]}],["Blank attendee",{attendees:[{...people[0],name:""},people[1]]}],["Too many people",{attendees:Array.from({length:9},()=>({id:crypto.randomUUID(),name:"Guest Name"}))}]])check(name+" is rejected",()=>assert.equal(bookingRequestSchema.safeParse({...contact,...group,...override}).success,false));
+check("Unknown kind rejected",()=>assert.equal(bookingRequestSchema.safeParse({...contact,kind:"unknown"}).success,false));
+check("Invalid email rejected",()=>assert.equal(bookingRequestSchema.safeParse({...contact,kind:"individual",email:"bad"}).success,false));
+check("Reducer leaves previous state unchanged",()=>{const before=JSON.stringify(group);const next=bookingReducer(group,{type:"attendeeAdded",attendee:{id:crypto.randomUUID(),name:"Nora Green"}});assert.equal(JSON.stringify(group),before);assert.equal(next.attendees.length,3);assert.notEqual(next,group);});
+check("Cannot remove below two",()=>assert.equal(bookingReducer(group,{type:"attendeeRemoved",id:people[0].id}),group));
+check("Cannot add a duplicate attendee",()=>assert.equal(bookingReducer(group,{type:"attendeeAdded",attendee:people[0]}),group));
+check("Removal preserves the other people",()=>{const nora={id:crypto.randomUUID(),name:"Nora Green"};const next=bookingReducer({...group,attendees:[...people,nora]},{type:"attendeeRemoved",id:people[1].id});assert.deepEqual(next.attendees,[people[0],nora]);});
+check("Cannot exceed eight attendees",()=>{const full={...group,attendees:Array.from({length:8},()=>({id:crypto.randomUUID(),name:"Guest Name"}))};assert.equal(bookingReducer(full,{type:"attendeeAdded",attendee:{id:crypto.randomUUID(),name:"Ninth Guest"}}),full);});
+check("Group actions leave an individual unchanged",()=>{const one={kind:"individual"};assert.equal(bookingReducer(one,{type:"attendeeAdded",attendee:people[0]}),one);});
+check("Invalid confirmation reference rejected",()=>assert.equal(bookingReferenceSchema.safeParse("not-a-reference").success,false));
+check("Invalid response cannot masquerade as a confirmation",()=>assert.equal(bookingConfirmationSchema.safeParse({reference:crypto.randomUUID(),kind:"group",phone:"+44 7700 900123",name:"Maya",slot:"morning",places:0}).success,false));
+console.log(`${checks} booking checks passed.`);

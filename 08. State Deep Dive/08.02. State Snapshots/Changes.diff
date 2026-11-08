@@ -1,0 +1,31 @@
+--- before/src/BookingPanel.tsx
++++ after/src/BookingPanel.tsx
+@@ -8,12 +8,19 @@
+ 
+ export default function BookingPanel() {
+   const [quantity, setQuantity] = useState(1);
++  const [adjustment, setAdjustment] = useState("");
+   const [guestName, setGuestName] = useState("");
+   const [showtime, setShowtime] = useState("18:00");
+   const [cart, setCart] = useState<CartItem[]>([]);
+   const [selectedId, setSelectedId] = useState<string | null>(null);
+   const ticketPrice = showtime === "21:00" ? 15 : 12;
+   const total = quantity * ticketPrice;
++
++  function handleAddAndDescribe() {
++    const nextQuantity = Math.min(6, quantity + 1);
++    setQuantity(nextQuantity);
++    setAdjustment(`Booking adjusted to ${nextQuantity} tickets.`);
++  }
+ 
+   function handleQuantityChange(change: number) {
+     setQuantity(current => Math.max(1, Math.min(6, current + change)));
+@@ -47,6 +54,8 @@
+         <option value="21:00">21:00 — $15</option>
+       </select>
+       <TicketControls quantity={quantity} onQuantityChange={handleQuantityChange} />
++      <button type="button" disabled={quantity === 6} onClick={handleAddAndDescribe}>Add ticket and describe</button>
++      {adjustment && <p className="feedback" role="status">{adjustment}</p>}
+       <BookingSummary quantity={quantity} guestName={guestName} showtime={showtime} total={total} />
+       <button type="button" onClick={handleAddBooking}>Add booking to cart</button>
+       <TicketCart items={cart} selectedId={selectedId} onSelect={setSelectedId}

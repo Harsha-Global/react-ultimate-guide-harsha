@@ -1,0 +1,7 @@
+Complete canEditWorkspaceNote(userId, workspaceId, noteWorkspaceId, memberships). Return true only when userId is a nonempty string, the note belongs to the requested workspace, and one membership belongs to that same user and workspace with role owner or editor. A viewer cannot write. A null or empty user ID, no qualifying membership, or a note from a different workspace must return false. Do not combine properties from different memberships, change records, or reorder the input.
+
+The typed inputs use the displayed Membership shape. This is a small permission-decision exercise, not a replacement for server authentication. In the application, obtain the identity from the verified session and obtain the note and membership from the database. Never trust client-supplied roles or identity values.
+
+Prerequisite: Workspace Isolation. Allow 10 minutes. Try the starter before opening the complete Solution. The strict local Starter and Solution are in this lecture's Practice/C44 - Check Workspace Permission folder in the course source repository, accessed through How to Download Source Code. Run npm ci, then npm test in either folder. Native checks exercise runtime behavior; the local companion also checks strict TypeScript.
+
+On Windows, copy Starter to C:\react\c44-starter before running npm ci and npm test. Later copy Solution separately to C:\react\c44-solution and install there too. The full working path must contain no &; the enclosing course section name contains one. After the exercise, return to the guided ShopFront working project.

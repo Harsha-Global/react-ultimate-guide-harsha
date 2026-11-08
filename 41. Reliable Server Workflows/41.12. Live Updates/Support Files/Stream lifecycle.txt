@@ -1,0 +1,18 @@
+  const encoder = new TextEncoder(); let closed = false;
+  let poll: ReturnType<typeof setTimeout>; let lifetime: ReturnType<typeof setTimeout>;
+  const stream = new ReadableStream<Uint8Array>({
+    start(controller) {
+      function stop() {
+        if (closed) return; closed = true; clearTimeout(poll); clearTimeout(lifetime); controller.close();
+      }
+      async function tick() {
+        // LIVE: recheck order access, send a status event, schedule the next read.
+      }
+      lifetime = setTimeout(stop, 30000);
+      request.signal.addEventListener('abort', stop, { once: true });
+      void tick();
+    },
+    cancel() { closed = true; clearTimeout(poll); clearTimeout(lifetime); },
+  });
+  return new Response(stream, { headers: { 'Content-Type': 'text/event-stream', 'Cache-Control': 'private, no-store, no-transform', 'X-Accel-Buffering': 'no' } });
+}

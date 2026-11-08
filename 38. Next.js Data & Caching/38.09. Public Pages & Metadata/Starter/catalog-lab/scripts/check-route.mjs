@@ -1,0 +1,3 @@
+const origin=process.argv[2]||'http://127.0.0.1:3000';
+const checks=[['/api/catalog',200,'GET'],['/api/catalog?category=Workspace',200,'GET'],['/api/catalog?category=Unknown',400,'GET'],['/api/catalog?category=Workspace&category=Travel',400,'GET'],['/api/catalog',405,'POST']];
+for(const [path,expected,method] of checks){const response=await fetch(origin+path,{method});if(response.status!==expected)throw new Error(`${method} ${path}: expected ${expected}, received ${response.status}`);if(expected===200&&response.headers.get('cache-control')!=='no-store')throw new Error('Expected no-store response header');console.log('PASS',method,path,expected);}

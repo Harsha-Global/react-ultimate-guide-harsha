@@ -1,0 +1,7 @@
+# Admin Workspace — locale and time-zone formatting
+
+The Admin Workspace project with display preferences: src/displayFormats.ts formats money from integer minor units with an explicit currency (USD, INR, JPY) through Intl.NumberFormat, and formats a stored instant in a named time zone through Intl.DateTimeFormat (24-hour clock with the zone name). src/catalog.ts keeps catalog prices in USD and formats them for the chosen locale; the locale flows from src/App.tsx through ProductTable, ProductActions and ProductDetails, so the table and the review dialog agree. src/components/DisplayPreferences.tsx offers the locale (English (US), English (India), German) and the review time zone (UTC, Asia/Kolkata, America/New_York) and shows a planned review instant in a time element that keeps its original ISO timestamp. Server-side sorting still uses the numeric price. tests/formats.test.mjs checks the formatters (`npm run test:formats`).
+
+## Run
+
+Copy the project into your React workspace (for example C:\react\admin-workspace) and open it in VS Code. In one terminal run `npm ci`, then `npm run api` (the local catalog service on http://127.0.0.1:5191, in memory: a restart restores the four sample products). In a second terminal run `npm run dev` and open http://127.0.0.1:5190 (stop any other app using ports 5190 or 5191 first). Validate with `npm run lint` and `npm run build`; `npm run test:api` checks the service while it runs.

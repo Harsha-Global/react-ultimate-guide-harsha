@@ -1,0 +1,5 @@
+Unit: npm run test:unit tests pure input rules and synchronous client behavior in jsdom. It does not execute an async Server Component or prove database authorization.
+Database: npm run test:workflows uses the separate local shopfront_test database; its launcher refuses the development database. It tests transactions and retry state without real provider charges.
+HTTP: npm run test:auth and npm run test:orders start their own local Next server. Stop the ordinary Next process first. npm run test:uploads also requires the local SeaweedFS server.
+Browser: The Browser Journey Tests lecture adds Playwright against a production build and an isolated seeded database. Real Stripe/OAuth/Sentry checks stay separate from deterministic CI.
+The inherited npm test command continues to run the earlier Node tests. No existing suite is silently replaced.

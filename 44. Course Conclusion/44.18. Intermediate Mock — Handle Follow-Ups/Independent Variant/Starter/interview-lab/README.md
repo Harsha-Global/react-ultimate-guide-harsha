@@ -1,0 +1,5 @@
+# Event-date variant — Starter
+
+Use the previously taught Node.js 24 environment. Copy this project into `C:\react\event-dates-starter` on Windows, or a separate local folder whose full path, including every parent folder, contains no `&` character. Keep the attempt and comparison separate and preserve the original resources. Stop the other lab using port 3044 first. In the copied project, run `npm ci`, then `npm run dev -- --port 3044`. Open http://localhost:3044. Run `npm run typecheck` to check types. For a production check, stop development and wait for the terminal prompt, run `npm run build`, then `npm start -- --port 3044`. Stop that server before changing copies.
+
+This is one selected event in a filtered list, using a controlled in-browser service fixture. It has no real server, authentication or persistence across full reload. Dates use YYYY-MM-DD. The fixture rejects impossible dates. The existing template remounts the page; the completed solution's shared layout provider survives that navigation.

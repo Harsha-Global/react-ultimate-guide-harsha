@@ -1,0 +1,38 @@
+--- before/src/BookingNote.tsx
++++ after/src/BookingNote.tsx
+@@ -0,0 +1,8 @@
++import { useState } from 'react';
++export default function BookingNote({ showtime }: { readonly showtime: string }) {
++  const [note, setNote] = useState('');
++  return <section className="booking-note"><h3>Note for {showtime}</h3>
++    <label htmlFor="booking-note">Seating note</label>
++    <input id="booking-note" value={note} onChange={event => setNote(event.currentTarget.value)} />
++    <p>The note belongs to this showtime.</p></section>;
++}
+--- before/src/BookingPanel.tsx
++++ after/src/BookingPanel.tsx
+@@ -1,4 +1,5 @@
+ import { useState } from "react";
++import BookingNote from "./BookingNote";
+ import QuoteCard from "./Quote";
+ import type { Quote } from "./Quote";
+ import type { QuoteState } from "./quoteState";
+@@ -13,6 +14,7 @@
+ 
+ export default function BookingPanel() {
+   const [quantity, setQuantity] = useState(1);
++  const [compact, setCompact] = useState(false);
+   const [adjustment, setAdjustment] = useState("");
+   const [guest, setGuest] = useState(createGuest);
+   const [showtime, setShowtime] = useState("18:00");
+@@ -90,6 +92,10 @@
+       <button type="button" disabled={quantity === 6} onClick={handleAddAndDescribe}>Add ticket and describe</button>
+       {adjustment && <p className="feedback" role="status">{adjustment}</p>}
+       <BookingSummary quantity={quantity} guestName={guest.name} showtime={showtime} total={total} />
++      <button type="button" onClick={() => setCompact(current => !current)}>Toggle compact note</button>
++      <div className={compact ? "compact" : "comfortable"}>
++        <BookingNote key={showtime} showtime={showtime} />
++      </div>
+       <button type="button" disabled={quoteState.status === "preparing"} onClick={handlePrepareQuote}>Prepare quote</button>
+       {quoteState.status === "preparing" && <p role="status">Preparing your quote…</p>}
+       {quoteState.status === "ready" && <QuoteCard quote={quoteState.quote} />}

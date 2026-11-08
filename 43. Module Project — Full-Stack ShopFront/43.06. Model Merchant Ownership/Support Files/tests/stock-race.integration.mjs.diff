@@ -1,0 +1,11 @@
+--- incoming/tests/stock-race.integration.mjs
++++ after-group-5/tests/stock-race.integration.mjs
+@@ -8,7 +8,7 @@
+ test('two simultaneous requests compete for three units without overselling',async()=>{
+  const db=new pg.Client({connectionString:url.toString()});await db.connect();const productId='race-'+randomUUID();
+  try{
+-  await db.query('INSERT INTO "Product" (id,slug,name,"priceMinor",stock) VALUES ($1,$1,$2,100,3)',[productId,'Temporary race product']);
++  await db.query('INSERT INTO "Product" (id,slug,name,"priceMinor",stock,"workspaceId") VALUES ($1,$1,$2,100,3,\'W-1\')',[productId,'Temporary race product']);
+   const signIn=await fetchWithAuthRetry(`${base}/api/auth/sign-in/email`,{method:'POST',headers:{origin:base,'content-type':'application/json'},body:JSON.stringify({email:'alex@example.test',password:'Course-only-passphrase-40!'})});assert.equal(signIn.status,200);
+   const cookie=signIn.headers.getSetCookie().map(value=>value.split(';')[0]).join('; ');
+   const order=()=>fetch(`${base}/api/workshop/orders`,{method:'POST',headers:{cookie,origin:base,'content-type':'application/json'},body:JSON.stringify({productId,quantity:2, requestKey: randomUUID()})});

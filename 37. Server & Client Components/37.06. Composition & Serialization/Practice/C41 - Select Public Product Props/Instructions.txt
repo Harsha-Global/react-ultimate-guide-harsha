@@ -1,0 +1,5 @@
+Complete toPublicProduct(product) to return a fresh object containing exactly id, name and priceMinor. Preserve those values exactly. Do not include supplierCost, warehouseReference, or any future extra property. Do not mutate the input, delete its properties, trim strings, format money or validate the catalog record; the caller already supplies the declared input shape.
+
+The supplied starter spreads the whole record. Its TypeScript return type looks narrow, but runtime extra properties still leak. Replace that spread with explicit field selection. Keep the supplied function name and types. Prerequisite: Composition & Serialization in Server & Client Components. This pure exercise models selecting safe client props; it does not run Next.js or make network requests.
+
+Allow 10 minutes. Local strict Starter and Solution are in this lecture's Practice/C41 - Select Public Product Props folder. Run npm ci, then npm test, in either folder. The starter deliberately fails the privacy-shape checks. Use the existing How to Download Source Code article for the source route. Compare the solution after your attempt.

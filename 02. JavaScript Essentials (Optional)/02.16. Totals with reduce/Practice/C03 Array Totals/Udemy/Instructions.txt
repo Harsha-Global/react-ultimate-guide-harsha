@@ -1,0 +1,20 @@
+Array Totals
+
+Build calculateBasketTotal(items). The starter currently returns zero for every basket. Return one numeric total by multiplying each entry's unitPrice by its count, then combining those line totals.
+
+Use the reduce method with an appropriate initial accumulator, as taught in the lecture. The inputs are a dense array of ordinary records with finite, non-negative numeric unitPrice and count properties; count is a whole number. No input parsing or currency formatting is required.
+
+Acceptance criteria
+- Include every line's price multiplied by its count.
+- Return the number 0 for an empty basket.
+- Keep zero prices and zero counts meaningful.
+- Support a single entry, different baskets and fractional prices.
+- Leave the input array and its records unchanged.
+- Repeated calls must calculate from the supplied items, independently.
+
+For [{ unitPrice: 18, count: 4 }, { unitPrice: 12, count: 3 }], the result is 108. Keep the function name and parameter. Edit exercise.js and use Run tests to check behavior. The supplied HTML loads the file, and the provided evaluation calls your function; you do not write test infrastructure.
+
+Before running, predict the accumulator after each entry. After your attempt, use the hints and complete explained solution to compare your reasoning.
+
+Related lecture: Totals with reduce.
+Allow about 8–15 minutes; this is an estimate, not a measured learner time.

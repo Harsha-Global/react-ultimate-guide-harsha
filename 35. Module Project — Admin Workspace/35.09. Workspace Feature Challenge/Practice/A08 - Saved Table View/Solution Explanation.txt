@@ -1,0 +1,5 @@
+1. savedViewSchema adds a validated density snapshot. useCatalogView selects the live density from useWorkspaceStore for currentView, and Save explicitly captures it. The saved object is not the live UI owner.
+2. applyView calls setDensity and writes only q/sort/dir/size/page through nuqs. viewUpdate enumerates these URL fields and sets page 1. The guarded initial effect does the same only when no managed query parameter exists, once per mounted workspace.
+3. Saved-view persistence uses version2. migrateSavedView accepts a version 1 envelope, validates its URL fields and supplies comfortable density; invalid or unsupported data yields null. The existing merge retains real actions. The saved summary displays density so the promised restore is visible before Apply.
+
+The complete Solution/admin-workspace has its own install/build/test instructions. Install with npm ci and stop the starter's servers before launching it on the same ports. No source hosting or course publication is needed for the local review.

@@ -1,0 +1,96 @@
+/* Prepared presentation layer: keeps the lessons focused on state and requests. */
+[aria-label="Demo session"],
+[aria-label="Local demo controls"],
+[aria-label="Server order detail"] {
+  padding: 22px 24px;
+  margin-block: 18px;
+}
+[aria-label="Demo session"] h2,
+[aria-label="Server order detail"] h2 {
+  margin: 0 0 8px;
+}
+[aria-label="Demo session"] p,
+[aria-label="Local demo controls"] p {
+  color: #576273;
+  font-size: 14px;
+  margin: 8px 0 16px;
+}
+[aria-label="Local demo controls"] {
+  background: #f3f0f8;
+  border: 1px solid #d9d0e8;
+}
+[aria-label="Local demo controls"] h2 {
+  margin: 0;
+  font-size: 16px;
+}
+[aria-label="Queue views"] {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-block: 18px;
+}
+[aria-label="Queue views"] [aria-pressed="true"] {
+  background: #4d3865;
+  border-color: #4d3865;
+  color: #fff;
+}
+main .filter-bar {
+  justify-content: flex-start;
+  align-items: end;
+  gap: 12px;
+  margin-block: 20px;
+}
+main .filter-bar label,
+[aria-label="Server order detail"] form label {
+  display: grid;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+}
+main input:not([type="checkbox"]),
+main select {
+  font: inherit;
+  padding: 10px 12px;
+  border: 1px solid #aeb7c3;
+  border-radius: 8px;
+  background: #fff;
+  color: #243040;
+  min-height: 44px;
+  max-width: 100%;
+}
+main button:not(.text-button):not(.secondary):not(.primary) {
+  background: #4d3865;
+  color: white;
+  border: 1px solid #4d3865;
+}
+[aria-label="Server order detail"] form {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: end;
+  margin-top: 18px;
+}
+[aria-label="Server order detail"] form p {
+  flex-basis: 100%;
+}
+[role="alert"] {
+  color: #a32936;
+  background: #fff0f0;
+  padding: 12px;
+  border-radius: 8px;
+}
+@media (max-width: 650px) {
+  [aria-label="Demo session"],
+  [aria-label="Local demo controls"],
+  [aria-label="Server order detail"] {
+    padding: 16px;
+  }
+  main .filter-bar {
+    flex-wrap: wrap;
+  }
+  main .filter-bar label {
+    width: 100%;
+  }
+}
+
+main label:not(.check-target):has(input[type="checkbox"]) { display: inline-flex; align-items: center; gap: 8px; margin-right: 12px; margin-block: 8px; }

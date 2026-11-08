@@ -1,0 +1,21 @@
+describe('Decide a Verified Payment', function () {
+ const order={id:'O-1',checkoutSessionId:'cs_test_1',totalMinor:8900,status:'pending'};
+ const event={eventId:'evt_1',sessionId:'cs_test_1',orderId:'O-1',amountTotal:8900,currency:'usd',livemode:false,paymentStatus:'paid'};
+ it('accepts a matching paid sandbox session',function(){expect(decidePayment(order,event,[])).toBe('mark-paid');});
+ it('ignores a previously processed event',function(){expect(decidePayment(order,event,['evt_1'])).toBe('ignore');});
+ it('does not treat an unrelated processed ID as a duplicate',function(){expect(decidePayment(order,event,['evt_2'])).toBe('mark-paid');});
+ it('finds the event anywhere in the processed list',function(){expect(decidePayment(order,event,['evt_0','evt_1','evt_2'])).toBe('ignore');});
+ it('rejects live mode',function(){expect(decidePayment(order,{...event,livemode:true},[])).toBe('reject');});
+ it('rejects a different checkout session',function(){expect(decidePayment(order,{...event,sessionId:'cs_test_2'},[])).toBe('reject');});
+ it('rejects a different order reference',function(){expect(decidePayment(order,{...event,orderId:'O-2'},[])).toBe('reject');});
+ it('rejects a smaller amount',function(){expect(decidePayment(order,{...event,amountTotal:1},[])).toBe('reject');});
+ it('rejects a larger amount',function(){expect(decidePayment(order,{...event,amountTotal:8901},[])).toBe('reject');});
+ it('rejects another currency',function(){expect(decidePayment(order,{...event,currency:'eur'},[])).toBe('reject');});
+ it('uses the documented exact lower-case currency',function(){expect(decidePayment(order,{...event,currency:'USD'},[])).toBe('reject');});
+ it('ignores a matching unpaid session',function(){expect(decidePayment(order,{...event,paymentStatus:'unpaid'},[])).toBe('ignore');});
+ it('does not mark an already-paid order again',function(){expect(decidePayment({...order,status:'paid'},event,[])).toBe('ignore');});
+ it('does not downgrade paid after a delayed unpaid event',function(){expect(decidePayment({...order,status:'paid'},{...event,paymentStatus:'unpaid'},[])).toBe('ignore');});
+ it('rejects a mismatched unpaid session before ignoring its payment status',function(){expect(decidePayment(order,{...event,paymentStatus:'unpaid',orderId:'O-2'},[])).toBe('reject');});
+ it('ignores an already-processed event before inspecting its payload',function(){expect(decidePayment(order,{...event,amountTotal:1},['evt_1'])).toBe('ignore');});
+ it('does not mutate frozen input records or the processed list',function(){const ids=Object.freeze(['evt_0']);const a=Object.freeze({...order});const b=Object.freeze({...event});expect(decidePayment(a,b,ids)).toBe('mark-paid');expect(a.status).toBe('pending');expect(ids).toEqual(['evt_0']);});
+});

@@ -1,0 +1,10 @@
+{
+  "command": "npm exec --yes --package=shadcn@4.21.4 -- shadcn add dialog --yes",
+  "date": "2026-10-09",
+  "actual": "CLIcreateddialog.tsxwithoutinstallinglucide-react;itsiconimportrequiresanexplicitinstallinthemanualexisting-projectsetup. CSSanimationclassesrequiretw-animate-css.",
+  "sha256": {
+    "src/components/ui/dialog.tsx": "dcd488cc5d713da215ce2037efd644f35904df755c70f31534706643db488514",
+    "package.json": "3ed95d40faea2f7dff9e20727552ad994fb626416ec3a940bc6a3d3dd25c7633",
+    "package-lock.json": "329cfbdcb07e9439322894d95433f05e11654bdd3f515f06d938df5866d49077"
+  }
+}

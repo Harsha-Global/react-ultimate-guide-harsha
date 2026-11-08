@@ -1,0 +1,18 @@
+# Explained solution
+
+The try block calls the supplied function once and awaits its promise. A fulfilled promise provides the saved object; the function returns an ok: true record containing its numeric total. A total of zero is still a successful result.
+
+Rejection causes the await expression to throw the rejection reason inside this function. The catch parameter receives that Error object. Returning ok: false with error.message converts the rejected operation into an explicit failure outcome that the caller can inspect. It does not mean the save succeeded.
+
+The outer async function still returns a promise. It settles with one of these two outcome records only after the operation finishes. No assignment changes the saved object, and all variables belong to the current call. Merely logging an error would return undefined; returning ok: true early would claim success before the outcome was known.
+
+Complete solution
+
+const getSaveOutcome = async saveOperation => {
+  try {
+    const result = await saveOperation();
+    return { ok: true, total: result.total };
+  } catch (error) {
+    return { ok: false, message: error.message };
+  }
+};

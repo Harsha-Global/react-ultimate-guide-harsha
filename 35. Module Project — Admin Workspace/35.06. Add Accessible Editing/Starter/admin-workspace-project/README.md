@@ -1,0 +1,7 @@
+# Admin Workspace — saved views that respect shared links
+
+The Admin Workspace project restores the saved view automatically only when the incoming address names no view. src/savedView.ts adds shouldRestoreSavedView(search): it reads the address with URLSearchParams and allows restoration only when none of q, sort, dir, page or size is present (an explicit ?q= or an invalid ?page=banana still belongs to the link; an unrelated parameter such as campaign does not block it). src/useCatalogView.ts adds a restoreChecked ref and an effect that runs the decision once per mounted workspace: it sets the guard first, reads the synchronously restored snapshot from useSavedViewStore.getState(), and applies it with replace history when eligible. The Saved View Bar explains the rule; Save, Apply and Forget stay explicit, and the active view is never saved automatically.
+
+## Run
+
+Copy the project into your React workspace (for example C:\react\admin-workspace-project) and open it in VS Code. In one terminal run `npm ci`, then `npm run api` (the local catalog service on http://127.0.0.1:5191, in memory: a restart restores the four sample products). In a second terminal run `npm run dev` and open http://127.0.0.1:5190 (stop any other app using ports 5190 or 5191 first, and use the same 127.0.0.1 address throughout: localhost is a different browser-storage origin). Validate with `npm run lint` and `npm run build`.

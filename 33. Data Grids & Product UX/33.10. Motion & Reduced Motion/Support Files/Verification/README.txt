@@ -1,0 +1,1 @@
+Copy Support Files/Verification/tests/motion.test.mjs to tests/motion.test.mjs in C:\react\admin-workspace (add this file; create tests if absent). In package.json scripts, add "test:motion": "node tests/motion.test.mjs". Run npm run test:motion after completing the lecture edits. Do not replace package.json with the completed checkpoint.

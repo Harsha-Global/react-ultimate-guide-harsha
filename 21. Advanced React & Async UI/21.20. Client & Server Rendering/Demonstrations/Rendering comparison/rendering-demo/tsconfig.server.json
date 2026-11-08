@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "target": "ES2023",
+    "lib": [
+      "ES2023",
+      "DOM"
+    ],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "skipLibCheck": true,
+    "outDir": ".server",
+    "types": [
+      "node"
+    ],
+    "rootDir": "src"
+  },
+  "include": [
+    "src/Example.tsx"
+  ]
+}

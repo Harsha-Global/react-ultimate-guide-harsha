@@ -1,0 +1,18 @@
+Async Error Handling
+
+Build getSaveOutcome(saveOperation). Like the saveBasketReport function in the Async Error Handling lecture, it must wait for a save and return a clear result. This exercise receives the save operation as a zero-argument callback, rather than importing a particular save function.
+
+The supplied saveOperation returns a promise. It fulfills with an object such as { total: 108, status: "saved" }, or rejects with an Error object. Its total is a finite non-negative number; 0 is valid. Call the supplied function exactly once. Keep the supplied simulateSave helper unchanged.
+
+Acceptance criteria
+- Await saveOperation() inside the async function.
+- On fulfillment, return exactly { ok: true, total: result.total }.
+- On rejection, return exactly { ok: false, message: error.message }.
+- Keep the actual message; different failures can explain different problems.
+- Do not return an early success while work is pending.
+- Preserve the successful result object and keep repeated calls independent.
+
+Edit only getSaveOutcome in exercise.js. Use Run tests; the supplied evaluation calls your function and waits for its promise. You do not need to create tests, install anything or make a network request. The simulator uses a short local timer; no data is stored remotely.
+
+Before coding, trace success and rejection on paper. After attempting, use the hints and complete explained solution. Estimated practice time: 8–15 minutes.
+

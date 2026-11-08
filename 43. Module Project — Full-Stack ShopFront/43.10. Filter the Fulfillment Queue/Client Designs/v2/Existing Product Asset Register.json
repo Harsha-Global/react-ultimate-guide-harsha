@@ -1,0 +1,89 @@
+{
+  "createdFor": "React 2027 Section 15 ShopFront",
+  "productPhotos": [
+    {
+      "file": "backpack.jpg",
+      "source": "Original image created with built-in image generation; no brand or manufacturer attribution.",
+      "sha256": "64c9f8097baf1f0ce24f3f0aa59b2fc7a3624e55a2a71c2ffc262079017bd203",
+      "master": "backpack.png"
+    },
+    {
+      "file": "cushion.jpg",
+      "source": "Original image created with built-in image generation; no brand or manufacturer attribution.",
+      "sha256": "65f7c4b5ac4bb424a8c816721b77dc1e6d653f1820c9d4238a29edafbb611218",
+      "master": "cushion.png"
+    },
+    {
+      "file": "headphones.jpg",
+      "source": "Original image created with built-in image generation; no brand or manufacturer attribution.",
+      "sha256": "2e5c66670d88f0ca75ffbedcf48038732af6332daaaac3d3a62d48e2e6e6d02e",
+      "master": "headphones.png"
+    },
+    {
+      "file": "lamp.jpg",
+      "source": "Original image created with built-in image generation; no brand or manufacturer attribution.",
+      "sha256": "3148189f50c0d7a139ca20bca21603c2c5fc9da177ea42cb19f533c776820839",
+      "master": "lamp.png"
+    },
+    {
+      "file": "mug.jpg",
+      "source": "Original image created with built-in image generation; no brand or manufacturer attribution.",
+      "sha256": "145f57d443679e001b49ffb17a14427402f41f44715f304a6eec5ff196812240",
+      "master": "mug.png"
+    },
+    {
+      "file": "speaker.jpg",
+      "source": "Original image created with built-in image generation; no brand or manufacturer attribution.",
+      "sha256": "6499163e10bec124fa073d436f49c7fa8341de508d8c3304151a92b0bb9fcecb",
+      "master": "speaker.png"
+    }
+  ],
+  "fonts": [
+    {
+      "family": "Manrope",
+      "file": "Manrope-variable.ttf",
+      "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/manrope/Manrope%5Bwght%5D.ttf",
+      "license": "https://raw.githubusercontent.com/google/fonts/main/ofl/manrope/OFL.txt",
+      "sha256": "3ae11c49db0455a3cc33e37d380f20fdb8c7f8b41dc07625c177e3d87a9d6ae6"
+    },
+    {
+      "family": "DM Sans",
+      "file": "DMSans-variable.ttf",
+      "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/dmsans/DMSans%5Bopsz%2Cwght%5D.ttf",
+      "license": "https://raw.githubusercontent.com/google/fonts/main/ofl/dmsans/OFL.txt",
+      "sha256": "8cd08d97e89c24d0aa92edd2f0f4c8ee6195eee9b7c9f154865a58b02f0c1c0d"
+    }
+  ],
+  "prompts": [
+    {
+      "name": "backpack",
+      "prompt": "Use case: product-mockup. Asset type: premium ecommerce product photography for ShopFront course project. Make one square photorealistic studio photograph of a dark navy everyday backpack with a padded shape, subtle textured woven fabric, black straps, clean zipper hardware. Entire backpack visible, standing upright, three-quarter view, centered with ample breathing room, product fills about 68% of square. Seamless warm stone beige backdrop and floor, soft diffused window light from upper left, natural soft shadow, refined contemporary retail art direction. No brand, no text, no labels, no logos, no extra props, no collage. 1024 by 1024 composition.",
+      "output_hint": "Generated images are saved to /Users/harsha/.codex/generated_images/01a0e41f-3d01-7463-b32a-388dbbd48eb3 as /Users/harsha/.codex/generated_images/01a0e41f-3d01-7463-b32a-388dbbd48eb3/exec-7e68aeb2-e9e8-44d2-8644-cb4544c9f0d2.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+    },
+    {
+      "name": "lamp",
+      "prompt": "Use case: product-mockup. Asset type: premium ecommerce photograph for ShopFront. One square photorealistic studio product photograph of a sculptural adjustable desk lamp in warm ivory painted metal with a narrow articulated stem, a small cone shade and circular weighted base. Entire single product visible, centered, three-quarter view, generous breathing room, fills about 65% of frame. Seamless warm stone beige backdrop and floor, soft diffused window light from upper left, natural soft shadow, refined contemporary retail art direction. Realistic material detail. No branding, no words, no logos, no extra props, no collage. Square composition.",
+      "output_hint": "Generated images are saved to /Users/harsha/.codex/generated_images/01a0e41f-3d01-7463-b32a-388dbbd48eb3 as /Users/harsha/.codex/generated_images/01a0e41f-3d01-7463-b32a-388dbbd48eb3/exec-5862f945-76ba-4773-be83-6f42a6108d46.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+    },
+    {
+      "name": "mug",
+      "prompt": "Use case: product-mockup. Asset type: premium ecommerce photograph for ShopFront. One square photorealistic studio product photograph of an insulated travel mug in matte terracotta with a secure charcoal drinking lid and subtle stainless steel rim. Entire single product visible, centered, three-quarter view, generous breathing room, fills about 65% of frame. Seamless warm stone beige backdrop and floor, soft diffused window light from upper left, natural soft shadow, refined contemporary retail art direction. Realistic material detail. No branding, no words, no logos, no extra props, no collage. Square composition.",
+      "output_hint": "Generated images are saved to /Users/harsha/.codex/generated_images/01a0e41f-3d01-7463-b32a-388dbbd48eb3 as /Users/harsha/.codex/generated_images/01a0e41f-3d01-7463-b32a-388dbbd48eb3/exec-67a31d06-4fc4-4fd1-977f-e3c7f7d25409.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+    },
+    {
+      "name": "headphones",
+      "prompt": "Use case: product-mockup. Asset type: premium ecommerce photograph for ShopFront. One square photorealistic studio product photograph of over-ear wireless headphones in matte dark navy, with soft padded earcups and a smooth curved headband. Entire single product visible, centered, three-quarter view, generous breathing room, fills about 65% of frame. Seamless warm stone beige backdrop and floor, soft diffused window light from upper left, natural soft shadow, refined contemporary retail art direction. Realistic material detail. No branding, no words, no logos, no extra props, no collage. Square composition.",
+      "output_hint": "Generated images are saved to /Users/harsha/.codex/generated_images/01a0e41f-3d01-7463-b32a-388dbbd48eb3 as /Users/harsha/.codex/generated_images/01a0e41f-3d01-7463-b32a-388dbbd48eb3/exec-1c67fabd-9e9c-4f56-b32e-bd71ae437721.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+    },
+    {
+      "name": "cushion",
+      "prompt": "Use case: product-mockup. Asset type: premium ecommerce photograph for ShopFront. One square photorealistic studio product photograph of a square reading cushion in muted sage green linen, gently plump with tactile woven fabric and subtle stitched edges. Entire single product visible, centered, three-quarter view, generous breathing room, fills about 65% of frame. Seamless warm stone beige backdrop and floor, soft diffused window light from upper left, natural soft shadow, refined contemporary retail art direction. Realistic material detail. No branding, no words, no logos, no extra props, no collage. Square composition.",
+      "output_hint": "Generated images are saved to /Users/harsha/.codex/generated_images/01a0e41f-3d01-7463-b32a-388dbbd48eb3 as /Users/harsha/.codex/generated_images/01a0e41f-3d01-7463-b32a-388dbbd48eb3/exec-a9513a20-a9d3-4bb3-b3cc-e1a9d5df348b.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+    },
+    {
+      "name": "speaker",
+      "prompt": "Use case: product-mockup. Asset type: premium ecommerce photograph for ShopFront. One square photorealistic studio product photograph of a compact charcoal portable speaker with rounded corners, fine woven grille and a small dark carry loop. Entire single product visible, centered, three-quarter view, generous breathing room, fills about 65% of frame. Seamless warm stone beige backdrop and floor, soft diffused window light from upper left, natural soft shadow, refined contemporary retail art direction. Realistic material detail. No branding, no words, no logos, no extra props, no collage. Square composition.",
+      "output_hint": "Generated images are saved to /Users/harsha/.codex/generated_images/01a0e41f-3d01-7463-b32a-388dbbd48eb3 as /Users/harsha/.codex/generated_images/01a0e41f-3d01-7463-b32a-388dbbd48eb3/exec-74d46a0f-460f-4b32-943e-6882e49938f6.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+    }
+  ]
+}

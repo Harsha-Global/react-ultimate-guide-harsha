@@ -1,0 +1,5 @@
+1. values.stock === "1" accepts one exact string. An absent value, another string or a repeated-key array is false. Return this normalized value with q/sort so page and form use the same contract.
+
+2. Copy current URLSearchParams. Set/delete only stock according to the named checkbox, preserving the other parameters. Pass inStock to defaultChecked and include it in the applied-query key so committed history changes reset fields. Keep push navigation. Show browser evidence for Back/Forward, reload and unrelated parameters; a parser-only test is insufficient.
+
+3. stock=1 excludes Reading Chair and returns three records. q=reading with stock enabled is empty; disabling stock returns the chair. A desk/price/stock view returns the tray before the lamp. Validate unsupported/repeated values, keyboard input and dialog-close focus. The supplied Solution is a reference; do not claim verification merely because the files exist.

@@ -1,0 +1,13 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { selectRelatedProducts } from '../lib/relatedProducts.ts';
+const item=(id,category='Workspace',stock=1)=>({id,slug:id,name:id,category,stock,priceMinor:100,image:'/sample.jpg',description:'Example'});
+const ids=value=>value.map(product=>product.id);
+test('excludes the current product and sold-out products',()=>assert.deepEqual(ids(selectRelatedProducts([item('a'),item('b','Audio',0),item('c','Travel')],'a')),['c']));
+test('places same-category matches first despite earlier fallback items',()=>assert.deepEqual(ids(selectRelatedProducts([item('a'),item('b','Travel'),item('c'),item('d')],'a')),['c','d']));
+test('fills unused positions with eligible fallback items',()=>assert.deepEqual(ids(selectRelatedProducts([item('a'),item('b','Travel'),item('c')],'a')),['c','b']));
+test('preserves source order within both groups',()=>assert.deepEqual(ids(selectRelatedProducts([item('a'),item('b','Audio'),item('c','Travel'),item('d','Everyday')],'a')),['b','c']));
+test('returns no more than two distinct IDs',()=>assert.deepEqual(ids(selectRelatedProducts([item('a'),item('b'),item('b'),item('c'),item('d')],'a')),['b','c']));
+test('returns an empty list for a missing current product',()=>assert.deepEqual(selectRelatedProducts([item('a')],'missing'),[]));
+test('returns an empty list when no other stock is available',()=>assert.deepEqual(selectRelatedProducts([item('a'),item('b','Audio',0)],'a'),[]));
+test('does not change a frozen input or its products',()=>{const products=Object.freeze([Object.freeze(item('a')),Object.freeze(item('b','Travel')),Object.freeze(item('c'))]);assert.deepEqual(ids(selectRelatedProducts(products,'a')),['c','b']);assert.deepEqual(ids(products),['a','b','c']);});

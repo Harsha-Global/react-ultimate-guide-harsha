@@ -1,0 +1,25 @@
+RELEASE VERIFICATION
+
+Commit: <exact commit>
+Environment: <local or hosted>
+Origin: <exact origin>
+Database: <database name without credentials>
+Started: <observation time and timezone>
+Build: <build identifier>
+
+Check        | Local | Hosted | Provider
+Routes       | open  | open   | n/a
+Sessions     | open  | open   | n/a
+Payment      | open  | open   | open
+Storage/jobs | open  | open   | open
+Telemetry    | open  | open   | open
+Recovery     | open  | open   | n/a
+
+Observations:
+<Record actual outcomes, identifiers and unresolved prerequisites.>
+
+Automated test report:
+<Record its exact commit, run identifier and outcomes separately.>
+
+Release decision:
+<Keep required checks open until their actual evidence is available.>

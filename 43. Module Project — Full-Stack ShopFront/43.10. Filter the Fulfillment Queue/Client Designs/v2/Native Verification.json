@@ -1,0 +1,60 @@
+{
+  "date": "",
+  "status": "PASS",
+  "sha256": "97cf888e23bef3817438b9c6c2058d2a86eaece8060568e26f2346064f90f4ce",
+  "bytes": 197075,
+  "method": "Exported local .fig from Figma Free personal Drafts, imported that .fig through Import from computer, opened and inspected named native vector groups. No renamed SVG workaround.",
+  "reimported_file": "https://www.figma.com/design/QxnySlTXWN9xBpIMmPedw8/ShopFront-Full-Stack---v2",
+  "frames": 3,
+  "text": "Outlined vector glyphs; editable text-bearing SVG and font binaries supplied separately. No claim of native editable text layers.",
+  "fonts": [
+    {
+      "file": "DMSans-variable.ttf",
+      "windows_names": [
+        {
+          "nameID": 1,
+          "value": "DM Sans 9pt"
+        },
+        {
+          "nameID": 2,
+          "value": "Regular"
+        },
+        {
+          "nameID": 4,
+          "value": "DM Sans 9pt Regular"
+        },
+        {
+          "nameID": 6,
+          "value": "DMSans-9ptRegular"
+        }
+      ],
+      "sha256": "8cd08d97e89c24d0aa92edd2f0f4c8ee6195eee9b7c9f154865a58b02f0c1c0d"
+    },
+    {
+      "file": "Manrope-variable.ttf",
+      "windows_names": [
+        {
+          "nameID": 1,
+          "value": "Manrope ExtraLight"
+        },
+        {
+          "nameID": 2,
+          "value": "Regular"
+        },
+        {
+          "nameID": 4,
+          "value": "Manrope ExtraLight"
+        },
+        {
+          "nameID": 6,
+          "value": "Manrope-ExtraLight"
+        }
+      ],
+      "sha256": "3ae11c49db0455a3cc33e37d380f20fdb8c7f8b41dc07625c177e3d87a9d6ae6"
+    }
+  ],
+  "limits": [
+    "Windows font installation not executed",
+    "No wired prototype or shared component library"
+  ]
+}

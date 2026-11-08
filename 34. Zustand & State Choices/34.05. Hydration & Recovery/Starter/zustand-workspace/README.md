@@ -1,0 +1,7 @@
+# Admin Workspace — persisted workspace preferences with validation and migration
+
+The Zustand workspace project keeps its display preferences in localStorage. src/preferenceSchema.ts defines the accepted values with Zod (density "comfortable" or "compact", summaryOpen boolean), infers WorkspacePreferences, holds initialPreferences, reads any stored value through readPreferences (safeParse, otherwise a fresh copy of the defaults) and migrates the version-0 format ({ dense, summaryOpen }) in migratePreferences. src/workspaceStore.ts wraps the store with persist: name "admin-workspace-preferences", version 1, createJSONStorage over localStorage, partialize (only density and summaryOpen), migrate and a merge that keeps the current actions and adds only validated preferences. preferences-lab.html with src/preferences-lab.tsx writes old, invalid or unreadable entries for checking; tests/preferences.test.mjs checks the schema and migration (`npm run test:preferences`).
+
+## Run
+
+Copy the project into your React workspace (for example C:\react\zustand-workspace) and open it in VS Code. In one terminal run `npm ci`, then `npm run api` (the local catalog service on http://127.0.0.1:5191, in memory: a restart restores the four sample products). In a second terminal run `npm run dev` and open http://127.0.0.1:5190 (stop any other app using ports 5190 or 5191 first, and use the same 127.0.0.1 address throughout: localhost is a different browser-storage origin). Validate with `npm run lint` and `npm run build`.

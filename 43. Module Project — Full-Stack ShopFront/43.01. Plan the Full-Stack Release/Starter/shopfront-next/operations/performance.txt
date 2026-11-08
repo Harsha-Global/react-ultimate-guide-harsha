@@ -1,0 +1,12 @@
+Use npm run host:build and npm run host:start so the catalog service is available; keep the same viewport,
+network conditions, foreground state and browser for before/after comparisons.
+Open /workshop/vitals. The deliberately delayed banner appears after three seconds.
+For the first narrated run, use min-height: 0; then change it to160px, rebuild and compare.
+The completed source keeps160px. Do not ship the unreserved comparison state.
+Keep the page visible. Click Check delivery after the banner arrives to produce an interaction.
+If an API is unsupported, the panel says so; missing values are not zero scores.
+Some final values report when a page becomes hidden; reportAllChanges shows intermediate updates.
+A full reload starts a new navigation; client-side navigation may retain document-level metrics.
+Good field thresholds at the 75th percentile: LCP <=2500ms, INP <=200ms, CLS <=0.1.
+Segment real measurements by mobile/desktop and investigate the actual cause before editing.
+This lab demonstrates a layout-shift repair, not a performance guarantee for a deployed service.

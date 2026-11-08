@@ -1,0 +1,35 @@
+Use the completed local production-build rehearsal when provider prerequisites are not available.
+1. Stop other Next/sample API processes for this project. Keep PostgreSQL running.
+2. Set DEPLOYMENT_KIND=local, PORT=3000, SITE_URL=http://localhost:3000 and
+   BETTER_AUTH_URL=http://localhost:3000 in your private .env. Keep the random auth secret stable.
+3. Run npm run release:check, npm run db:deploy, then npm run release:build.
+4. Run npm run release:start. This owns both Next and the read-only catalog sample API.
+5. Keep npm run mail, npm run storage and npm run jobs in their own terminals for local flows.
+   Set the Inngest dev registration URL to the same Next origin/port. Use Stripe CLI forwarding
+   only with your sandbox and the exact local /api/stripe/webhook endpoint.
+6. Open the configured origin; verify the account, private order, direct routes and recovery.
+7. Stop the release launcher with Control+C; it stops only its own children.
+
+Hosted recipe prerequisites (must all pass before the final deploy):
+- A private reviewed repository; CI passed for the exact commit. No .env or generated artifacts.
+- Render Node web service, Free compute, same-region PostgreSQL; no card/paid upgrade.
+- Use DATABASE_URL/DIRECT_URL from the intended database, secure connection settings from the
+  provider, and npm run db:deploy in a controlled release step before the new app starts.
+- Build command: npm ci && npm run release:build. Start: npm run release:start.
+- Auto-deploy Off; health /api/workshop/health. Set the exact HTTPS SITE_URL/BETTER_AUTH_URL.
+- Set DEPLOYMENT_KIND=preview, keep COURSE_TELEMETRY_DEMO=disabled, and supply sandbox
+  Stripe keys, verified webhook endpoint secret, separate private persistent object storage,
+  supported mail route, Sentry course DSNs, and Inngest cloud keys with INNGEST_DEV disabled.
+- Update OAuth callback URLs and storage CORS to the exact intended origin. Public credentials
+  are never an alternative to CORS. CORS does not replace ownership checks.
+- Do not run local seed/fixture scripts against hosted databases; their guards intentionally refuse.
+- Full-stack hosted checks are incomplete until provider state is independently verified.
+
+Free Render is a rehearsal, not production service assurance. Current limits include one free
+Postgres database/workspace, 30-day database expiry, no managed backups or connection pool,
+750 shared web-service hours/month, 15-minute idle sleep and ephemeral local files.
+The free runtime blocks SMTP ports25/465/587. Do not put the mail sink, object store or
+PostgreSQL data files on its filesystem. No free persistent storage or background scheduler
+is implied by deploying the web process. Budget/concurrency/backup decisions remain necessary
+before a real release. Recheck current quotas and eligibility at recording time.
+Authoring Render account: harshaglobal@gmail.com. Recording: harshaaspnetcore@outlook.com.

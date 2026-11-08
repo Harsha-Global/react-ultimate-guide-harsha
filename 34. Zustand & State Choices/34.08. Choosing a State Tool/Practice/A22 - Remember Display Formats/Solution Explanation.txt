@@ -1,0 +1,5 @@
+1. App now selects locale, zone and their focused actions from useWorkspaceStore. DisplayPreferences receives those selected values and actions directly. Its old local useState owners are removed; no syncing effect is introduced.
+2. preferenceSchema extends the two original fields with enum-validated format choices. persist saves only the four data fields, uses version2 and preserves real actions through the validated merge. Version1 retains its density/overview with en-US/UTC defaults; version0 also translates dense. Invalid data falls back before Intl receives it. Reset uses the expanded initialPreferences.
+3. Test a de-DE/America/New_York choice and reload, then reset with a URL search present. Use the unchanged keyboard controls and storage recovery fixture. Products stay in TanStack Query; q/sort/page stay in the URL. Local browser storage is per browser/origin and is not account-wide synchronization or server persistence.
+
+The complete source is in Solution/admin-workspace. Install its own dependencies with npm ci before running it; stop the starter's services first because both variants use the same local ports.

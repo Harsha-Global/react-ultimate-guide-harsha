@@ -1,0 +1,46 @@
+[
+  {
+    "file": "DMSans-variable.ttf",
+    "windows_names": [
+      {
+        "nameID": 1,
+        "value": "DM Sans 9pt"
+      },
+      {
+        "nameID": 2,
+        "value": "Regular"
+      },
+      {
+        "nameID": 4,
+        "value": "DM Sans 9pt Regular"
+      },
+      {
+        "nameID": 6,
+        "value": "DMSans-9ptRegular"
+      }
+    ],
+    "sha256": "8cd08d97e89c24d0aa92edd2f0f4c8ee6195eee9b7c9f154865a58b02f0c1c0d"
+  },
+  {
+    "file": "Manrope-variable.ttf",
+    "windows_names": [
+      {
+        "nameID": 1,
+        "value": "Manrope ExtraLight"
+      },
+      {
+        "nameID": 2,
+        "value": "Regular"
+      },
+      {
+        "nameID": 4,
+        "value": "Manrope ExtraLight"
+      },
+      {
+        "nameID": 6,
+        "value": "Manrope-ExtraLight"
+      }
+    ],
+    "sha256": "3ae11c49db0455a3cc33e37d380f20fdb8c7f8b41dc07625c177e3d87a9d6ae6"
+  }
+]

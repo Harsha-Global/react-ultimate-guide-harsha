@@ -1,0 +1,2 @@
+.inventory-table[data-density="compact"] tbody :is(td, th) { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+.inventory-table[data-density="compact"] tbody img { width: 2rem; height: 2rem; }

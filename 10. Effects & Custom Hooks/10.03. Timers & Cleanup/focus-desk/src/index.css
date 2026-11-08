@@ -1,0 +1,49 @@
+@font-face { font-family: Lexend; src: url('/fonts/LexendDeca-Medium.ttf') format('truetype'); font-weight: 400 500; font-style: normal; font-display: swap; }
+@font-face { font-family: Lexend; src: url('/fonts/LexendDeca-SemiBold.ttf') format('truetype'); font-weight: 600; font-style: normal; font-display: swap; }
+@font-face { font-family: Lexend; src: url('/fonts/LexendDeca-Bold.ttf') format('truetype'); font-weight: 700; font-style: normal; font-display: swap; }
+
+:root { font-family: Lexend, Arial, sans-serif; color: #17254b; background: #f5f0f2; font-synthesis: none; }
+* { box-sizing: border-box; }
+body { margin: 0; }
+button, input { font: inherit; }
+button { cursor: pointer; }
+button:focus-visible, input:focus-visible, a:focus-visible { outline: 3px solid #f19837; outline-offset: 3px; }
+.skip-link { position: absolute; left: -10000px; }
+.skip-link:focus { left: 1rem; top: 1rem; z-index: 2; padding: .8rem 1rem; background: white; }
+.desk { max-width: 1120px; min-height: 100vh; margin: auto; padding: clamp(1.1rem, 4vw, 3rem); }
+.hero { display: flex; align-items: end; justify-content: space-between; gap: 1rem; padding: 2rem; color: white; border-radius: 22px; background: #59384b; }
+.hero h1 { font-size: clamp(2.1rem, 5vw, 3.5rem); margin: .2rem 0 .5rem; line-height: 1.08; }
+.hero p { margin: 0; }
+.eyebrow { font-size: .8rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+.hero-stat { display: grid; min-width: 150px; padding: 1rem 1.4rem; text-align: center; border: 1px solid #eacbdc; border-radius: 18px; }
+.hero-stat strong { font-size: 2.4rem; }
+.desk-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 1.2rem; margin-top: 1.2rem; }
+.panel { padding: 1.7rem; background: white; border: 1px solid #decdd6; border-radius: 20px; box-shadow: 0 6px 24px #59384b10; }
+.panel h2 { margin: .3rem 0 1.2rem; font-size: 1.5rem; }
+.task-form label { display: block; margin: 0 0 .5rem; font-weight: 600; }
+.input-row { display: flex; gap: .5rem; }
+.input-row input { width: 100%; min-width: 0; padding: .8rem 1rem; border: 1px solid #9d8693; border-radius: 10px; }
+.input-row button, .task-list button { border: 0; }
+.input-row button { padding: .8rem 1.2rem; color: white; background: #8c275d; border-radius: 10px; }
+.input-row button:hover { background: #6b1c47; }
+.task-list { display: grid; gap: .65rem; list-style: none; margin: 1.2rem 0 0; padding: 0; }
+.task-list li { display: flex; align-items: center; gap: .6rem; padding: .7rem; border: 1px solid #e4d8de; border-radius: 10px; }
+.task-list li.selected { border-color: #8c275d; background: #fff3f8; }
+.task-list input { width: 1.2rem; height: 1.2rem; accent-color: #8c275d; }
+.task-list button { flex: 1; text-align: left; color: inherit; background: transparent; }
+.done-label { color: #3f6627; font-size: .8rem; }
+.focus-panel { background: #fffaf7; }
+.focus-panel > p:not(.eyebrow) { max-width: 45ch; line-height: 1.55; }
+.focus-placeholder { display: grid; place-items: center; min-height: 200px; margin: 1.5rem 0 .6rem; border: 2px dashed #c6a6b7; border-radius: 18px; background: #fff; }
+.focus-placeholder span { font-size: clamp(3rem, 7vw, 5rem); font-variant-numeric: tabular-nums; font-weight: 600; color: #59384b; }
+.small-note { font-size: .82rem; color: #675562; }
+.mode-switch { display: inline-flex; gap: .3rem; padding: .25rem; margin-bottom: .8rem; border: 1px solid #d8b7c8; border-radius: 12px; background: white; }
+.mode-switch button { padding: .5rem .9rem; border: 0; border-radius: 9px; background: transparent; color: #59384b; }
+.mode-switch button[aria-pressed="true"] { color: white; background: #59384b; }
+.timer { display: grid; justify-items: center; gap: .8rem; padding: 1.5rem; margin-top: 1.5rem; border: 1px solid #d8b7c8; border-radius: 18px; background: white; }
+.time-display { font-size: clamp(3rem, 7vw, 5rem); font-variant-numeric: tabular-nums; font-weight: 600; color: #59384b; }
+.timer-actions { display: flex; gap: .6rem; }
+.timer-actions button { min-width: 96px; padding: .7rem 1rem; color: white; border: 1px solid #59384b; border-radius: 10px; background: #59384b; }
+.timer-actions button.secondary { color: #59384b; background: white; }
+.timer-actions button:disabled { opacity: .55; cursor: not-allowed; }
+@media (max-width: 720px) { .hero { align-items: stretch; flex-direction: column; } .hero-stat { display: flex; align-items: baseline; gap: .5rem; text-align: left; } .desk-grid { grid-template-columns: 1fr; } }

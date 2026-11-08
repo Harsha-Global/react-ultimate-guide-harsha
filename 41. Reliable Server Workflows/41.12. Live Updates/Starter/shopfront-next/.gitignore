@@ -1,0 +1,13 @@
+node_modules/
+.next/
+*.tsbuildinfo
+.env*.local
+
+# Private database and authentication configuration
+.env
+
+# Recreated by Prisma generation
+generated/
+
+# Disposable local object-store data
+.local-storage/

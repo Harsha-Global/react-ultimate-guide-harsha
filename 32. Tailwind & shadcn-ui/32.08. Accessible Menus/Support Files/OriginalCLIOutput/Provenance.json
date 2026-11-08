@@ -1,0 +1,11 @@
+{
+  "command": "npm exec --yes --package=shadcn@4.21.4 -- shadcn add dropdown-menu --yes",
+  "registry": "https://ui.shadcn.com",
+  "date": "2026-10-09",
+  "files": {
+    "Provenance.json": "54570951c48927d16c792a69d38b2eb92a5506635b7b65e22c84c948e7827631",
+    "package-lock.json": "eb8ebb7ac0d894df3ffde34b2d872ff4ad58c6cb690ef8401b5fcc506aeee3d6",
+    "package.json": "510c332fb51429acb3af7bfb8e67f6e1f667796df3e1577860e83eedd9682d25",
+    "src/components/ui/dropdown-menu.tsx": "9b39f3c4f1164529b5feebe5c3189efe6ea38790e36a158b22e263e73b227a9f"
+  }
+}

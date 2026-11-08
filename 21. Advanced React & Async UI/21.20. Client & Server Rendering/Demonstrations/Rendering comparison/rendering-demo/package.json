@@ -1,0 +1,27 @@
+{
+  "name": "willow-rendering-comparison",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json && tsc -p tsconfig.server.json && vite build && node prerender.mjs",
+    "start": "node server.mjs",
+    "lint": "oxlint src server.mjs prerender.mjs html.mjs vite.config.ts"
+  },
+  "dependencies": {
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "24.13.5",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "6.1.1",
+    "oxlint": "1.83.0",
+    "typescript": "6.0.3",
+    "vite": "8.3.0"
+  },
+  "engines": {
+    "node": ">=22.22.0"
+  }
+}

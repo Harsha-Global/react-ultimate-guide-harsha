@@ -1,0 +1,16 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { queryInventory } from '../server/query-inventory.mjs';
+import { products } from '../src/catalog.ts';
+import { createLoader } from 'nuqs/server';
+import { viewParsers } from '../src/viewParsers.ts';
+import { buildCatalogQuery } from '../src/catalogQuery.ts';
+const query = text => queryInventory(products,new URLSearchParams(text));
+const ids = result => result.items.map(item=>item.id);
+test('default still returns all products and global summary',()=>{const r=query('');assert.equal(r.total,4);assert.deepEqual(r.summary,{all:4,low:1,unavailable:1});});
+test('available means positive stock, including low stock',()=>{const r=query('availability=available');assert.deepEqual(ids(r),['P-101','P-103','P-104']);assert.equal(r.total,3);});
+test('low and unavailable are distinct boundaries',()=>{assert.deepEqual(ids(query('availability=low')),['P-103']);assert.deepEqual(ids(query('availability=unavailable')),['P-102']);});
+test('combined filtering precedes numeric sorting and page slicing',()=>{const r=query('availability=available&sort=priceMinor&dir=desc&page=2&pageSize=2');assert.deepEqual(ids(r),['P-103']);assert.equal(r.total,3);assert.deepEqual(r.summary,{all:4,low:1,unavailable:1});assert.equal(query('q=lamp&availability=unavailable').total,0);});
+test('server rejects an unknown availability',()=>{assert.throws(()=>query('availability=maybe'));});
+test('URL parser round trips supported values and falls back on unknown input',()=>{const load=createLoader(viewParsers);assert.equal(load('?availability=low').availability,'low');assert.equal(load('?availability=maybe').availability,'all');});
+test('API query forwards availability without losing other view choices',()=>{const params=new URLSearchParams(buildCatalogQuery('Lamp',[{id:'stock',desc:true}],{pageIndex:1,pageSize:2},'available'));assert.equal(params.get('availability'),'available');assert.equal(params.get('q'),'lamp');assert.equal(params.get('page'),'2');assert.equal(params.get('sort'),'stock');assert.equal(params.get('dir'),'desc');});

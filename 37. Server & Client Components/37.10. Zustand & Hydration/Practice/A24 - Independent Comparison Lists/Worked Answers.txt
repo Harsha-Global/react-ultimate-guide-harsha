@@ -1,0 +1,8 @@
+1. Why can the two lists appear independent before reload but show the wrong selections afterward?
+Each provider already has its own memory store, but persist writes both stores to the same key. The last write replaces the earlier saved object. On reload both providers restore that same value. Separate memory and separate persistence identities are both required.
+
+2. Show how the provider receives and forwards a stable storage key without recreating its store on every render.
+Add storageKey?: string with the current default to the provider props. The lazy initializer calls makeShortlistStore(initialIds, storageKey). Use component-workshop:compare:workspace and component-workshop:compare:travel at the two fixed page instances. If identity is ever changed for an existing position, use an appropriate React key to remount deliberately.
+
+3. Report your two-list reload, empty Travel list, keyboard, hydration and test/build checks.
+The worked result retains Workspace 2 and Travel 1 after reload, then retains Travel 0 while Workspace remains 2. Each labelled button affects its own count and pressed state; a fresh selected-key reset starts 0/0. Verify no hydration error and successful tests/typecheck/build, rather than treating unit tests alone as proof of browser persistence.

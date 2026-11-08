@@ -1,0 +1,6 @@
+Hint 1
+Which expression actually starts the supplied operation? Put the await expression inside the region that handles rejected work.
+
+Hint 2
+The fulfilled object and the error object have different useful properties. Return a record with an explicit ok flag in both branches, and preserve the value from the branch you reached.
+

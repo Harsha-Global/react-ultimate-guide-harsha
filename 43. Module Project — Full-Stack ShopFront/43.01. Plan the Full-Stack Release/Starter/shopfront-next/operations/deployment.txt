@@ -1,0 +1,261 @@
+Use the completed local production-build rehearsal when provider prerequisites are not available.
+1. Stop other Next/sample API processes for this project. Keep PostgreSQL running.
+2. Set DEPLOYMENT_KIND=local, PORT=3000, SITE_URL=http://localhost:3000 and
+   BETTER_AUTH_URL=http://localhost:3000 in your private .env. Keep the random auth secret stable.
+3. Run npm run release:check, npm run db:deploy, then npm run release:build.
+4. Run npm run release:start. This owns both Next and the read-only catalog sample API.
+5. Keep npm run mail, npm run storage and npm run jobs in their own terminals for local flows.
+   Set the Inngest dev registration URL to the same Next origin/port. Use Stripe CLI forwarding
+   only with your sandbox and the exact local /api/stripe/webhook endpoint.
+6. Open the configured origin; verify the account, private order, direct routes and recovery.
+7. Stop the release launcher with Control+C; it stops only its own children.
+
+HOSTED SETUP
+
+Chosen rehearsal services: Render Node + Render Postgres, Backblaze B2 private S3
+storage, Resend SMTP, Stripe sandbox, Inngest Cloud, and the Sentry project created
+in Controlled Error Capture. These choices fit the existing adapters; do not replace application code
+with a provider wizard. Use separate practice accounts/resources. Check current
+eligibility and limits before creation; do not accept a paid upgrade or add a card
+as an unannounced course prerequisite. No hosted run is established by this guide.
+
+1. Establish the web service and its real origin.
+Use the separate private repository from CI and Preview Deployments. Its package.json and .github are at
+the repository root. Keep the earlier storefront release and service intact.
+In Render: New > Web Service > connect the reviewed repository and branch; select
+Node, a unique full-stack practice service name and Free compute. Root Directory
+is empty for this root-layout repository. If using an existing nested repository,
+use the actual project folder and the adapted CI paths, never an assumed folder.
+Build: npm ci && npm run release:build
+Start: npm run release:start
+Health Check Path: /api/workshop/health
+Auto-Deploy: Off
+Create the service and copy its actually assigned HTTPS URL from the dashboard.
+The first build is expected to stop at release:check because settings are missing;
+this establishes the resource/address, not a successful deployment. Do not replace
+missing settings with dummy credentials or remove the guard to make it green.
+Use that exact origin, without a route, for SITE_URL and BETTER_AUTH_URL below.
+
+2. Create the database before migrating or deploying the completed application.
+Render: New > Postgres. Name it shopfront-preview (or another unique practice
+name), select PostgreSQL 18 and the web service's region, and choose Free. Review
+the displayed price/expiry before Create Database. Wait until Available.
+In the database's connection details, distinguish Internal Database URL from
+External Database URL. The web service gets the internal URL as both DATABASE_URL
+and DIRECT_URL. The workstation migration connection uses the external URL with
+the provider-required TLS settings. Do not publish either URL.
+Allow the workstation's current public IP in the database's external access rules
+for the migration and SQL check; remove that access when those checks finish.
+Do not open external access to every IP as a convenience.
+
+3. Create private object storage and its application credential.
+At backblaze.com, sign up/sign in to a separate B2 Cloud Storage account and finish
+its verification. Under B2 Cloud Storage > Buckets > Create a Bucket, enter a
+unique practice name and choose Private. Retain a private bucket throughout.
+Copy its displayed S3 endpoint and region, not a public download URL.
+Under Application Keys > Add a New Application Key, choose this bucket and Read
+and Write. Use no filename-prefix restriction: this app uses both quarantine/ and
+orders/ keys. Save the shown keyID and one-time applicationKey privately.
+Map only this restricted application key into Render:
+S3_ENDPOINT=https://<the displayed S3 endpoint>
+S3_REGION=<the endpoint's actual region>
+S3_BUCKET=<the private bucket name>
+S3_ACCESS_KEY=<keyID>
+S3_SECRET_KEY=<applicationKey>
+Do not use the local SeaweedFS credentials or a master key on the host.
+
+Configure CORS for this new bucket with the one-time command below. Backblaze's
+PutBucketCors needs writeBuckets; the bucket-restricted app key cannot do it.
+In this isolated practice account, create a second, temporary application key with
+All buckets and Read and Write. It is only for this setup operation. Do not use a
+master key. Set a short expiration, and revoke it after the configuration check.
+Run in the already installed project directory in a separate PowerShell terminal.
+Read-Host prevents secrets appearing as literal commands/history. Never display
+the environment, print the credential or capture a revealed provider key.
+
+$env:B2_SETUP_ENDPOINT = Read-Host 'S3 HTTPS endpoint'
+$env:B2_SETUP_REGION = Read-Host 'S3 region'
+$env:B2_SETUP_BUCKET = Read-Host 'New private bucket name'
+$env:B2_SETUP_ORIGIN = Read-Host 'Exact assigned HTTPS application origin'
+$env:B2_SETUP_KEY_ID = Read-Host 'Temporary setup key ID'
+$setupSecret = Read-Host 'Temporary setup application key' -AsSecureString
+$env:B2_SETUP_SECRET = [System.Net.NetworkCredential]::new('', $setupSecret).Password
+@'
+import { S3Client, PutBucketCorsCommand, GetBucketCorsCommand } from '@aws-sdk/client-s3';
+try {
+  const origin = new URL(process.env.B2_SETUP_ORIGIN);
+  const endpoint = new URL(process.env.B2_SETUP_ENDPOINT);
+  if (origin.protocol !== 'https:' || origin.pathname !== '/' || origin.search || origin.hash || origin.username || origin.password || endpoint.protocol !== 'https:') throw new Error();
+  const client = new S3Client({
+    endpoint: endpoint.href, region: process.env.B2_SETUP_REGION, forcePathStyle: true,
+    credentials: { accessKeyId: process.env.B2_SETUP_KEY_ID, secretAccessKey: process.env.B2_SETUP_SECRET },
+    requestChecksumCalculation: 'WHEN_REQUIRED', maxAttempts: 2,
+    requestHandler: { connectionTimeout: 2000, requestTimeout: 8000 },
+  });
+  const Bucket = process.env.B2_SETUP_BUCKET;
+  await client.send(new PutBucketCorsCommand({ Bucket, CORSConfiguration: { CORSRules: [{
+    AllowedOrigins: [origin.origin], AllowedMethods: ['PUT'],
+    AllowedHeaders: ['content-type'], MaxAgeSeconds: 300,
+  }] } }));
+  const result = await client.send(new GetBucketCorsCommand({ Bucket }));
+  if (result.CORSRules?.length !== 1 || result.CORSRules[0].AllowedOrigins?.[0] !== origin.origin || result.CORSRules[0].AllowedMethods?.[0] !== 'PUT') throw new Error();
+  console.log('Exact-origin browser upload rule saved and read back.');
+  client.destroy();
+} catch { console.error('CORS setup failed. Check the endpoint, region, bucket and setup-key permissions privately.'); process.exitCode = 1; }
+'@ | node --input-type=module
+Remove-Item Env:B2_SETUP_* -ErrorAction SilentlyContinue
+Remove-Variable setupSecret -ErrorAction SilentlyContinue
+
+Delete the temporary key in Backblaze's Application Keys page. Retain only the
+bucket-restricted app key in Render. This setup replaces rules on the NEW practice
+bucket; never run it on a bucket used by another application. The browser uploads
+with PUT and Content-Type. File reading stays behind the app's ownership-checked
+server route; CORS does not make the bucket public or authorize an order.
+
+4. Configure mail with Resend.
+At resend.com, create/verify a practice account whose mailbox you can open. API
+Keys > Create API Key: name it shopfront-preview and choose Sending access. Save
+its one-time value privately. Set these Render environment variables:
+SMTP_HOST=smtp.resend.com
+SMTP_PORT=2587
+SMTP_SECURE=false
+SMTP_USER=resend
+SMTP_PASSWORD=<Resend sending API key>
+MAIL_FROM=ShopFront <onboarding@resend.dev>
+SMTP_SECURE=false selects STARTTLS, not unencrypted delivery: lib/mail.ts already
+requires TLS for nonlocal hosts. Render Free blocks 25/465/587; use 2587 here.
+The resend.dev sender is for testing only and can send to the Resend account's
+own email address. Use that exact address for the hosted app sign-up and recovery
+check. Do not attempt delivery to the local alex@example.test fixture or another
+student's mailbox. For other recipients, Domains > Add Domain requires a domain
+you control, its displayed DNS verification records and Verified status; then use
+an address on that domain as MAIL_FROM. That is not required for this one-mailbox
+rehearsal. No domain purchase is assumed. Sending-limit/account-approval failures
+remain real blockers, not successful verification.
+
+5. Configure Inngest Cloud before deploying, then sync after it is live.
+At app.inngest.com, create/sign in to a separate practice account. Use its isolated
+default cloud environment (it can be labelled Production; no real application or
+customer data belongs to this practice account). Do not assume a branch gives data
+isolation or purchase a custom environment. Select the environment, open Event
+Keys and create a key for this app. Open Signing Keys in the same environment.
+Set INNGEST_EVENT_KEY and INNGEST_SIGNING_KEY on Render from those two screens.
+Set INNGEST_DEV=0. Do not use an Inngest administrative API key in either field.
+Leave app sync until the reviewed deployment is live; step 9 gives the sync URL.
+
+6. Register the hosted Stripe destination.
+Use the existing Stripe sandbox, never live mode. In Workbench > Webhooks choose
+Create an event destination. Select Your account and the Snapshot payload format,
+using the sandbox API version matching the course integration. Select only:
+checkout.session.completed
+checkout.session.async_payment_succeeded
+checkout.session.async_payment_failed
+checkout.session.expired
+Continue > Webhook endpoint. Use <assigned origin>/api/stripe/webhook and create
+the destination. Copy its whsec_ signing secret to STRIPE_WEBHOOK_SECRET on Render;
+STRIPE_SECRET_KEY is that sandbox's sk_test_ key. The CLI listener's secret is not
+the hosted endpoint secret. No actual payment/event is triggered until deployment.
+
+7. Finish Render's environment settings and review the exact version.
+DATABASE_URL and DIRECT_URL: internal URLs for the new database, as above.
+SITE_URL and BETTER_AUTH_URL: same actual assigned HTTPS origin, no route.
+BETTER_AUTH_SECRET: a new private random value of at least 32 characters, retained
+across this preview's restarts. Use the same private-secret generation method from
+the authentication setup; never use the local fixture secret or a displayed example.
+DEPLOYMENT_KIND=preview
+COURSE_ALLOW_WRITES=disabled
+COURSE_TELEMETRY_DEMO=disabled
+SENTRY_DSN and NEXT_PUBLIC_SENTRY_DSN: the same reviewed project destination from
+Controlled Error Capture, with its privacy settings retained. No SENTRY_AUTH_TOKEN is required.
+Add the storage, SMTP, sandbox Stripe and cloud Inngest values from steps 3–6.
+Let Render supply PORT. Do not copy TEST_DATABASE_URL, WEED_BINARY, local SMTP or
+local job/storage launch commands to the hosted service.
+GitHub sign-in remains optional. For the baseline rehearsal, leave both GitHub
+OAuth variables absent; email sign-up/sign-in is the demonstrated path. If showing
+GitHub sign-in, repeat the GitHub sign-in setup with a separate OAuth app: homepage = hosted origin,
+callback = <origin>/api/auth/callback/github. Save its client ID/secret on Render
+and test the actual redirect. Do not change the working localhost OAuth app.
+Save without deploying where that choice is available. Otherwise the release
+check may retry; do not regard a build/live label as proof of completed migration.
+Do not send users to the app before steps 8–9 are complete. Auto-Deploy stays Off.
+
+8. Apply migrations and add only the two product rows to the empty preview.
+Use a clean working copy at the reviewed commit; run npm ci if not already done.
+No production/personal database is a valid target. In a separate PowerShell
+terminal at the project root, enter the NEW preview's external database URL:
+
+$dbSecret = Read-Host 'New preview External Database URL with required TLS settings' -AsSecureString
+$env:DATABASE_URL = [System.Net.NetworkCredential]::new('', $dbSecret).Password
+$env:DIRECT_URL = $env:DATABASE_URL
+npm run db:deploy
+Remove-Item Env:DATABASE_URL, Env:DIRECT_URL -ErrorAction SilentlyContinue
+Remove-Variable dbSecret -ErrorAction SilentlyContinue
+
+Continue only if migration deployment succeeds. This is the controlled release
+step; do not assume Render Free includes a pre-deploy command or remote shell.
+In the existing pgAdmin tool, register this external PostgreSQL connection using
+the database dashboard's host, port, database, user and password; use SSL mode
+Require. Select the newly named preview database and open Query Tool. Confirm its
+name before running this supplied, non-destructive sample-data SQL:
+
+BEGIN;
+INSERT INTO "Product" (id, slug, name, "priceMinor", stock) VALUES
+  ('P-101', 'studio-desk-lamp', 'Studio Desk Lamp', 8900, 12),
+  ('P-103', 'terracotta-travel-mug', 'Terracotta Travel Mug', 2800, 3)
+ON CONFLICT (id) DO NOTHING;
+SELECT id, name, "priceMinor", stock FROM "Product" WHERE id IN ('P-101', 'P-103') ORDER BY id;
+COMMIT;
+
+Expect these two rows. This adds sample products; it does not import local users,
+passwords, payments or orders, reset existing stock or weaken local fixture guards.
+The first hosted user registers/verifies normally; lib/createOrder.ts creates that
+user's Customer row when they place their first order. Do not assume O-1001 exists.
+Close the external connection and remove the temporary external-IP access rule.
+
+9. Deploy, sync, and verify the actual service connections.
+Manually deploy the reviewed commit. Wait for a successful release build and the
+health check. Inspect the assigned origin, never a guessed service-name URL.
+In the selected Inngest environment: Apps > Sync new app; enter
+<assigned origin>/api/inngest. Confirm both create-order-receipt and
+deliver-order-outbox appear, with the latter's every-minute schedule. Resync after
+future changes to these function definitions. Inspect a real run, not just sync.
+At /workshop/account, sign up using the Resend account's exact email. Open the
+received verification link, verify the account and sign in. Do not fabricate a
+verified user or assume local browser cookies transfer. Check a password-reset
+email/link as well. Keep the real mailbox address and account links out of public
+telemetry/capture; they are credentials/user data, not synthetic fixture content.
+At /workshop/purchase, order one P-103 mug. Save this new order ID. Complete the
+Stripe SANDBOX checkout with the already taught test card, and inspect this
+endpoint's delivery and the app's paid state. On that same owned order, upload a
+supplied PNG/JPEG under 500 KB, then reload and open its image. The direct private
+bucket object must not become publicly downloadable. Check the Inngest run and
+the order page's saved receipt/amount; browser navigation alone does not prove the workflow.
+Retain the observed commit, origin, order ID and sanitized evidence. Disable/archive
+the Inngest practice app when the rehearsal ends so its cron does not keep calling
+a sleeping/retired preview. Remove disposable provider resources/keys only after
+saving necessary evidence and data. Keep earlier released course material intact.
+
+Official setup references (UI/eligibility may change):
+https://render.com/docs/web-services
+https://render.com/docs/postgresql-creating-connecting
+https://render.com/docs/free
+https://www.backblaze.com/docs/cloud-storage-create-and-manage-buckets
+https://www.backblaze.com/docs/cloud-storage-create-and-manage-app-keys
+https://www.backblaze.com/docs/cloud-storage-s3-compatible-app-keys
+https://www.backblaze.com/docs/cloud-storage-cross-origin-resource-sharing-rules
+https://www.backblaze.com/docs/cloud-storage-s3-compatible-api
+https://resend.com/docs/send-with-smtp
+https://resend.com/docs/knowledge-base/403-error-resend-dev-domain
+https://resend.com/docs/api-reference/api-keys/create-api-key
+https://www.inngest.com/docs/platform-and-operations/keys-and-access
+https://www.inngest.com/docs/platform-and-operations/apps-and-syncs
+https://www.inngest.com/docs/durable-execution/deploying-functions/platforms/render
+https://docs.stripe.com/webhooks
+
+Free Render is a rehearsal, not production service assurance. Current limits include one free
+Postgres database/workspace, 30-day database expiry, no managed backups or connection pool,
+750 shared web-service hours/month, 15-minute idle sleep and ephemeral local files.
+The free runtime blocks SMTP ports25/465/587. Do not put the mail sink, object store or
+PostgreSQL data files on its filesystem. No free persistent storage or background scheduler
+is implied by deploying the web process. Budget/concurrency/backup decisions remain necessary
+before a real release. Recheck current quotas and eligibility at recording time.

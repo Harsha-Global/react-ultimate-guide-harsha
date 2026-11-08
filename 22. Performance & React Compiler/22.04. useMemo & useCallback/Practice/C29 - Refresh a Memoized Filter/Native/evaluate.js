@@ -1,0 +1,11 @@
+import React from 'react';
+import {render,screen,fireEvent,cleanup} from '@testing-library/react';
+import App from '../src/App.js';
+afterEach(cleanup);
+const titles=()=>screen.queryAllByRole('listitem').map(item=>item.textContent);
+test('starts with the complete supplied collection',()=>{render(<App/>);expect(titles()).toEqual(['River Light','Forest Voices','River Stories','City Evening']);});
+test('updates when the title query changes',()=>{render(<App/>);fireEvent.change(screen.getByLabelText('Search title'),{target:{value:'  RIVER  '}});expect(titles()).toEqual(['River Light','River Stories']);});
+test('updates when the category changes',()=>{render(<App/>);fireEvent.change(screen.getByLabelText('Category'),{target:{value:'Documentary'}});expect(titles()).toEqual(['Forest Voices','River Stories']);});
+test('combines filters and refreshes after they are cleared',()=>{render(<App/>);fireEvent.change(screen.getByLabelText('Search title'),{target:{value:'river'}});fireEvent.change(screen.getByLabelText('Category'),{target:{value:'Documentary'}});expect(titles()).toEqual(['River Stories']);fireEvent.change(screen.getByLabelText('Search title'),{target:{value:''}});fireEvent.change(screen.getByLabelText('Category'),{target:{value:'All'}});expect(titles().length).toBe(4);});
+test('recomputes for a replacement collection',()=>{const {rerender}=render(<App movies={[{id:'a',title:'First Film',category:'Drama'}]}/>);rerender(<App movies={[{id:'b',title:'Replacement Film',category:'Drama'}]}/>);expect(titles()).toEqual(['Replacement Film']);});
+test('renders an empty result for no matching title',()=>{render(<App/>);fireEvent.change(screen.getByLabelText('Search title'),{target:{value:'no match'}});expect(titles()).toEqual([]);expect(screen.getByRole('status').textContent).toBe('0 films');});

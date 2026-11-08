@@ -1,0 +1,3 @@
+import type { Product } from './catalog.ts';
+export function productSchema(product:Product,origin:string){return {'@context':'https://schema.org','@type':'Product',name:product.name,image:new URL(product.image,origin).href,sku:product.id,description:'A sample product in the ShopFront teaching storefront.',offers:{'@type':'Offer',url:new URL(`/products/${product.slug}`,origin).href,priceCurrency:'USD',price:product.priceMinor/100,availability:product.stock>0?'https://schema.org/InStock':'https://schema.org/OutOfStock'}};}
+export function safeJsonLd(value:unknown){return JSON.stringify(value).replace(/</g,'\\u003c');}

@@ -1,0 +1,18 @@
+import sessionReducer from "../features/session/sessionSlice";
+import { createSessionListener } from "../features/session/sessionListener";
+import { baseApi } from "../services/baseApi";
+import { actionTrace } from "./actionTrace";
+import { configureStore } from "@reduxjs/toolkit";
+import previewReducer from "../features/preview/previewSlice";
+import selectionReducer from "../features/selection/selectionSlice";
+import checklistReducer from "../features/checklist/checklistSlice";
+import preferencesReducer, { initialPreferences } from "../features/preferences/preferencesSlice";
+import { createPreferencesListener } from "../features/preferences/preferencesListener";
+import { browserStorage, loadPreferences } from "../features/preferences/storage";
+export const makeStore = (storage: Storage | null = browserStorage()) => configureStore({ reducer: { session: sessionReducer, [baseApi.reducerPath]: baseApi.reducer, selection: selectionReducer, preview: previewReducer, preferences: preferencesReducer, checklist: checklistReducer },
+  preloadedState: { preferences: { ...initialPreferences, ...loadPreferences(storage), saveStatus: "Preferences loaded" } },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(createSessionListener().middleware, createPreferencesListener(storage).middleware).concat(actionTrace, baseApi.middleware),
+  devTools: import.meta.env.DEV });
+export const store = makeStore();
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;

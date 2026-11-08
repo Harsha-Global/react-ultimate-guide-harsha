@@ -1,0 +1,70 @@
+/* Prepared presentation layer: module milestone, no new state owner. */
+.page-heading {
+  padding: 28px 0 30px;
+  align-items: center;
+  gap: 24px;
+}
+.page-heading h1 {
+  max-width: 720px;
+  letter-spacing: -0.045em;
+  line-height: 1.12;
+}
+.page-heading .intro {
+  max-width: 650px;
+}
+.topbar {
+  border-bottom: 2px solid #dce2e8;
+}
+.topbar .workspace-tag {
+  background: #eff4fa;
+  color: #1e4c7c;
+  border: 1px solid #c8d5e3;
+  padding: 6px 12px;
+  border-radius: 999px;
+}
+.workspace-layout {
+  align-items: start;
+}
+.workspace-layout > aside {
+  position: sticky;
+  top: 24px;
+  border-top: 4px solid #8c275d;
+}
+main nav[aria-label="Queue views"] {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 8px;
+  background: #e9edf2;
+  border-radius: 14px;
+  margin-bottom: 18px;
+}
+main nav[aria-label="Queue views"] a {
+  margin: 0;
+}
+.queue table {
+  font-variant-numeric: tabular-nums;
+}
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 3px solid #8c275d;
+  outline-offset: 3px;
+}
+@media (max-width: 800px) {
+  .workspace-layout > aside {
+    position: static;
+  }
+  .page-heading {
+    padding-block: 22px;
+  }
+  .page-heading h1 {
+    font-size: clamp(1.8rem, 7vw, 2.6rem);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
+  }
+}

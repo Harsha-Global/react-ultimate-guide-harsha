@@ -1,0 +1,40 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+datasource db {
+  provider = "postgresql"
+}
+model Customer {
+  id     String  @id
+  name   String
+  email  String  @unique
+  orders Order[]
+}
+model Product {
+  id         String      @id
+  slug       String      @unique
+  name       String
+  priceMinor Int
+  stock      Int
+  items      OrderItem[]
+}
+model Order {
+  id         String      @id @default(cuid())
+  customerId String
+  customer   Customer    @relation(fields: [customerId], references: [id], onDelete: Restrict)
+  status     String      @default("pending")
+  createdAt  DateTime    @default(now())
+  items      OrderItem[]
+  @@index([customerId, createdAt])
+}
+model OrderItem {
+  orderId        String
+  productId      String
+  quantity       Int
+  unitPriceMinor Int
+  order          Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product        Product @relation(fields: [productId], references: [id], onDelete: Restrict)
+  @@id([orderId, productId])
+  @@index([productId])
+}

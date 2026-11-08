@@ -1,0 +1,1 @@
+Use this prepared stylesheet at the start of the lecture. Copy it to src/index.css; keep the supplied public fonts and other assets. The lesson explains the React changes instead of typing presentation rules.

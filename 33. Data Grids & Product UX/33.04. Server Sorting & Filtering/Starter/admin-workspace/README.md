@@ -1,0 +1,7 @@
+# Admin Workspace — client-side sorting and filtering
+
+The Admin Workspace project with client-side sorting and filtering in TanStack Table: src/App.tsx owns the sorting and column-filter state (SortingState and ColumnFiltersState), derives the search box value from the name filter entry and passes the full product list, both values and their setters and the reset-search callback to src/components/ProductTable.tsx, which registers the sorting and filtering features with their row models, sorts the name and category as text and the price and stock as numbers, filters the name with a trimmed, case-insensitive match, renders each sortable heading as a button with a direction arrow, a screen-reader description and aria-sort, and shows the visible-product count and the no-results message from its final rows. A Clear sorting button resets the sort independently of the search. The catalog service, editor, menus and theme are unchanged.
+
+## Run
+
+Copy the project into your React workspace (for example C:\react\admin-workspace) and open it in VS Code. In one terminal run `npm ci`, then `npm run api` (the local catalog service on http://127.0.0.1:5191, in memory: a restart restores the four sample products). In a second terminal run `npm run dev` and open http://127.0.0.1:5190 (stop any other app using ports 5190 or 5191 first). Validate with `npm run lint` and `npm run build`; `npm run test:api` checks the service while it runs.

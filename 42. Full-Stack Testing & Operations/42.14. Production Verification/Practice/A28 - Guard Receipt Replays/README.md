@@ -1,0 +1,17 @@
+Copy the independent Starter/shopfront-next project to C:\react\a28-starter before running commands. Use C:\react\a28-solution for the separate Solution. The complete path, including every parent folder, must contain no & character. Keep each copy's dependencies and private environment local. After the practice, return to the guided shopfront-next working copy; do not use this Solution as the next section's incoming project.
+
+Write a database regression test for the taught receipt operation in this independent ShopFront copy. Do not replace saveReceipt with a mock or change the guided application to make the test pass.
+
+Complete tests/receipt.assignment.ts. Keep its local shopfront_test guard. Create a uniquely named product and order owned by the seeded C-1 customer. Use quantity 2 and a saved order-item unit price of 1250 minor units, while the current catalog price is 9999. Start the order pending. Require saveReceipt to reject with the intended unpaid-order error and require zero receipt rows afterward.
+
+Then change only this disposable fixture order to paid. This is controlled test setup, not verification of a real payment. Call saveReceipt twice concurrently. Require both exact results to contain the same order ID and totalMinor 2500, with exactly one stored receipt. Record that receipt’s creation time. Change the temporary product’s catalog price to 1, call saveReceipt again, and require the same 2500 total and unchanged receipt creation time. Require the order to remain paid. These assertions must inspect real database rows, not only successful promises.
+
+Use try/finally to delete only your unique receipt, order and product, then disconnect even if an assertion fails. Delete in foreign-key-safe order. Never truncate shared tables, reset the database, change O-1001 or use a real provider charge.
+
+Run npm ci. Create or update the private .env with DATABASE_URL, DIRECT_URL and TEST_DATABASE_URL all pointing to the separate local shopfront_test database. Prisma's configuration reads DIRECT_URL even for client generation. Then run npm run db:generate, npm run check and npm run test:assignment with ordinary project servers stopped. The supplied launcher deploys recorded migrations and seeds the common prerequisites before your test. The starter intentionally fails until the test is completed. Run the finished test twice to demonstrate repeatable setup and cleanup.
+
+Prove that your test can detect a regression: in a disposable copy, replace the receipt upsert with an ordinary create that uses the same unique order ID. The duplicate-call test must fail; restore the actual implementation afterward and rerun successfully. Keep this deliberate defect out of the Solution and guided main.
+
+Allow 40 minutes. Submit the test file, two successful runs, the deliberate-regression failure and a short explanation of each assertion’s purpose. Exclude credentials, cookies, private dumps and generated dependencies. The independent Starter/Solution are in Practice/A28 - Guard Receipt Replays under Production Verification in the course source repository, reached through How to Download Source Code. This is a manual Udemy assignment with a self-review rubric; it does not claim a live payment was tested.
+
+10 points:4 for exact unpaid/concurrent/replay database assertions;3 for stored-price and unchanged-createdAt checks;2 for guarded unique fixtures and reliable cleanup;1 for two passing runs plus a detected and restored deliberate regression.

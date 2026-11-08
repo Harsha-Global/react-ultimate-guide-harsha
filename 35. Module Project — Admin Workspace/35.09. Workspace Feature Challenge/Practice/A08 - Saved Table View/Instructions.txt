@@ -1,0 +1,24 @@
+Saved Table View — independent assignment (40 minutes)
+
+A staff member saves a compact studio view, changes the current density to comfortable, then applies the saved view. The saved view should restore its original compact density along with its search, sort and page-size snapshot. Extend the guided project without creating a second live density or URL owner.
+
+Copy this assignment's Starter/admin-workspace to a NEW working folder. Open it in VS Code and run npm ci. Stop previous 5190/5191 services; run npm run api and verify http://127.0.0.1:5191/api/health, then run npm run dev and open http://127.0.0.1:5190. The in-memory catalog resets on API restart. No sign-in is required.
+
+Requirements:
+1. Add density to the validated saved-view snapshot; allow only comfortable or compact. The live density remains in useWorkspaceStore, and live search/sort/page remain in the URL.
+2. Capture the current density when saving. Later density changes must not silently rewrite the saved snapshot. Display the saved density beside its other choices.
+3. Apply the saved density through the existing setDensity action and apply the URL fields together, starting on page 1. Never put density into the URL update.
+4. Use saved-view format 2. Migrate the version 1 saved-view envelope by keeping valid URL choices and adding comfortable density. Invalid or unsupported snapshots become null. Preserve real action functions.
+5. On a clean initial address, restore both parts once. Any explicit managed query parameter, including q= or an invalid page, prevents this automatic restoration. A shared link must not override the current live density from the display-preference store. Later Clear/Back must not trigger restoration again.
+6. Keep accessible controls, dialog validation/focus, request recovery, themes and table selection rules intact.
+
+Run npm run test:challenge. The independent starter intentionally fails the missing feature. Make all six checks pass; also run npm run test:saved-view, npm run test:workspace, npm run test:preferences, npm run test:storage, npm run test:query, npm run test:view, npm run test:api, npm run test:scale, npm run build and npm run lint. Update existing saved-view expected objects only to reflect the new density snapshot; do not weaken assertions.
+
+Manual proof: save studio/compact, change to travel/comfortable, apply the saved view, then use Back. Confirm the URL restores and density changes only through an explicit apply or eligible initial restore. Reload a shared travel link with comfortable density; it stays comfortable. Open a clean address to restore compact once. Clear search after restore and confirm it stays empty until another explicit action. Use the keyboard to operate Save/Apply/Forget and verify no lost focus.
+
+Three responses:
+1. Explain the difference between the live density and the saved density snapshot, naming the changed files.
+2. Give expected and actual outcomes for the migration, shared-link and explicit-apply checks.
+3. Explain why density is excluded from viewUpdate and why a saved snapshot is not account-wide synchronization.
+
+Self-review /10: validated snapshot 2; deliberate apply and one owner 2; version 1 migration 2; URL precedence/history 2; keyboard/regression evidence 2. Try before opening Solution/admin-workspace. The course's How to Download Source Code article describes the source route. The next lecture reviews the independent solution, while the guided main remains unchanged.

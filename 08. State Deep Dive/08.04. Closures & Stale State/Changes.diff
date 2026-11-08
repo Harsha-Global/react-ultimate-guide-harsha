@@ -1,0 +1,54 @@
+--- before/src/BookingPanel.tsx
++++ after/src/BookingPanel.tsx
+@@ -1,4 +1,6 @@
+ import { useState } from "react";
++import QuoteCard from "./Quote";
++import type { Quote } from "./Quote";
+ import { createStarterCart } from "./starterCart";
+ import type { ChangeEvent } from "react";
+ import { addBooking, changeCartQuantity } from "./cart";
+@@ -14,8 +16,20 @@
+   const [showtime, setShowtime] = useState("18:00");
+   const [cart, setCart] = useState<CartItem[]>(createStarterCart);
+   const [selectedId, setSelectedId] = useState<string | null>(null);
++  const [isPreparing, setIsPreparing] = useState(false);
++  const [quote, setQuote] = useState<Quote | null>(null);
+   const ticketPrice = showtime === "21:00" ? 15 : 12;
+   const total = quantity * ticketPrice;
++
++  function handlePrepareQuote() {
++    const requestedQuote: Quote = { guestName, showtime, quantity, total };
++    setIsPreparing(true);
++    setQuote(null);
++    window.setTimeout(() => {
++      setQuote(requestedQuote);
++      setIsPreparing(false);
++    }, 2000);
++  }
+ 
+   function handleEveningForTwo() {
+     setQuantity(2);
+@@ -65,6 +79,9 @@
+       <button type="button" disabled={quantity === 6} onClick={handleAddAndDescribe}>Add ticket and describe</button>
+       {adjustment && <p className="feedback" role="status">{adjustment}</p>}
+       <BookingSummary quantity={quantity} guestName={guestName} showtime={showtime} total={total} />
++      <button type="button" disabled={isPreparing} onClick={handlePrepareQuote}>Prepare quote</button>
++      {isPreparing && <p role="status">Preparing your quote…</p>}
++      {quote && <QuoteCard quote={quote} />}
+       <button type="button" onClick={handleAddBooking}>Add booking to cart</button>
+       <TicketCart items={cart} selectedId={selectedId} onSelect={setSelectedId}
+         onChangeQuantity={handleCartQuantityChange} onRemove={handleRemove} />
+--- before/src/Quote.tsx
++++ after/src/Quote.tsx
+@@ -0,0 +1,11 @@
++export type Quote = {
++  readonly guestName: string;
++  readonly showtime: string;
++  readonly quantity: number;
++  readonly total: number;
++};
++export default function QuoteCard({ quote }: { readonly quote: Quote }) {
++  return <section className="quote" aria-label="Prepared quote"><h3>Prepared quote</h3>
++    <p>{quote.guestName || "Guest"}: {quote.quantity} tickets at {quote.showtime}.</p>
++    <p>Quoted total: ${quote.total}</p><p>Based on your choices when you requested this quote.</p></section>;
++}

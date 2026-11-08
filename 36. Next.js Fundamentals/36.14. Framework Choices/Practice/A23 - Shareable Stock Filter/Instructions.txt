@@ -1,0 +1,13 @@
+A23 — Shareable Stock Filter.
+
+Add an In stock only checkbox to Catalog Routes. Only the single URL value stock=1 enables it; absent, unknown or repeated values mean false. Preserve search, price order, unrelated parameters, Back/Forward, copied links, reload, labelled keyboard input and the product dialog. Do not mutate the product fixture.
+
+Start in the independent Starter folder. Run npm ci, then npm run dev -- --port 5338. Open http://127.0.0.1:5338/catalog. Keep the guided main unchanged. No accounts, service setup or new package is needed.
+
+Update the parser, compose the stock condition with the existing name filter, and connect a named checkbox to the form. Include the normalized stock value in the form key. On Apply, copy current parameters, set stock=1 when checked and remove it otherwise. Keep existing parameters and push history.
+
+Checks: stock=1 shows three products and excludes Reading Chair. q=reading&stock=1 gives an empty result; unchecking and applying returns Reading Chair. q=desk&sort=price&stock=1 returns Desk Tray then Studio Desk Lamp. Back/Forward restore checkbox and rows; reload/copied link agree. stock=true and repeated stock=1 default to false. campaign=demo survives applying the form. Closing a product dialog returns to the stock-filtered address and link focus.
+
+Run npm test; the Starter intentionally fails the five stock parser tests. Add or perform the listed browser acceptance checks too; parser tests alone do not verify the UI. Stop the dev server, run npm run build and npm run typecheck. Compare the independent Solution after attempting the task. To run it, stop the Starter dev server, open the separate Solution folder, run npm ci there, then npm run dev -- --port 5338. Open http://127.0.0.1:5338/catalog. The two folders need their own installations; only one should use port 5338 at a time.
+
+Allow40minutes. Manual rubric10points: parser/defaults2; composed immutable filtering2; URL/form/history3; keyboard/dialog/empty state2; meaningful evidence1. Answer: what changed, what checks support it, and why the applied value belongs in the URL.

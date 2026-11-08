@@ -1,0 +1,12 @@
+{
+  "name": "c20-practice-starter",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "check": "tsc --noEmit",
+    "test": "npm run check && node runner.cjs"
+  },
+  "devDependencies": {
+    "typescript": "6.0.3"
+  }
+}

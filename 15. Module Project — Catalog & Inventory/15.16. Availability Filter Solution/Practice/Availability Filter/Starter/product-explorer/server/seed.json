@@ -1,0 +1,62 @@
+[
+  {
+    "id": "p1",
+    "name": "Trail Backpack",
+    "category": "Travel",
+    "price": 79,
+    "inStock": true,
+    "maxQuantity": 2,
+    "image": "/assets/backpack.jpg",
+    "description": "A light everyday backpack with a padded laptop sleeve."
+  },
+  {
+    "id": "p2",
+    "name": "Desk Lamp",
+    "category": "Home",
+    "price": 49,
+    "inStock": true,
+    "maxQuantity": 3,
+    "image": "/assets/lamp.jpg",
+    "description": "An adjustable lamp for a focused reading space."
+  },
+  {
+    "id": "p3",
+    "name": "Travel Mug",
+    "category": "Travel",
+    "price": 19,
+    "inStock": false,
+    "maxQuantity": 0,
+    "image": "/assets/mug.jpg",
+    "description": "A reusable insulated mug with a secure lid."
+  },
+  {
+    "id": "p4",
+    "name": "Wireless Headphones",
+    "category": "Audio",
+    "price": 129,
+    "inStock": true,
+    "maxQuantity": 1,
+    "image": "/assets/headphones.jpg",
+    "description": "Comfortable headphones for music and everyday calls."
+  },
+  {
+    "id": "p5",
+    "name": "Reading Cushion",
+    "category": "Home",
+    "price": 39,
+    "inStock": false,
+    "maxQuantity": 0,
+    "image": "/assets/cushion.jpg",
+    "description": "A soft support cushion for a quiet reading corner."
+  },
+  {
+    "id": "p6",
+    "name": "Pocket Speaker",
+    "category": "Audio",
+    "price": 59,
+    "inStock": true,
+    "maxQuantity": 4,
+    "image": "/assets/speaker.jpg",
+    "description": "A small portable speaker for listening around the home."
+  }
+]

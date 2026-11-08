@@ -1,0 +1,8 @@
+Use only synthetic data and sandbox payment keys.
+Stop the local Inngest development process, then dispatch an existing pending outbox row. The send fails and deliveredAt stays null; restore the same runner and retry. A receipt may arrive later than the payment update.
+Stripe requests have a 10-second per-attempt timeout and at most two network retries. The browser stops waiting after 40 seconds; that does NOT undo work on the server. Retry the same order; keep its provider idempotency key.
+A failed webhook returns 500 after persisting the received event. Stripe retries according to its delivery policy. After configuration/network recovery, npm run payments:recover processes at most 10 received events and retains failed ones. This command reads the provider's current session state; it cannot convert an unverified redirect into a payment.
+Do not release reserved stock merely because a request times out or a browser closes. This course keeps an unresolved order pending for reconciliation. A complete stock-expiry/cancellation/refund workflow is a separate feature; never silently reset its status or stock in production.
+The local S3 SDK has a 2 second connect timeout, 8 second request timeout and at most 2 attempts. The browser waits up to 15 seconds for a ticket and 40 seconds for file upload or verification. Keep failed quarantine data private; add a provider lifecycle rule for expired quarantine objects before sustained hosted use.
+Mail has bounded SMTP timeouts and a generic error log. A failed verification email does not mark the account verified. Use the provider/library resend flow after mail recovery.
+No broad exception response exposes keys, request bodies, stack traces, email addresses or private image URLs.

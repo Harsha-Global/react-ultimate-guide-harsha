@@ -1,0 +1,1 @@
+Copy the completed component-workshop into a separate folder. Install dependencies. In components/SaveProduct.tsx add import { getDispatchEstimate } from '@/lib/dispatch.server'; and add void getDispatchEstimate; inside SaveProduct. npm run build must reject the server-only module in the client graph. Remove BOTH statements and rebuild. The main project is unaffected.

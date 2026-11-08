@@ -1,0 +1,15 @@
+{
+  "name": "movie-booking",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "tsc --noEmit",
+    "build": "tsc",
+    "start": "npm run build && node dist/app.js"
+  },
+  "devDependencies": {
+    "typescript": "7.0.2",
+    "@types/node": "24.13.5"
+  }
+}

@@ -1,0 +1,6 @@
+Windows working copy: copy this complete practice or support resource to a new folder under C:\react, with no & anywhere in its full path. Preserve all supplied relative folders and keep each runnable project separate. Stop the previous app/API before starting another on the same ports. Before a production build, stop the current Next server and keep only that copy's API running.
+
+C43 - Parse Storefront Query
+Read Starter/README.md before opening the solution. Starter/README.txt contains the same instructions. Open Starter for your attempt. This is a small TypeScript project, not a Next application; it needs no API process, browser port or account.
+In Starter, run npm ci, then npm test. The command first performs strict TypeScript checking and then runs the behavior tests. The original starter intentionally passes only 9/16 behavior checks. Implement the required function and rerun until all 16 checks pass. Preserve the test files.
+The complete Solution is separate; run npm ci and npm test there to compare the finished result after your attempt. Udemy uses the matching native exercise with a supplied learner starter and grader. The local project retains strict checking. Source identifiers are literal even where narration uses spoken names.

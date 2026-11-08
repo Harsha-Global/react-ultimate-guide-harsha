@@ -1,0 +1,2 @@
+C40 — Validate a Help Route.
+Use the taught optional segment array. Permit no segments, ["delivery"], and ["delivery","times"]. Reject unsupported names, extra segments and inherited object keys such as toString. Return a supported message or null; the page decides when to call notFound. Explain the difference between a missing parameter and an unsupported path.

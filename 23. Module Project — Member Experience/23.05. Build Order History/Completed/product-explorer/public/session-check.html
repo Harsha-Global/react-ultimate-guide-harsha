@@ -1,0 +1,16 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Local session expiry check</title><style>body{font:18px system-ui;max-width:680px;margin:60px auto;padding:24px;line-height:1.6}button{font:inherit;padding:12px 20px}p[role=status]{min-height:60px}</style><h1>Local session expiry check</h1><p>This supplied practice page ends the signed-in session in this browser. It keeps the service running, so saved orders remain available after signing in again.</p><p>Keep the ShopFront orders page open in another tab. After expiry, use its <strong>Try again</strong> button. For a successful cached list, return to it after its one-minute fresh period to trigger another request.</p><button id="expire">Expire this browser session</button><p role="status" id="message"></p><script type="module">
+const button=document.getElementById('expire'),message=document.getElementById('message');
+button.addEventListener('click',async()=>{
+ button.disabled=true;message.textContent='Ending this local session…';
+ try {
+  const sessionResponse=await fetch('/api/session');
+  if(!sessionResponse.ok)throw new Error('The session could not be checked.');
+  const session=await sessionResponse.json();
+  if(!session.user)throw new Error('Sign in to ShopFront in this browser first.');
+  const response=await fetch('/api/demo/expire',{method:'POST',headers:{'Content-Type':'application/json','X-CSRF-Token':session.csrfToken},body:'{}'});
+  if(!response.ok)throw new Error('The local session could not be ended.');
+  message.textContent='Session expired. Return to the other tab and trigger its next private request. Sign in again after checking the recovery screen.';
+ }catch(error){message.textContent=error instanceof Error?error.message:'The check failed.';}
+ finally{button.disabled=false;}
+});
+</script></html>

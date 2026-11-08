@@ -1,0 +1,26 @@
+{
+  "id": "R02",
+  "title": "State Tool Choice",
+  "character": "Morgan",
+  "role": "Team lead",
+  "scenario": "Morgan, the team lead, proposes copying the current catalog search into Redux, Zustand and the URL so every feature can find it. The Admin Workspace already uses URL-driven filters, a TanStack Query catalog cache and a small Zustand display-preference store. Your task is to recommend an ownership plan and defend it using observable user behavior.",
+  "learner_goal": "Recommend one clear owner for each kind of workspace state, justify a taught tool, and explain one concrete tradeoff.",
+  "goals": [
+    "Distinguish local, URL, shared client and server state.",
+    "Justify the tool choice from this workspace\u2019s requirements.",
+    "Explain a tradeoff without introducing duplicate live owners."
+  ],
+  "opening": "Could we keep the search in Redux, Zustand and the URL so every feature can find it? How would you organize the workspace state?",
+  "written_prompts": [
+    "Identify the live owner of the unfinished product name, active search/page, fetched catalog rows and display preferences. Explain what Back and a shared link should restore.",
+    "Recommend a taught state approach for this workspace. Explain why a second query cache or multiple live search copies would add work.",
+    "Name one genuine tradeoff in your recommendation and a concrete check that would reveal an ownership mistake."
+  ],
+  "sample_answers": [
+    "The form owns its unsaved draft. The URL owns the shareable search and page. TanStack Query owns validated server results and request state. Zustand owns shared display preferences. Local storage is a validated persistence snapshot. Back restores URL state and selects the corresponding query key; a shared link should identify the same view without relying on the sender\u2019s browser storage.",
+    "Keep the existing Zustand preference store and TanStack Query cache. Derive the request identity from the URL. Local form state remains local. An established Redux application could reasonably use Redux Toolkit and RTK Query instead; the requirement does not justify migrating this small workspace or putting the same catalog result into two caches.",
+    "A tradeoff is that URL state needs parsing, validation and deliberate history behavior, while persistence needs validation and migration. Test studio \u2192 travel \u2192 Back and a copied link. If the address says studio while the table or a store still says travel, the owners or derivation are inconsistent. One realistic alternative tradeoff and a relevant reproducible check also satisfy this prompt."
+  ],
+  "placement": "End of Section34; Q10 is owned by another chat. Written equivalent accompanies34.08.",
+  "duration_minutes": 10
+}

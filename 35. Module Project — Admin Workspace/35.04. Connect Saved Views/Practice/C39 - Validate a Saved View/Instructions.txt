@@ -1,0 +1,7 @@
+Complete readSavedView. Accept only a non-null, non-array object containing q (a string of at most 60 characters), sort (exactly an empty string, name, category, priceMinor or stock), dir (exactly asc or desc), and size (the number 2 or 4). Empty search and original ordering are valid. Preserve accepted strings exactly; do not trim or coerce them.
+
+Return a NEW object with exactly q, sort, dir and size. Ignore extra fields, including page and any unrelated data. Do not mutate the input. Return null when any required value is missing or invalid. Keep the supplied function name, unknown input and result type.
+
+The saved object is a reusable snapshot. It must not become another live URL owner. The application adds page 1 only when the user applies the snapshot. This editor task uses plain TypeScript guards; the project uses the already-taught Zod schema.
+
+Allow 10–12 minutes. After trying the task, compare the worked solution. Strict local Starter/Solution folders are inside Practice/C39 - Validate a Saved View with the Connect Saved Views lecture. Run npm ci and npm test in either independent folder. No API or React server is needed for this focused exercise. Use the course's How to Download Source Code article for the source route.

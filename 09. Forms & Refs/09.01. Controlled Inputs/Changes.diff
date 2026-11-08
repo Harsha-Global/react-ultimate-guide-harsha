@@ -1,0 +1,199 @@
+--- incoming/src/App.tsx
++++ outgoing/src/App.tsx
+@@ -1,19 +1,27 @@
++import { useState } from "react";
+ import BookingPanel from "./BookingPanel";
+-import PageHeader from './PageHeader.tsx';
+-import MovieCatalog from './MovieCatalog.tsx';
+-import Panel from './Panel.tsx';
+-import { movies } from './movies.ts';
++import CustomerForm from "./CustomerForm";
++import { createCustomerDraft } from "./customer";
++import PageHeader from "./PageHeader";
++import MovieCatalog from "./MovieCatalog";
++import Panel from "./Panel";
++import { movies } from "./movies";
+ 
+ export default function App() {
++  const [draft, setDraft] = useState(createCustomerDraft);
++  const guest = { name: draft.fullName, contact: { city: draft.city, email: draft.email } };
+   return (
+     <>
+-      <a className="skip-link" href="#main-content">Skip to movies</a>
++      <a className="skip-link" href="#main-content">Skip to booking</a>
+       <main id="main-content" tabIndex={-1}>
+-      <PageHeader />
+-      <MovieCatalog movies={movies} />
+-      <Panel title="Configure your Skyward booking">
+-        <BookingPanel />
+-      </Panel>
++        <PageHeader />
++        <MovieCatalog movies={movies} />
++        <Panel title="Customer details and preferences">
++          <CustomerForm draft={draft} onChange={setDraft} />
++        </Panel>
++        <Panel title="Configure your Skyward booking">
++          <BookingPanel guest={guest} />
++        </Panel>
+       </main>
+     </>
+   );
+--- incoming/src/BookingPanel.tsx
++++ outgoing/src/BookingPanel.tsx
+@@ -4,19 +4,17 @@
+ import type { Quote } from "./Quote";
+ import type { QuoteState } from "./quoteState";
+ import { createStarterCart } from "./starterCart";
+-import type { ChangeEvent } from "react";
+-import { createGuest, changeCity } from "./guest";
++import type { Guest } from "./guest";
+ import { addBooking, changeCartQuantity } from "./cart";
+ import type { CartItem } from "./cart";
+ import TicketCart from "./TicketCart";
+ import TicketControls from "./TicketControls";
+ import BookingSummary from "./BookingSummary";
+ 
+-export default function BookingPanel() {
++export default function BookingPanel({ guest }: { guest: Guest }) {
+   const [quantity, setQuantity] = useState(1);
+   const [compact, setCompact] = useState(false);
+   const [adjustment, setAdjustment] = useState("");
+-  const [guest, setGuest] = useState(createGuest);
+   const [showtime, setShowtime] = useState("18:00");
+   const [cart, setCart] = useState<CartItem[]>(createStarterCart);
+   const [selectedId, setSelectedId] = useState<string | null>(null);
+@@ -48,16 +46,6 @@
+     setQuantity(current => Math.max(1, Math.min(6, current + change)));
+   }
+ 
+-  function handleGuestNameChange(event: ChangeEvent<HTMLInputElement>) {
+-    const name = event.currentTarget.value;
+-    setGuest(current => ({ ...current, name }));
+-  }
+-
+-  function handleCityChange(event: ChangeEvent<HTMLInputElement>) {
+-    const city = event.currentTarget.value;
+-    setGuest(current => changeCity(current, city));
+-  }
+-
+   function handleSortCart() {
+     setCart(current => [...current].sort((a, b) => b.showtime.localeCompare(a.showtime)));
+   }
+@@ -78,10 +66,6 @@
+ 
+   return (
+     <>
+-      <label htmlFor="guest-name">Guest name</label>
+-      <input id="guest-name" value={guest.name} onChange={handleGuestNameChange} />
+-      <label htmlFor="guest-city">City</label>
+-      <input id="guest-city" value={guest.contact.city} onChange={handleCityChange} />
+       <label htmlFor="showtime">Showtime</label>
+       <select id="showtime" value={showtime} onChange={event => setShowtime(event.currentTarget.value)}>
+         <option value="18:00">18:00 — $12</option>
+--- incoming/src/CustomerForm.tsx
++++ outgoing/src/CustomerForm.tsx
+@@ -0,0 +1,50 @@
++import { isCity } from "./customer";
++import type { CustomerDraft, Seating } from "./customer";
++
++type Props = { draft: CustomerDraft; onChange: (draft: CustomerDraft) => void };
++
++export default function CustomerForm({ draft, onChange }: Props) {
++  function changeText(field: "fullName" | "email" | "arrivalMinutes" | "note", value: string) {
++    onChange({ ...draft, [field]: value });
++  }
++  function changeSeating(seating: Seating) {
++    onChange({ ...draft, seating });
++  }
++  return (
++    <section className="customer-form" aria-label="Customer draft">
++      <div className="fields">
++        <div className="field">
++          <label htmlFor="customer-fullName">Full name</label>
++          <input id="customer-fullName" name="fullName" type="text" autoComplete="name" value={draft.fullName} onChange={event => changeText("fullName", event.currentTarget.value)} />
++        </div>
++        <div className="field">
++          <label htmlFor="customer-email">Email</label>
++          <input id="customer-email" name="email" type="email" autoComplete="email" value={draft.email} onChange={event => changeText("email", event.currentTarget.value)} />
++        </div>
++        <div className="field">
++          <label htmlFor="customer-arrivalMinutes">Minutes before show</label>
++          <input id="customer-arrivalMinutes" name="arrivalMinutes" type="number" value={draft.arrivalMinutes} onChange={event => changeText("arrivalMinutes", event.currentTarget.value)} />
++          <p className="hint">A whole number from 0 to 60; zero means arriving at showtime.</p>
++        </div>
++        <div className="field">
++          <label htmlFor="customer-city">City</label>
++          <select id="customer-city" name="city" value={draft.city} onChange={event => {
++            const city = event.currentTarget.value;
++            if (isCity(city)) onChange({ ...draft, city });
++          }}><option value="Seattle">Seattle</option><option value="Boston">Boston</option></select>
++        </div>
++        <div className="field">
++          <label htmlFor="customer-note">Seating note</label>
++          <textarea id="customer-note" name="note" value={draft.note} onChange={event => changeText("note", event.currentTarget.value)} />
++          <p className="hint">Optional; up to 200 characters. Do not enter sensitive information.</p>
++        </div>
++      </div>
++      <fieldset><legend>Preferred seating</legend>
++        <label className="choice"><input type="radio" name="seating" value="aisle" checked={draft.seating === "aisle"} onChange={() => changeSeating("aisle")} />Aisle</label>
++        <label className="choice"><input type="radio" name="seating" value="center" checked={draft.seating === "center"} onChange={() => changeSeating("center")} />Center</label>
++      </fieldset>
++      <label className="choice"><input type="checkbox" name="updates" value="yes" checked={draft.updates} onChange={event => onChange({ ...draft, updates: event.currentTarget.checked })} />Email booking updates</label>
++      <div className="draft-summary">Draft: {draft.fullName || "No name yet"} · {draft.city} · {draft.seating} · Arrival: {draft.arrivalMinutes === "" ? "not entered" : `${draft.arrivalMinutes} minutes`}</div>
++    </section>
++  );
++}
+--- incoming/src/customer.ts
++++ outgoing/src/customer.ts
+@@ -0,0 +1,24 @@
++export type City = "Seattle" | "Boston";
++export type Seating = "aisle" | "center";
++export type CustomerDraft = Readonly<{
++  fullName: string;
++  email: string;
++  city: City;
++  arrivalMinutes: string;
++  note: string;
++  updates: boolean;
++  seating: Seating;
++}>;
++
++export function createCustomerDraft(): CustomerDraft {
++  return { fullName: "", email: "", city: "Seattle", arrivalMinutes: "15",
++    note: "", updates: false, seating: "aisle" };
++}
++
++export function isCity(value: string): value is City {
++  return value === "Seattle" || value === "Boston";
++}
++
++export function isSeating(value: string): value is Seating {
++  return value === "aisle" || value === "center";
++}
+--- incoming/src/index.css
++++ outgoing/src/index.css
+@@ -58,3 +58,24 @@
+ .lab { max-width: 800px; margin: 40px auto; padding: 24px; background: #fff; border: 1px solid #cadcec; border-radius: 16px; }
+ .lab pre { overflow: auto; }
+ @media (max-width: 600px) { main { padding: 24px 16px; } ul { grid-template-columns: 1fr; } }
++
++/* Prepared customer-form presentation. React behavior is explained in the lecture. */
++.customer-form { display: grid; gap: 1rem; }
++.customer-form .fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem 1.5rem; }
++.customer-form .field { min-width: 0; display: grid; align-content: start; gap: .35rem; }
++.customer-form input:not([type=checkbox]):not([type=radio]), .customer-form select, .customer-form textarea { width:100%; min-width:0; box-sizing:border-box; font:inherit; padding:.75rem; border:1px solid #718098; border-radius:.45rem; background:#fff; color:#202b3d; }
++.customer-form textarea { min-height:6rem; resize:vertical; }
++.customer-form label, .customer-form legend { font-weight:600; }
++.customer-form fieldset { min-width:0; border:1px solid #b2bcc9; border-radius:.5rem; padding:1rem; }
++.customer-form .choice { display:inline-flex; align-items:center; gap:.5rem; margin-right:1.25rem; }
++.customer-form input[type=checkbox], .customer-form input[type=radio] { width:1.15rem; height:1.15rem; accent-color:#1E4C7C; }
++.customer-form .error { color:#9a243b; margin:0; font-size:.95rem; }
++.customer-form .hint { color:#49566b; margin:0; font-size:.9rem; }
++.customer-form [aria-invalid=true] { border:2px solid #9a243b!important; }
++.customer-form .error-summary { border-left:4px solid #9a243b; padding:1rem; background:#fff1ef; color:#64202c; }
++.customer-form .receipt { border-left:4px solid #43882b; padding:1rem; background:#f2f8ef; color:#23421c; }
++.customer-form .actions { display:flex; flex-wrap:wrap; gap:.75rem; }
++.customer-form .actions button { margin:0; }
++.customer-form .draft-summary { background:#eef2f7; color:#263850; padding:1rem; border-radius:.5rem; }
++.customer-form :focus-visible { outline:3px solid #8C275D; outline-offset:3px; }
++@media(max-width:640px) { .customer-form .fields { grid-template-columns:1fr; } }

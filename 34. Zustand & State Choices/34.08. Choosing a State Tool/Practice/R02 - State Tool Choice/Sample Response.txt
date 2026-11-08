@@ -1,0 +1,7 @@
+R02 — Sample response
+
+1. The form owns its unsaved draft. The URL owns the shareable search and page. TanStack Query owns validated server results and request state. Zustand owns shared display preferences. Local storage is a validated persistence snapshot. Back restores URL state and selects the corresponding query key; a shared link should identify the same view without relying on the sender’s browser storage.
+
+2. Keep the existing Zustand preference store and TanStack Query cache. Derive the request identity from the URL. Local form state remains local. An established Redux application could reasonably use Redux Toolkit and RTK Query instead; the requirement does not justify migrating this small workspace or putting the same catalog result into two caches.
+
+3. A tradeoff is that URL state needs parsing, validation and deliberate history behavior, while persistence needs validation and migration. Test studio → travel → Back and a copied link. If the address says studio while the table or a store still says travel, the owners or derivation are inconsistent. One realistic alternative tradeoff and a relevant reproducible check also satisfy this prompt.

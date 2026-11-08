@@ -1,0 +1,45 @@
+--- before/src/App.tsx
++++ after/src/App.tsx
+@@ -1,4 +1,3 @@
+-import EventLab from "./EventLab";
+ import BookingPanel from "./BookingPanel";
+ import PageHeader from './PageHeader.tsx';
+ import MovieCatalog from './MovieCatalog.tsx';
+@@ -12,10 +11,9 @@
+       <main id="main-content" tabIndex={-1}>
+       <PageHeader />
+       <MovieCatalog movies={movies} />
+-      <Panel title="Book Skyward">
++      <Panel title="Configure your Skyward booking">
+         <BookingPanel />
+       </Panel>
+-        <EventLab />
+       </main>
+     </>
+   );
+--- before/src/index.css
++++ after/src/index.css
+@@ -38,3 +38,23 @@
+ .at-limit { border-left: 4px solid #795900; }
+ 
+ .event-boundary { margin: 1rem 0; padding: 1rem; border: 2px solid #67758d; }
++
++* { box-sizing: border-box; }
++h1, h2, h3 { line-height: 1.2; }
++main { max-width: 1080px; }
++button { border: 1px solid #70869d; border-radius: 8px; background: #fff; color: #17344d; }
++button:hover:not(:disabled) { background: #e6eff8; }
++input, select { border: 1px solid #70869d; border-radius: 7px; color: #17344d; background: white; }
++:focus-visible { outline: 3px solid #1468d4; outline-offset: 3px; }
++.booking-summary { border: 1px solid #cadcec; border-radius: 12px; }
++section[aria-label="Ticket cart"] li { padding: 16px; border: 1px solid #d2dce7; border-radius: 12px; background: #fff; }
++.action-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
++.feedback { padding: 12px; border-left: 3px solid #1468d4; background: #e9f2fb; }
++.quote { padding: 16px; border: 1px solid #9bc8b7; border-radius: 12px; background: #eef9f3; }
++.field-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); gap: 16px; }
++.field-grid input { width: 100%; }
++.booking-note { padding: 16px; border: 1px solid #b3becf; border-radius: 12px; background: #fff; }
++.compact .booking-note { padding: 10px; }
++.lab { max-width: 800px; margin: 40px auto; padding: 24px; background: #fff; border: 1px solid #cadcec; border-radius: 16px; }
++.lab pre { overflow: auto; }
++@media (max-width: 600px) { main { padding: 24px 16px; } ul { grid-template-columns: 1fr; } }

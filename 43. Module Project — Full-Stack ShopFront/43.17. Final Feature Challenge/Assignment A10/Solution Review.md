@@ -1,0 +1,9 @@
+# Reference solution review
+
+1. `prisma/schema.prisma` and migration `202610160003_merchant_order_notes` make `(orderId, workspaceId)` the primary key and bound note length/revision in PostgreSQL.
+2. `lib/merchantNote.ts` combines the order's product workspace with owner/editor membership inside the transaction. A revision-zero creation conflicts if another request already created the row. Updates match the reviewed revision and increment it.
+3. The PATCH route validates a strict object before calling the helper. Authorization stays server-side. The existing private customer selection contains no merchant note.
+4. `lib/merchant.ts` selects only the requested workspace's note. `MerchantOrderNote.tsx` owns the draft and pending/error feedback. A successful refresh retains the URL filter; its revision key adopts the confirmed server value. A failed request keeps the draft. Copy it before choosing Refresh saved note.
+5. Follow `Solution/shopfront-next/A10 Run Guide.md` for a separate reference cluster, preserving the attempted and guided projects/databases. Install with `npm ci`, configure all three private database URLs, then run `npm run db:generate`, `npm run db:deploy`, `npm run db:seed` and `npm run db:fixtures` only against that new disposable database. Run `npm run check` and `npm run lint`. With normal Next stopped, run `npm run test:merchant-notes`, then `node scripts/test-server.mjs tests/merchant-note.browser.mjs`. Each uses the isolated test database and owns a temporary development server on3140. After both exit, run `npm run dev` for manual review. The Run Guide supplies optional headed Inspector capture; no production browser build is claimed.
+
+Do not seed a production database. The reference uses synthetic local identities and does not perform a real payment, shipment or hosted release.

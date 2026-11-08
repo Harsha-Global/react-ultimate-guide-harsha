@@ -1,0 +1,70 @@
+{
+  "canvas": [
+    1600,
+    900
+  ],
+  "background": "#293747",
+  "parts": [
+    {
+      "key": "title",
+      "bounds": [
+        54,
+        31,
+        1492,
+        89
+      ],
+      "cue_prefix": "FIRST",
+      "filename": "1.title.png",
+      "exact_cue": "Most navigation, should begin with a link, that already describes its destination."
+    },
+    {
+      "key": "form",
+      "bounds": [
+        75,
+        184,
+        594,
+        254
+      ],
+      "cue_prefix": "For example, a user",
+      "filename": "1.form.png",
+      "exact_cue": "For example, a user might enter an employee identifier, and ask us to open that employee's details."
+    },
+    {
+      "key": "check",
+      "bounds": [
+        802,
+        193,
+        709,
+        231
+      ],
+      "cue_prefix": "We should validate",
+      "filename": "1.check.png",
+      "exact_cue": "We should validate that entry first, then navigate."
+    },
+    {
+      "key": "history",
+      "bounds": [
+        75,
+        537,
+        1436,
+        255
+      ],
+      "cue_prefix": "We'll also remember",
+      "filename": "1.history.png",
+      "exact_cue": "We'll also remember, which filtered list, a detail link came from."
+    },
+    {
+      "key": "note",
+      "bounds": [
+        85,
+        808,
+        1418,
+        54
+      ],
+      "cue_prefix": "We'll store the return address in the history entry",
+      "filename": "1.note.png",
+      "exact_cue": "We'll store the return address in the history entry, while keeping the filters themselves, in the url."
+    }
+  ],
+  "connectors": "Arrows exist only in the full reference. Draw them in AE between the object edges shown; do not bake them into object layers."
+}

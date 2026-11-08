@@ -1,0 +1,12 @@
+.card {
+  display: grid;
+  gap: 8px;
+  border: 2px solid #788597;
+  border-radius: 16px;
+}
+
+.available { border-color: #008577; }
+.upcoming { border-color: #725a9c; }
+.poster { max-width: 100%; height: auto; border-radius: 10px; }
+.status { font-weight: 600; }
+.card h3, .card p { margin: 0; }

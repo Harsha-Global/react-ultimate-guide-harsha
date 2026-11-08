@@ -1,0 +1,14 @@
+[
+  {
+    "question": "Where should the saved delivery instruction come from, after a page reload?",
+    "answer": "From the validated order response, under fulfillment.instructions. The form draft may no longer exist or may contain different text. The existing member order.note has a different purpose."
+  },
+  {
+    "question": "Why keep the instruction draft when pickup is selected, but omit it from the pickup request?",
+    "answer": "Retaining the draft helps a customer switch back without retyping. Pickup does not use a delivery instruction, so the mapper leaves it out and the strict pickup contract rejects it if sent. The form still bounds its retained text. The outgoing request must also omit the obsolete details.note field, so the remembered draft is not sent through a second property."
+  },
+  {
+    "question": "Which check verifies the entire information flow?",
+    "answer": "A production browser journey enters a delivery instruction, places an order through the real API, checks the returned confirmation, opens history and reloads it. Focused mapper/schema checks explain individual rules; the browser check verifies their connection."
+  }
+]

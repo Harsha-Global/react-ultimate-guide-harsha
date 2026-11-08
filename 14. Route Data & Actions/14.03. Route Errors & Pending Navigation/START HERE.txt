@@ -1,0 +1,7 @@
+Route Errors & Pending Navigation
+
+The routed-directory folder contains the exact outgoing project recorded in this lecture, including the corrected single-string React document titles.
+
+Copy routed-directory to C:\react\routed-directory. Run npm ci, then npm run api in one terminal and npm run dev in another. Open http://127.0.0.1:5183. Restarting the sample API resets its data.
+
+Verify with npm run check, npm run lint -- src api vite.config.ts, and npm run build. The scoped lint command checks the source and API; the inherited project has no .gitignore, so an unscoped run can scan installed dependencies.

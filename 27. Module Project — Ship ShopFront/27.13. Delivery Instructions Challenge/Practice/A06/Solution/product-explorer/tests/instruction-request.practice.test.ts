@@ -1,0 +1,23 @@
+import { beforeEach, expect, it, vi } from "vitest";
+import { checkoutSchema } from "../shared/checkoutSchema";
+import { orderRequestSchema } from "../shared/orderSchema";
+import { placeOrder } from "../src/orderApi";
+import { requestJson, writeHeaders } from "../src/sessionApi";
+vi.mock("../src/sessionApi", () => ({ requestJson: vi.fn(), writeHeaders: vi.fn() }));
+const draft = { contact: { name: "Alex Morgan", email: "alex@example.com", phone: "" }, address: { street: "14 Lake Road", city: "Riverton", postal: "12345" }, method: "standard", collectionWindow: "morning", note: "  Leave at reception  " };
+const requestId = "b5e75cce-3898-411a-9a37-fb62c07a665b";
+const cart = [{ productId: "p1", quantity: 1 }];
+beforeEach(() => { vi.mocked(requestJson).mockReset(); vi.mocked(writeHeaders).mockResolvedValue({ "X-CSRF-Token": "practice-test-token" }); });
+it.each(["standard", "pickup"])("sends no duplicate note field for %s", async method => {
+ const details = checkoutSchema.parse({ ...draft, method });
+ const fulfillment = method === "pickup" ? { kind: "pickup", window: "morning" } : { kind: "delivery", method: "standard", address: draft.address, instructions: "Leave at reception" };
+ vi.mocked(requestJson).mockResolvedValue({ id: "o1", userId: "member-1", createdAt: "2026-10-03T00:00:00Z", subtotal: 79, deliveryFee: method === "pickup" ? 0 : 5, items: 1, currency: "USD", lines: [{ name: "Trail Backpack", quantity: 1, unitPrice: 79 }], note: "", fulfillment });
+ await placeOrder(details, cart, requestId, "member-1");
+ const [path, options] = vi.mocked(requestJson).mock.calls[0];
+ expect(path).toBe("/orders"); expect(options?.method).toBe("POST");
+ const body = JSON.parse(String(options?.body));
+ expect(body).toEqual({ requestId, cart, details: { contact: details.contact, fulfillment } });
+ expect(orderRequestSchema.safeParse(body).success).toBe(true);
+ expect(orderRequestSchema.safeParse({ ...body, details: { ...body.details, note: details.note } }).success).toBe(false);
+ if (method === "pickup") expect(String(options?.body)).not.toContain("Leave at reception");
+});

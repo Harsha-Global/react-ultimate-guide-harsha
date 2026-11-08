@@ -1,0 +1,74 @@
+{
+  "native_exports": [
+    {
+      "version": "v1",
+      "filename": "Next Storefront - v1.fig",
+      "bytes": 1848008,
+      "sha256": "64b2b4841d0816dd7c441c3ebb86f6a82ef86b015a28e2cb1c859545fabaf681",
+      "native_archive_entries": [
+        "canvas.fig",
+        "thumbnail.png",
+        "meta.json",
+        "images/",
+        "images/ac530d74bd9f84b49eb271d0eb8ab955d422456a",
+        "images/a218040d871a5305f8e087bbdd1101bc5f765a42",
+        "images/c1f933d7dcce77ecd451a2c212b17b1cf544b7fa",
+        "images/c117272a6525698ac425eb1b79d68eb9e1a5d089",
+        "images/b9d08ea9fb3b13bc3f0f673fbb0b158c27cb4ecd",
+        "images/1268230506b787fa5b758c1a2b39ea89477e8e8d",
+        "images/821eb11ad5e12d294b8210ada73e0c19374b8252",
+        "images/5d4b6a54c73630fb28ccc260fa6bee2857dd60be"
+      ]
+    },
+    {
+      "version": "v2",
+      "filename": "Next Storefront - v2.fig",
+      "bytes": 1888295,
+      "sha256": "a9a2d437bbf39ce743db068f6de4a2159fa211f230dc1386d697d23a55e7562c",
+      "native_archive_entries": [
+        "canvas.fig",
+        "thumbnail.png",
+        "meta.json",
+        "images/",
+        "images/ac530d74bd9f84b49eb271d0eb8ab955d422456a",
+        "images/b9d08ea9fb3b13bc3f0f673fbb0b158c27cb4ecd",
+        "images/821eb11ad5e12d294b8210ada73e0c19374b8252",
+        "images/c117272a6525698ac425eb1b79d68eb9e1a5d089",
+        "images/1268230506b787fa5b758c1a2b39ea89477e8e8d",
+        "images/a218040d871a5305f8e087bbdd1101bc5f765a42",
+        "images/c1f933d7dcce77ecd451a2c212b17b1cf544b7fa",
+        "images/5d4b6a54c73630fb28ccc260fa6bee2857dd60be"
+      ]
+    }
+  ],
+  "font_compatibility": [
+    {
+      "file": "DMSans-variable.ttf",
+      "Windows_platform_names": [
+        "9pt Regular",
+        "DM Sans",
+        "DM Sans 9pt",
+        "Regular"
+      ],
+      "glyph_count": 403,
+      "embedding_flags": 0
+    },
+    {
+      "file": "Manrope-variable.ttf",
+      "Windows_platform_names": [
+        "ExtraLight",
+        "Manrope",
+        "Manrope ExtraLight",
+        "Regular"
+      ],
+      "glyph_count": 678,
+      "embedding_flags": 0
+    }
+  ],
+  "v1_author_file": "https://www.figma.com/design/5TdMAE56pWgYUvQhrOOnia",
+  "v1_reimport_then_v2_author_file": "https://www.figma.com/design/hm09d2XyoelaZqTnmcoz2D",
+  "v2_reimport": "https://www.figma.com/design/fcB5kAtQQwphjYFeL1V88o",
+  "native_verification": "Figma exported real .fig files; both were imported through the native Import UI and opened. v1 retained the board, editable layers and native Shortlist component; v2 retained all three pages and its new1440x1060 change frame. Font families were mapped to same-name Figma-hosted DM Sans/Manrope, not substituted.",
+  "pdf_verification": "v1 five pages and v2 six pages rendered through Poppler; all six unique page designs visually inspected without clipped text or overlap.",
+  "Windows_scope": "Installable TTF files include Windows name records and unrestricted embedding flags. Figma-hosted same-name font availability verified. No Windows desktop session was available; do not label a target-machine installation as tested."
+}

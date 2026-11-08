@@ -1,0 +1,12 @@
+The accumulator begins at 0. For each entry, the callback adds unitPrice multiplied by count to the previous total, then returns the new total. The example advances from 0 to 72, then from 72 to 108.
+
+The second reduce argument supplies the initial value. On an empty array there are no callback calls, so reduce returns that initial 0. Without an initial value, reducing an empty array throws an error; starting with an item object also does not provide the numeric accumulator this calculation expects.
+
+The function only reads item fields and returns a number. It changes no input object and keeps no total outside the call. Zero contributes zero, and fractional prices remain numeric. The grader assesses behavior and accepts valid alternate implementations; the supplied solution demonstrates the requested reduce pattern.
+
+Complete function:
+
+const calculateBasketTotal = items => items.reduce(
+  (total, item) => total + item.unitPrice * item.count,
+  0
+);

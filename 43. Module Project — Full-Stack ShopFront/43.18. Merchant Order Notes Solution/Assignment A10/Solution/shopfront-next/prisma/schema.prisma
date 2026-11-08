@@ -1,0 +1,228 @@
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Customer {
+  id     String  @id
+  name   String
+  email  String  @unique
+  orders Order[]
+  userId String? @unique
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+}
+
+model Product {
+  id         String      @id
+  slug       String      @unique
+  name       String
+  priceMinor Int
+  stock      Int
+  workspaceId String?
+  workspace Workspace? @relation(fields: [workspaceId], references: [id], onDelete: Restrict)
+  category   String @default("Everyday")
+  image      String @default("/assets/mug.jpg")
+  items      OrderItem[]
+}
+
+model Order {
+  deliveryLabel String?
+  id         String      @id @default(cuid())
+  customerId String
+  customer   Customer    @relation(fields: [customerId], references: [id], onDelete: Restrict)
+  status     String      @default("pending")
+  note       String      @default("")
+  checkoutSessionId String? @unique
+  requestKey String?
+  requestFingerprint String?
+  createdAt  DateTime    @default(now())
+  outbox Outbox?
+  receipt Receipt?
+  merchantNotes MerchantOrderNote[]
+  fulfillments Fulfillment[]
+  attachments Attachment[]
+  items      OrderItem[]
+
+  @@index([customerId, createdAt])
+  @@unique([customerId, requestKey])
+}
+
+model OrderItem {
+  orderId        String
+  productId      String
+  quantity       Int
+  unitPriceMinor Int
+  order          Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product        Product @relation(fields: [productId], references: [id], onDelete: Restrict)
+
+  @@id([orderId, productId])
+  @@index([productId])
+}
+
+model User {
+  id            String    @id
+  name          String
+  email         String
+  emailVerified Boolean   @default(false)
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  memberships   Membership[]
+  customer      Customer?
+  sessions      Session[]
+  accounts      Account[]
+
+  @@unique([email])
+  @@map("user")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([token])
+  @@index([userId])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@index([userId])
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([identifier])
+  @@map("verification")
+}
+
+model RateLimit {
+  id          String @id
+  key         String
+  count       Int
+  lastRequest BigInt
+
+  @@unique([key])
+  @@map("rateLimit")
+}
+
+model Workspace {
+  id String @id
+  name String
+  members Membership[]
+  notes WorkspaceNote[]
+  products Product[]
+  merchantNotes MerchantOrderNote[]
+  fulfillments Fulfillment[]
+}
+model Membership {
+  workspaceId String
+  userId String
+  role String @default("viewer")
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@id([workspaceId, userId])
+  @@index([userId])
+}
+model WorkspaceNote {
+  id String @id
+  workspaceId String
+  body String
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  @@index([workspaceId])
+}
+
+model PaymentEvent {
+  id String @id
+  type String
+  checkoutSessionId String
+  status String @default("received")
+  receivedAt DateTime @default(now())
+  processedAt DateTime?
+  @@index([status, receivedAt])
+}
+
+model Attachment {
+  id String @id
+  orderId String
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  temporaryKey String @unique
+  objectKey String? @unique
+  contentType String
+  expectedSize Int
+  status String @default("pending")
+  createdAt DateTime @default(now())
+  @@index([orderId])
+}
+
+model Receipt {
+  orderId String @id
+  order Order @relation(fields: [orderId], references: [id], onDelete: Restrict)
+  totalMinor Int
+  createdAt DateTime @default(now())
+}
+
+model Outbox {
+  id String @id
+  orderId String @unique
+  order Order @relation(fields: [orderId], references: [id], onDelete: Restrict)
+  createdAt DateTime @default(now())
+  deliveredAt DateTime?
+  attempts Int @default(0)
+  @@index([deliveredAt, createdAt])
+}
+
+// One fulfillment record for each merchant's part of an order.
+model Fulfillment {
+  orderId String
+  workspaceId String
+  status String @default("ready")
+  createdAt DateTime @default(now())
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Restrict)
+  @@id([orderId, workspaceId])
+  @@index([workspaceId, status])
+}
+
+model MerchantOrderNote {
+  orderId String
+  workspaceId String
+  body String
+  revision Int @default(1)
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  @@id([orderId, workspaceId])
+}

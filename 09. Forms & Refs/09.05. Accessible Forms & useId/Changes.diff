@@ -1,0 +1,69 @@
+--- incoming/src/CustomerForm.tsx
++++ outgoing/src/CustomerForm.tsx
+@@ -1,4 +1,4 @@
+-import { useState } from "react";
++import { useState, useId } from "react";
+ import type { SubmitEvent } from "react";
+ import { isCity } from "./customer";
+ import type { CustomerDraft, Seating } from "./customer";
+@@ -8,6 +8,7 @@
+ type Props = { draft: CustomerDraft; onChange: (draft: CustomerDraft) => void };
+ 
+ export default function CustomerForm({ draft, onChange }: Props) {
++  const formId = useId();
+   const [submitted, setSubmitted] = useState<CustomerDraft | null>(null);
+   const [formMessage, setFormMessage] = useState("");
+   const [touched, setTouched] = useState<Partial<Record<keyof CustomerDraft, boolean>>>({});
+@@ -46,35 +47,36 @@
+   const noteError = (touched.note || attempted) ? errors.note : undefined;
+   return (
+     <form className="customer-form" onSubmit={handleSubmit} noValidate>
++      {attempted && hasErrors(errors) && <div className="error-summary" role="alert">Please correct the fields marked below. Your input is preserved.</div>}
+       <div className="fields">
+         <div className="field">
+-          <label htmlFor="customer-fullName">Full name</label>
+-          <input id="customer-fullName" name="fullName" type="text" required autoComplete="name" value={draft.fullName} onChange={event => changeText("fullName", event.currentTarget.value)} onBlur={() => markTouched("fullName")} />
+-          {fullNameError && <p className="error">{fullNameError}</p>}
++          <label htmlFor={`${formId}-fullName`}>Full name</label>
++          <input id={`${formId}-fullName`} name="fullName" type="text" required autoComplete="name" value={draft.fullName} onChange={event => changeText("fullName", event.currentTarget.value)} onBlur={() => markTouched("fullName")} aria-invalid={fullNameError ? true : undefined} aria-describedby={fullNameError ? `${formId}-fullName-error` : undefined} />
++          {fullNameError && <p id={`${formId}-fullName-error`} className="error">{fullNameError}</p>}
+         </div>
+         <div className="field">
+-          <label htmlFor="customer-email">Email</label>
+-          <input id="customer-email" name="email" type="email" required autoComplete="email" value={draft.email} onChange={event => changeText("email", event.currentTarget.value)} onBlur={() => markTouched("email")} />
+-          {emailError && <p className="error">{emailError}</p>}
++          <label htmlFor={`${formId}-email`}>Email</label>
++          <input id={`${formId}-email`} name="email" type="email" required autoComplete="email" value={draft.email} onChange={event => changeText("email", event.currentTarget.value)} onBlur={() => markTouched("email")} aria-invalid={emailError ? true : undefined} aria-describedby={emailError ? `${formId}-email-error` : undefined} />
++          {emailError && <p id={`${formId}-email-error`} className="error">{emailError}</p>}
+         </div>
+         <div className="field">
+-          <label htmlFor="customer-arrivalMinutes">Minutes before show</label>
+-          <input id="customer-arrivalMinutes" name="arrivalMinutes" type="number" required min="0" max="60" step="1" value={draft.arrivalMinutes} onChange={event => changeText("arrivalMinutes", event.currentTarget.value)} onBlur={() => markTouched("arrivalMinutes")} />
+-          <p className="hint">A whole number from 0 to 60; zero means arriving at showtime.</p>
+-          {arrivalMinutesError && <p className="error">{arrivalMinutesError}</p>}
++          <label htmlFor={`${formId}-arrivalMinutes`}>Minutes before show</label>
++          <input id={`${formId}-arrivalMinutes`} name="arrivalMinutes" type="number" required min="0" max="60" step="1" value={draft.arrivalMinutes} onChange={event => changeText("arrivalMinutes", event.currentTarget.value)} onBlur={() => markTouched("arrivalMinutes")} aria-invalid={arrivalMinutesError ? true : undefined} aria-describedby={`${formId}-arrivalMinutes-hint${arrivalMinutesError ? ` ${formId}-arrivalMinutes-error` : ""}`} />
++          <p id={`${formId}-arrivalMinutes-hint`} className="hint">A whole number from 0 to 60; zero means arriving at showtime.</p>
++          {arrivalMinutesError && <p id={`${formId}-arrivalMinutes-error`} className="error">{arrivalMinutesError}</p>}
+         </div>
+         <div className="field">
+-          <label htmlFor="customer-city">City</label>
+-          <select id="customer-city" name="city" value={draft.city} onChange={event => {
++          <label htmlFor={`${formId}-city`}>City</label>
++          <select id={`${formId}-city`} name="city" value={draft.city} onChange={event => {
+             const city = event.currentTarget.value;
+             if (isCity(city)) onChange({ ...draft, city });
+           }}><option value="Seattle">Seattle</option><option value="Boston">Boston</option></select>
+         </div>
+         <div className="field">
+-          <label htmlFor="customer-note">Seating note</label>
+-          <textarea id="customer-note" name="note" value={draft.note} onChange={event => changeText("note", event.currentTarget.value)} onBlur={() => markTouched("note")} />
+-          <p className="hint">Optional; up to 200 characters. Do not enter sensitive information.</p>
+-          {noteError && <p className="error">{noteError}</p>}
++          <label htmlFor={`${formId}-note`}>Seating note</label>
++          <textarea id={`${formId}-note`} name="note" value={draft.note} onChange={event => changeText("note", event.currentTarget.value)} onBlur={() => markTouched("note")} aria-invalid={noteError ? true : undefined} aria-describedby={`${formId}-note-hint${noteError ? ` ${formId}-note-error` : ""}`} />
++          <p id={`${formId}-note-hint`} className="hint">Optional; up to 200 characters. Do not enter sensitive information.</p>
++          {noteError && <p id={`${formId}-note-error`} className="error">{noteError}</p>}
+         </div>
+       </div>
+       <fieldset><legend>Preferred seating</legend>

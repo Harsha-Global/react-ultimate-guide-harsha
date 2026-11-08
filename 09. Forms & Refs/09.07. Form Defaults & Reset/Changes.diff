@@ -1,0 +1,55 @@
+--- incoming/src/CustomerForm.tsx
++++ outgoing/src/CustomerForm.tsx
+@@ -2,6 +2,7 @@
+ import type { SubmitEvent } from "react";
+ import { isCity } from "./customer";
+ import type { CustomerDraft, Seating } from "./customer";
++import { createCustomerDraft } from "./customer";
+ import { readCustomerForm } from "./readCustomerForm";
+ import { validateCustomer, hasErrors } from "./validateCustomer";
+ 
+@@ -18,8 +19,8 @@
+   const [touched, setTouched] = useState<Partial<Record<keyof CustomerDraft, boolean>>>({});
+   const [attempted, setAttempted] = useState(false);
+   const errors = validateCustomer(draft);
+-  const initialDraft: CustomerDraft = { fullName: "", email: "", city: "Seattle", arrivalMinutes: "15", note: "", updates: false, seating: "aisle" };
+-  const dirty = (Object.keys(draft) as (keyof CustomerDraft)[]).some(key => draft[key] !== initialDraft[key]);
++  const [baseline, setBaseline] = useState(createCustomerDraft);
++  const dirty = (Object.keys(draft) as (keyof CustomerDraft)[]).some(key => draft[key] !== baseline[key]);
+   function markTouched(field: keyof CustomerDraft) {
+     setTouched(current => ({ ...current, [field]: true }));
+   }
+@@ -48,6 +49,23 @@
+     }
+     setSubmitted(candidate);
+     setFormMessage("Customer details submitted locally. No reservation was sent.");
++  }
++  function resetToBaseline() {
++    onChange({ ...baseline });
++    setTouched({});
++    setAttempted(false);
++    setSubmitted(null);
++    setFormMessage("");
++  }
++  function loadEmily() {
++    const next: CustomerDraft = { fullName: "Emily Carter", email: "emily@example.com", city: "Boston",
++      arrivalMinutes: "20", note: "", updates: false, seating: "center" };
++    setBaseline(next);
++    onChange({ ...next });
++    setTouched({});
++    setAttempted(false);
++    setSubmitted(null);
++    setFormMessage("");
+   }
+   const fullNameError = (touched.fullName || attempted) ? errors.fullName : undefined;
+   const emailError = (touched.email || attempted) ? errors.email : undefined;
+@@ -95,7 +113,8 @@
+       <div className="draft-summary">Draft: {draft.fullName || "No name yet"} · {draft.city} · {draft.seating} · Arrival: {draft.arrivalMinutes === "" ? "not entered" : `${draft.arrivalMinutes} minutes`}</div>
+       <p>{dirty ? "Draft has changes." : "Draft matches its defaults."}</p>
+       <div className="actions"><button type="submit">Submit customer details</button>
+-        <button type="button" onClick={() => changeText("note", "")}>Clear seating note</button>
++        <button type="button" onClick={resetToBaseline}>Reset customer details</button>
++        <button type="button" onClick={loadEmily}>Load Emily's defaults</button>
+       </div>
+       <p role="status">{formMessage}</p>
+       {submitted && <div className="receipt"><strong>Last submitted details</strong><p>{submitted.fullName} · {submitted.email} · {submitted.city} · {submitted.arrivalMinutes} minutes · {submitted.seating}</p><p>Updates: {submitted.updates ? "yes" : "no"}; Note: {submitted.note || "none"}</p></div>}

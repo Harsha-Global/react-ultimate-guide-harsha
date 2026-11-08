@@ -1,0 +1,15 @@
+# Practice — Styling & CSS Modules
+
+In MovieCard.module.css, change .card gap to 12px and add a 1px solid #788597 border to .poster. Preserve status borders/text.
+
+## Expected result
+
+- Card child gap is 12 pixels.
+- Each poster has its neutral border.
+- Available and Coming soon labels remain.
+
+## Run and compare
+
+Copy this Practice folder to a separate working location such as `C:\react\practice-05-07`. Open `starter` in VS Code. In its Command Prompt terminal, run `npm ci` once and `npm run dev`. Use the address printed by Vite. `npm run build` checks types and creates the production build. Stop a server with Ctrl+C before switching folders.
+
+Try first. Then inspect `solution`, which contains every required source/configuration/lock file. Run its commands from its own folder. Keep the lecture’s main `movie-discovery` unchanged. These files are prepared for this lecture’s folder in the course GitHub repository.

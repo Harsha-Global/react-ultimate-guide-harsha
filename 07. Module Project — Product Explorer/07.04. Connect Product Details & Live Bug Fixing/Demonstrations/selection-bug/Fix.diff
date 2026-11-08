@@ -1,0 +1,16 @@
+--- before/src/App.tsx
++++ after/src/App.tsx
+@@ -9,12 +9,12 @@
+   const [category, setCategory] = useState("all");
+   const [inStockOnly, setInStockOnly] = useState(false);
+   const [selectedId, setSelectedId] = useState<string | null>(null);
++  const selectedProduct = products.find(product => product.id === selectedId);
+   const normalizedQuery = query.trim().toLowerCase();
+   const visibleProducts = products.filter(product =>
+     product.name.toLowerCase().includes(normalizedQuery) &&
+     (category === "all" || product.category === category) &&
+     (!inStockOnly || product.inStock));
+-  const selectedProduct = visibleProducts.find(product => product.id === selectedId);
+ 
+   const isSelectionVisible = visibleProducts.some(product => product.id === selectedId);
+ 

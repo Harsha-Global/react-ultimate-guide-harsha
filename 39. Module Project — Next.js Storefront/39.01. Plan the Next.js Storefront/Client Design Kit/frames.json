@@ -1,0 +1,38 @@
+[
+  {
+    "version": "v1",
+    "name": "01 - Storefront - Desktop",
+    "width": 1440,
+    "height": 1300
+  },
+  {
+    "version": "v1",
+    "name": "02 - Storefront - Mobile",
+    "width": 390,
+    "height": 2110
+  },
+  {
+    "version": "v1",
+    "name": "03 - Product Detail - Desktop",
+    "width": 1440,
+    "height": 1040
+  },
+  {
+    "version": "v1",
+    "name": "04 - Overlay Loading and Recovery",
+    "width": 1280,
+    "height": 1000
+  },
+  {
+    "version": "v2",
+    "name": "05 - Accepted Inventory Change",
+    "width": 1440,
+    "height": 1060
+  },
+  {
+    "version": "system",
+    "name": "06 - Tokens Fonts and Controls",
+    "width": 1280,
+    "height": 980
+  }
+]

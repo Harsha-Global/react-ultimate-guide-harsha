@@ -1,0 +1,24 @@
+Remember Display Formats — independent assignment (40 minutes)
+
+A staff member chooses a number/date locale and review time zone, but the choices return to their defaults after a reload. Extend the existing workspace preferences so those format choices are remembered in the same browser. Keep one live owner for each value.
+
+Use the independent Starter/admin-workspace in this assignment folder. Open a new working copy in VS Code and run npm ci. For the interface, stop previous services on5190/5191; run npm run api in one terminal, verify http://127.0.0.1:5191/api/health, then run npm run dev in another and open http://127.0.0.1:5190. The API resets its demo catalog whenever restarted; saving display preferences is separate from product persistence. No account is required.
+
+Requirements:
+1. Move locale and zone ownership from App's useState calls into the existing workspace preference store. Select them directly in App; remove the duplicated local owners.
+2. Support the existing locale choices en-US, en-IN, de-DE and zones UTC, Asia/Kolkata, America/New_York. Validate saved values before using Intl.
+3. Persist only density, summaryOpen, locale and zone. Keep action functions, product rows and active URL values out of the snapshot.
+4. Use format version2. Migrate a version1 density/overview snapshot while preserving its valid choices and adding en-US/UTC defaults. Preserve support for the taught version0 boolean format. Reject malformed or unsupported data with the documented complete defaults.
+5. Reset display restores all four preferences without changing the active search, product records or query cache.
+6. Keep hydration, storage-error feedback, keyboard controls, themes and the accepted-save workflow intact. Show the overview before testing its locale/zone controls.
+
+Run npm run test:display: the starter intentionally fails the missing feature checks. Make all six pass; also run npm run test:workspace, npm run test:preferences, npm run test:storage, npm run test:query, npm run test:formats, npm run test:theme, npm run test:api, npm run test:view, npm run test:motion, npm run build and npm run lint. Update existing schema-regression expected values only where the declared expanded preference contract requires new fields; do not remove assertions or weaken validation.
+
+Manual acceptance: select German/Germany and America/New_York; reload and confirm both controls and formatting. Enter a URL search, reset display, and confirm the search stays unchanged. Exercise the old-format and unreadable-storage fixtures, and verify recovery. A changed locale changes number/date presentation, not USD currency or translated interface text.
+
+Three responses:
+1. Explain the single-owner change and identify the files you changed.
+2. Describe one migration/invalid-data check and one keyboard/reload check, with expected and observed results.
+3. Explain why query results and the active URL search were excluded from persistence, and state one limitation of browser-local preferences.
+
+Self-review rubric /10: one owner2; validated persistence2; both migrations2; reset and failure preservation2; tests/keyboard evidence2. Try the task before opening the complete Solution/admin-workspace in this assignment folder. The course's How to Download Source Code article explains the source route. No private Udemy test submission or extra paid service is needed.

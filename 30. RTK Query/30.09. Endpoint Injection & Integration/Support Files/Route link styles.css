@@ -1,0 +1,14 @@
+[aria-label="Queue views"] a {
+  padding: 11px 16px;
+  color: #425873;
+  text-decoration: none;
+  background: #fff;
+  border: 1px solid #aeb7c3;
+  border-radius: 8px;
+  font-weight: 600;
+}
+[aria-label="Queue views"] a[aria-current="page"] {
+  background: #4d3865;
+  border-color: #4d3865;
+  color: white;
+}

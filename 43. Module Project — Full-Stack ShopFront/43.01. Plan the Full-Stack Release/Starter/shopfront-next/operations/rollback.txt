@@ -1,0 +1,15 @@
+Before a shared migration, identify the target database and take a recoverable backup.
+Create shopfront_restore as a separate EMPTY database owned by the course user.
+The local backup:rehearse command uses pg_dump/pg_restore from PostgreSQL client tools.
+It refuses non-local targets, wrong database names and non-empty restore targets.
+Run it BEFORE db:deploy to practice restoring the old schema. Do not rerun into the same
+populated restore database; retain it for inspection and choose another deliberate rehearsal.
+The optional deliveryLabel column is additive. Existing note reads/writes still work.
+Run db:deploy, db:generate and check. Stop/restart Next after client generation.
+Use operations/compatible-release.sql to compare old and new readers.
+Reverting the application commit does not remove deliveryLabel or reverse a data migration.
+Delay dropping/renaming old columns until old readers are gone. Restore can discard newer
+writes, so a real incident needs a recovery point, write freeze, validation and decision owner.
+A matching row count is a useful rehearsal check, not a complete disaster-recovery certification.
+Keep dumps private: authentication/account data can exist inside them. Exclude them from Git
+and student source ZIPs. Do not use migrate reset on a shared or hosted database.

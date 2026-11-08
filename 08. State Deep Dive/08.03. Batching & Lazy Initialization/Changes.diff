@@ -1,0 +1,45 @@
+--- before/src/BookingPanel.tsx
++++ after/src/BookingPanel.tsx
+@@ -1,4 +1,5 @@
+ import { useState } from "react";
++import { createStarterCart } from "./starterCart";
+ import type { ChangeEvent } from "react";
+ import { addBooking, changeCartQuantity } from "./cart";
+ import type { CartItem } from "./cart";
+@@ -11,10 +12,16 @@
+   const [adjustment, setAdjustment] = useState("");
+   const [guestName, setGuestName] = useState("");
+   const [showtime, setShowtime] = useState("18:00");
+-  const [cart, setCart] = useState<CartItem[]>([]);
++  const [cart, setCart] = useState<CartItem[]>(createStarterCart);
+   const [selectedId, setSelectedId] = useState<string | null>(null);
+   const ticketPrice = showtime === "21:00" ? 15 : 12;
+   const total = quantity * ticketPrice;
++
++  function handleEveningForTwo() {
++    setQuantity(2);
++    setShowtime("21:00");
++    setAdjustment("Evening booking prepared for two tickets.");
++  }
+ 
+   function handleAddAndDescribe() {
+     const nextQuantity = Math.min(6, quantity + 1);
+@@ -53,6 +60,7 @@
+         <option value="18:00">18:00 — $12</option>
+         <option value="21:00">21:00 — $15</option>
+       </select>
++      <button type="button" onClick={handleEveningForTwo}>Evening for two</button>
+       <TicketControls quantity={quantity} onQuantityChange={handleQuantityChange} />
+       <button type="button" disabled={quantity === 6} onClick={handleAddAndDescribe}>Add ticket and describe</button>
+       {adjustment && <p className="feedback" role="status">{adjustment}</p>}
+--- before/src/starterCart.ts
++++ after/src/starterCart.ts
+@@ -0,0 +1,8 @@
++import type { CartItem } from './cart';
++const starterCart: readonly CartItem[] = [
++  { id: '18:00', showtime: '18:00', quantity: 1, unitPrice: 12 },
++  { id: '21:00', showtime: '21:00', quantity: 1, unitPrice: 15 },
++];
++export function createStarterCart(): CartItem[] {
++  return starterCart.map(item => ({ ...item }));
++}

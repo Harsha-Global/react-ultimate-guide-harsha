@@ -1,0 +1,7 @@
+# Admin Workspace — server pagination and row selection
+
+The Admin Workspace project with server pagination and row selection: the catalog service slices the filtered and sorted products by page and pageSize (2, 4 or 50; pages start at 1) and keeps the matching total and the whole-catalog summary. src/App.tsx owns the pagination (page index from 0, two rows per page) and the row selection map, returns to the first page when the sort, the search or the page size changes and after a save, and clears the selection on a search change and after a save. src/catalogQuery.ts adds page and pageSize to the request. src/components/SelectionCheckbox.tsx is a labelled native checkbox with a mixed state. src/components/ProductTable.tsx uses manual pagination with the server total, a selection column (a Select this page checkbox and a checkbox per row keyed by product id), the count of selections across pages with Clear selection and the selection policy, Previous page / Next page with the page status, rows per page, and empty-page feedback with a First page recovery.
+
+## Run
+
+Copy the project into your React workspace (for example C:\react\admin-workspace) and open it in VS Code. In one terminal run `npm ci`, then `npm run api` (the local catalog service on http://127.0.0.1:5191, in memory: a restart restores the four sample products). In a second terminal run `npm run dev` and open http://127.0.0.1:5190 (stop any other app using ports 5190 or 5191 first). Validate with `npm run lint` and `npm run build`; `npm run test:api` checks the service while it runs.

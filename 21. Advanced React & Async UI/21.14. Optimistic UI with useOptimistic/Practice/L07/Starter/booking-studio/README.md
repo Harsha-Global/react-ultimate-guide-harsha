@@ -1,0 +1,15 @@
+# Willow House booking studio — React Actions
+
+Copy the completed project to C:\react\booking-studio. Use the pinned lock file: npm ci. In one terminal run npm run api. Check http://127.0.0.1:4318/api/health for status ready. In another terminal run npm run dev; open http://localhost:5210. The Vite proxy sends /api requests to the separate API server. The fictional API collects no payment and persists only in memory.
+
+POST /api/bookings accepts requestId,name,email,slot. Success201 (or200 for the same accepted request) returns reference,name,slot.409 means full session or reusing an accepted requestId with different details;422 means invalid input. Evening starts full; Morning starts with five places. A repeated identical accepted request returns the same reference without consuming another place. Reloading creates a new form/request identity. Disable-after-success prevents accidental repeat submission in the current form; this is not a substitute for server validation.
+
+For observable pending UI, stop the API with Ctrl+C and run npm run api:slow instead. This explicit demonstration mode delays booking responses; main mode has no artificial delay. Only one API process should run at a time. Restarting the server resets its in-memory data. When restoring practice data, PowerShell: Invoke-RestMethod -Method Post -Uri http://127.0.0.1:4318/api/reset . Reset first, then reload the page so the form receives a fresh requestId. This endpoint is for the local course fixture, not a deployment API.
+
+Check: Evening→full alert with fields preserved; Morning→confirmation; API stopped→uncertain-result message; restart API→retry same details; browser required/email validation; slow mode disables controls. Do not use real personal details. Test names/emails such as Avery Stone/avery@example.com are sufficient. Run npm run lint and npm run build.
+
+## Reviews
+
+Use GET /api/reviews to load the authoritative list. POST /api/reviews accepts clientId,name,text and returns one saved record with id/clientId/name/text (201 new,200 identical replay). The server trims accepted fields, rejects links with422, and rejects a reused accepted clientId with different content with409. Initial records are Maya and Sam. Names need2–80 characters; review text10–500. The request helper validates runtime responses. The client keeps the same identifier for an unchanged retry; success clears the review text urgently and keeps the name. Saved list reconciliation is a transition. The preview reducer is pure and deduplicates a saved clientId. Only one submission per mounted form at a time; no offline/background outbox or multi-writer ordering guarantee.
+
+Select Reviews, enter a name and a review. Use slow API mode to see Sending before acceptance. Try a review containing https://example.com to see the server rejection, automatic preview removal and retained draft. Remove the link and retry. Reload/select Reviews to confirm saved data. Stopping the API removes all in-memory records; POST /api/reset restores seeds and booking capacity.

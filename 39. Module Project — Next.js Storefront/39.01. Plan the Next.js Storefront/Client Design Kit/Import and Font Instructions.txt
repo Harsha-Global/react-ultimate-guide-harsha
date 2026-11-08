@@ -1,0 +1,11 @@
+NEXT STOREFRONT — CLIENT HANDOFF
+
+v1 accompanies the storefront planning lecture: desktop/mobile collection, product details, overlay/loading/empty/recovery states, tokens/fonts and a reusable native shortlist control. v2 accompanies the caching and freshness lecture and adds CR-39-01 accepted/rejected inventory behavior while retaining v1.
+
+Native Figma: import the actual .fig through Drafts → More → Import → Import from computer. Open the imported file. The design board contains editable groups and text; Reusable controls contains a native component. v2 adds a clearly named CR-39-01 page. Original SVG sources are supplementary, not renamed native exports.
+
+Fonts: use DM Sans and Manrope. They are available by those names in Figma’s font picker. If an import reports missing font styles, select the same family as the replacement and apply it. For desktop/Windows use, install the supplied variable TTF files; keep their OFL license notices. WOFF2 files are the website assets, not the desktop installation files. Windows name records and font embedding flags were validated; verify the actual recording computer after installation.
+
+PNG exports give individual screen references. PDFs provide convenient review pages; the editable .fig files remain the design source. Product photos are the original course assets; their source register accompanies Product Assets. Fonts have their own Sources.json and OFL notices. Do not replace current product IDs, currency or imagery with unrelated placeholders.
+
+Design dimensions describe reference screens rather than a forced fixed browser width. Reflow four columns to two and one. Check visible focus,44px controls, empty/loading/error states and reduced-motion preferences in the implementation.

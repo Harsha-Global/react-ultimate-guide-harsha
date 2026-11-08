@@ -1,0 +1,29 @@
+{
+  "reuse": "Original course-owned generated product images from React2027/Shared Assets/ShopFront",
+  "productPhotos": [
+    {
+      "file": "backpack.jpg",
+      "source": "Original image created with built-in image generation; no brand or manufacturer attribution.",
+      "sha256": "64c9f8097baf1f0ce24f3f0aa59b2fc7a3624e55a2a71c2ffc262079017bd203",
+      "master": "backpack.png"
+    },
+    {
+      "file": "headphones.jpg",
+      "source": "Original image created with built-in image generation; no brand or manufacturer attribution.",
+      "sha256": "2e5c66670d88f0ca75ffbedcf48038732af6332daaaac3d3a62d48e2e6e6d02e",
+      "master": "headphones.png"
+    },
+    {
+      "file": "lamp.jpg",
+      "source": "Original image created with built-in image generation; no brand or manufacturer attribution.",
+      "sha256": "3148189f50c0d7a139ca20bca21603c2c5fc9da177ea42cb19f533c776820839",
+      "master": "lamp.png"
+    },
+    {
+      "file": "mug.jpg",
+      "source": "Original image created with built-in image generation; no brand or manufacturer attribution.",
+      "sha256": "145f57d443679e001b49ffb17a14427402f41f44715f304a6eec5ff196812240",
+      "master": "mug.png"
+    }
+  ]
+}

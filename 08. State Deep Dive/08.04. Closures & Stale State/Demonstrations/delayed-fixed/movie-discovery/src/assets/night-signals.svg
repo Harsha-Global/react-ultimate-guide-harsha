@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="480" viewBox="0 0 360 480">
+  <rect width="360" height="480" rx="18" fill="#302747"/>
+  <circle cx="245" cy="130" r="66" fill="#d79bcc"/>
+  <path d="M0 310H45V215H90V310H140V170H195V310H245V240H305V310H360V480H0Z" fill="#90d9dd"/>
+  <text x="24" y="422" fill="white" font-family="sans-serif" font-size="30">Night Signals</text>
+</svg>

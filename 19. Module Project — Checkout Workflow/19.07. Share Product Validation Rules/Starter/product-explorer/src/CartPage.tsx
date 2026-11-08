@@ -1,0 +1,38 @@
+import { Link, useLoaderData } from "react-router";
+import type { allProductsLoader } from "./loaders";
+import { useShop } from "./App";
+import CartPanel from "./CartPanel";
+import DeliveryPreferences from "./DeliveryPreferences";
+import { cartItemCount, cartSubtotal } from "./cart";
+export default function CartPage() {
+  const { items: products } = useLoaderData<typeof allProductsLoader>();
+  const { cart, add, changeQuantity, remove, delivery, saveDelivery } =
+    useShop();
+  const available = products.filter((p) => p.inStock);
+  return (
+    <>
+      <title>Your bag | ShopFront</title>
+      <div className="page-heading">
+        <p className="eyebrow">Your considered choices</p>
+        <h1 tabIndex={-1}>A few good things.</h1>
+      </div>
+      <div className="cart-layout">
+        <CartPanel
+          lines={cart}
+          products={products}
+          itemCount={cartItemCount(cart)}
+          subtotal={cartSubtotal(cart, available)}
+          onIncrease={add}
+          onDecrease={changeQuantity}
+          onRemove={remove}
+        />
+        <div>
+          <DeliveryPreferences initialValues={delivery} onSave={saveDelivery} />
+          <Link className="button checkout-link" to="/checkout">
+            Review checkout
+          </Link>
+        </div>
+      </div>
+    </>
+  );
+}

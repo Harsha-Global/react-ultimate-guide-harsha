@@ -1,0 +1,25 @@
+Windows working copy: copy this complete practice folder, including its Starter, Solution and top-level helper files, to a separate folder such as C:\react\l11-cache-tags. Make sure no folder anywhere in its full path contains &. Preserve the original resource. Open the copied Starter for the attempt; install separately in the copied Solution for comparison. Stop processes from the first copy before starting the other on the same ports. All relative paths below refer to this copied practice folder.
+
+Practice: Incorrect Cache Tags
+
+A stock edit is accepted, and the form shows the confirmed value, but the cached catalog card still shows its earlier stock. Repair the invalidation path so the next rendered catalog and category views agree with the accepted API value. Do not remove the cache, weaken validation or add an unrelated path refresh to hide the defect.
+
+Allow 10–15 minutes. Open this lecture's Practice/L11 - Incorrect Cache Tags/Starter from the course source package, reached through How to Download Source Code. Keep the guided project unchanged. Attempt the repair before inspecting Solution.
+
+Reproduce in the production build
+1. Stop the other sample API and Next processes. In the Starter folder, run npm ci and npm run api:reset. Run npm run api in one terminal and leave it running. All later fixture commands must use that same Starter folder.
+2. In a second terminal, run npm run build. In PowerShell, set $env:COURSE_ALLOW_WRITES="local-fixture", then run npm start. For a macOS/Linux terminal, use COURSE_ALLOW_WRITES=local-fixture npm start. This local flag is required for the workshop write demonstration; never configure it on the public preview.
+3. Open http://localhost:3000/data-lab. Click the workshop's Refresh workshop path control to obtain the current catalog. Note the card's stock and revision. Within 60 seconds, submit a different valid lamp stock such as 7. The API accepts it and the form confirms it, while the cached card retains the earlier value. Automatic cache revalidation can otherwise hide the defect, so reset and repeat promptly if necessary.
+4. Trace the successful action back to the label applied by the shared cached reader. Make one focused correction. Stop Next, rebuild with npm run build, restart with the local write flag and repeat the same observation.
+
+Acceptance
+The confirmed form, cached catalog and category-specific result agree after the accepted write and refresh. A rejected edit keeps the last confirmed stock. Direct loading and the public catalog and product pages still work. Explain which cached entries share the relevant tag and why the correction invalidates those entries.
+
+Hints
+First inspect the cached reader and the successful branch of the stock action, rather than the input component.
+Compare the exact tag used when caching with the exact tag expired after acceptance. A similar-looking string is a different tag.
+
+Solution review — open only after your attempt
+In lib/catalogCache.ts, catalogTag is the string public-catalog and the cached reader calls cacheTag(catalogTag). The broken app/actions/stock.ts calls updateTag('public-products'), which expires a different tag. Replace that argument with the already imported catalogTag constant. Keep the successful write before updateTag(catalogTag), then retain refresh(). The supplied Solution contains the complete repaired app.
+
+After verification, run npm run api:reset in the active API owner's folder. Stop both terminals and remove the local write environment variable from that terminal. Keep this lecture's correct catalog-lab checkpoint as reference; the next section starts a separate gradual ShopFront app; do not carry the experimental Starter forward.

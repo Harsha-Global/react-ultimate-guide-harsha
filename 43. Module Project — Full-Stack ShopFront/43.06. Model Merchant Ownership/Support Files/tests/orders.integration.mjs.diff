@@ -1,0 +1,11 @@
+--- incoming/tests/orders.integration.mjs
++++ after-group-5/tests/orders.integration.mjs
+@@ -16,7 +16,7 @@
+   const productIds = ['test-'+randomUUID(), 'test-'+randomUUID()];
+   const keys = [randomUUID(), randomUUID(), randomUUID()];
+   try {
+-    for (const id of productIds) await database.query('INSERT INTO "Product" (id,slug,name,"priceMinor",stock) VALUES ($1,$1,$2,100,1)', [id,'Disposable test product']);
++    for (const id of productIds) await database.query('INSERT INTO "Product" (id,slug,name,"priceMinor",stock,"workspaceId") VALUES ($1,$1,$2,100,1,\'W-1\')', [id,'Disposable test product']);
+     const signIn = await fetchWithAuthRetry(`${base}/api/auth/sign-in/email`, { method: 'POST', headers: { origin: base, 'content-type': 'application/json' }, body: JSON.stringify({ email: 'alex@example.test', password: 'Course-only-passphrase-40!' }) });
+     assert.equal(signIn.status, 200);
+     const cookie = signIn.headers.getSetCookie().map(value => value.split(';')[0]).join('; ');

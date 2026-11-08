@@ -1,0 +1,3 @@
+The helper returned one module-level store to every caller. The first test changed that shared instance, so the following fixtures inherited its preferences. Construct the store AND a separate memory-storage adapter inside makeTestStore. Each call now receives a fresh instance with independent state and persistence. The application singleton remains appropriate for this browser workspace; the test-fixture lifetime is the defect.
+
+Expected checks: intended Starter passes1/fails2; Solution passes3. Run the unchanged main regression checks as well. Completion does not require a second project feature or a private Udemy submission.

@@ -1,0 +1,3 @@
+# Solution explanation
+
+The first guard rejects forms that should never be used as a return destination. Parsing then resolves the candidate against the known app origin. Comparing the parsed origin and the exact /account pathname prevents an external address or a similar-looking path from passing. The return value preserves the accepted search and hash. The maximum length is inclusive, and raw control characters are rejected before the URL parser can remove them. APP_ORIGIN replaces location.origin only to make this native exercise self-contained. The policy matches this stage of the lecture app and does not authorize access to protected server data.

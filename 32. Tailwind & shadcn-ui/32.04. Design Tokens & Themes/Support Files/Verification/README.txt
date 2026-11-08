@@ -1,0 +1,1 @@
+Copy Support Files/Verification/tests/theme.test.mjs to tests/theme.test.mjs in C:\react\admin-workspace (add this file; create tests if absent). In package.json scripts, add "test:theme": "node tests/theme.test.mjs". Run npm run test:theme after completing the lecture edits. Do not replace package.json with the completed checkpoint.

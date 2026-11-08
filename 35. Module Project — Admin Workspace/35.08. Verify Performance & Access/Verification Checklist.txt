@@ -1,0 +1,38 @@
+Admin Workspace verification
+
+Use the guided admin-workspace. If opening this completed copy independently, run npm ci. If continuing from the previous lecture, copy Support Files/large-catalog.test.mjs into tests/ and add the test:scale script shown in Code.md before running it.
+
+Start only one API on port 5191 and one interface on port 5190. Run npm run api, check http://127.0.0.1:5191/api/health, then npm run dev. Restarting the API restores the four original products. No account or secrets are needed.
+
+Run each command in this project's terminal:
+npm run test:scale
+npm run test:view
+npm run test:saved-view
+npm run test:api
+npm run test:theme
+npm run test:formats
+npm run test:motion
+npm run test:workspace
+npm run test:preferences
+npm run test:storage
+npm run test:query
+npm run build
+npm run lint
+
+The scale check verifies query results over 10,000 fixture records. It is not a timing benchmark. The normal browser API still serves the original four samples in pages of two or four rows.
+
+Browser checks:
+- Save studio, browse travel, apply the saved view, then use Back.
+- Reload /?q=travel with saved studio: travel wins. Open / with no managed parameters: studio restores once. Clear search: it stays cleared. Check /?q= and /?page=banana.
+- Select rows on different pages; sorting preserves selection, search and accepted saves clear it.
+- Change Table density and overview visibility independently from the search.
+- Use Tab/Shift+Tab, the skip link, table scroll region, row menu and editor. Check initial focus, trapped dialog focus, Cancel and restored row/search focus.
+- Reject a duplicate name, retain its draft, and show focused field feedback. Stop the API for a failed save; restore it and retry the retained draft. Use api:slow separately for pending Escape protection, then restart the regular API.
+- Fail an uncached list request and retry after restoring the API. Fail a refresh after existing rows were shown; retain those rows with the last-successful-result notice, then retry.
+- Check Light/Dark, phone/tablet/desktop layouts, locale and review time zone. Currency remains USD; this guided main does not persist the optional display-format assignment choices.
+- Open /motion-check.html?reduce=0. Compare its normal animation with Simulate reduced motion: the latter reports transform none and opacity 1. This is the inherited JavaScript preference fixture. It does not emulate CSS media queries; inspect the motion-safe CSS branches separately.
+
+Production preview:
+Stop the development interface. Keep the API running. Run npm run preview -- --host 127.0.0.1 --port 5190, then repeat the saved-view and editing journey at http://127.0.0.1:5190. Stop the preview before restarting development.
+
+Finish by restarting the API to restore original products, using Forget saved view and Reset display, clearing search and closing any open dialog. Keep written evidence of an actual failure and repair. Continue to the independent Saved Table View challenge; the guided main stays unchanged.

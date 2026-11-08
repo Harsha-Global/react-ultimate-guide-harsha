@@ -1,0 +1,5 @@
+The cached category snapshot can be reused by other requests. Mutating its products array would let one filtered request change what a later unfiltered caller sees. Array.filter creates a new array; the source revision and public values stay unchanged.
+
+Read all inStock values. Reject more than one, and reject any single value other than 0 or 1. Treat absence or 0 as false and 1 as true. Keep the existing independent category checks before calling readCachedCatalog.
+
+With reset fixtures: all products, 4; available products, 3; available Travel products, 0. A later unfiltered request still returns all 4. Invalid or repeated flags or categories return 400; POST returns 405. Successful responses retain the no-store HTTP header, while Next caching remains inside the helper. An uncached category with an unavailable API returns 503. After restoring the API, a new request succeeds.

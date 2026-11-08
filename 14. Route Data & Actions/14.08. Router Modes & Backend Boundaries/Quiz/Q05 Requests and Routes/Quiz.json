@@ -1,0 +1,68 @@
+[
+  {
+    "question": "A list request fails because the API is stopped. What should the page show?",
+    "options": [
+      "An empty-success result saying there are no employees.",
+      "A request-failure message with a recovery path.",
+      "An unchanged loading message forever.",
+      "A success notification because fetch was called."
+    ],
+    "correct": "B",
+    "explanation": "A request failure does not establish that the server returned an empty collection. Communicate the failure and offer a bounded user-driven retry."
+  },
+  {
+    "question": "The user opens one detail then quickly chooses another destination. What is the best explanation?",
+    "options": [
+      "Aborting a request rolls back every server operation.",
+      "Every earlier response should still overwrite the latest screen.",
+      "Pass the router request signal to fetch and let the latest navigation determine the destination.",
+      "Disable all links until every earlier request finishes."
+    ],
+    "correct": "C",
+    "explanation": "The router coordinates navigation results and supplies a cancellation signal. Forward it to fetch. Cancellation can stop unnecessary client work, but does not guarantee rollback of completed server operations."
+  },
+  {
+    "question": "A colleague should reopen the same name and team filters from a copied address. Where should those choices live?",
+    "options": [
+      "In search parameters.",
+      "Only in a component variable.",
+      "Only in location.state.",
+      "In the button color."
+    ],
+    "correct": "A",
+    "explanation": "Search parameters travel with the URL. Location state is optional history-entry context and is not included in a copied address."
+  },
+  {
+    "question": "In this Vite Data Mode app, what happens when a loader provides data?",
+    "options": [
+      "The loader becomes a protected backend endpoint.",
+      "TypeScript automatically validates every JSON body.",
+      "The destination must first render an Effect to run its loader.",
+      "The browser router runs the matched loader and provides its result to the page through useLoaderData."
+    ],
+    "correct": "D",
+    "explanation": "The router owns this data-loading lifecycle. These loaders execute in the browser and call a separate API. Static typing does not replace runtime response validation."
+  },
+  {
+    "question": "A list-row status change should keep the URL and filters, show row-specific pending feedback, then reflect server data. What fits?",
+    "options": [
+      "Use a fetcher form to the status action and let successful action revalidation refresh the list.",
+      "Always navigate to a different page first.",
+      "Set the badge to success before sending the request and ignore errors.",
+      "Use location.state as the database."
+    ],
+    "correct": "A",
+    "explanation": "A fetcher submits without a page navigation and owns its pending/data state. The action calls the API PATCH; successful normal revalidation supplies the updated employee list."
+  },
+  {
+    "question": "Where must a real application enforce authorization to update an employee?",
+    "options": [
+      "Only in the NavLink styling.",
+      "Only in the unsaved-change blocker.",
+      "At the backend operation that accepts the update.",
+      "In a client route action name."
+    ],
+    "correct": "C",
+    "explanation": "Client UI checks can improve the experience but can be bypassed. The backend must enforce permissions, authentication and validation for the operation it accepts."
+  }
+]

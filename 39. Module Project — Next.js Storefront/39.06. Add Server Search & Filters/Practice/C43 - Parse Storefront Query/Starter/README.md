@@ -1,0 +1,7 @@
+Complete readStorefrontQuery(raw) for the public storefront. Return exactly {q, category, sort} without changing raw. For q, accept only a single string, trim it, then keep at most60characters; omitted or repeated values become an empty string. Preserve search case. For category, accept exactly Workspace, Travel, Everyday or Audio; every other value, including arrays, case changes and extra whitespace, becomes All. For sort, accept exactly the single string price; otherwise use featured. Do not trim or coerce category and sort values.
+
+Repeated query values arrive as arrays. Even a one-item array must use the default. Normalize each field independently. The caller applies these normalized choices to a catalog; this exercise does not fetch, filter or mutate products.
+
+Prerequisite: Add Server Search & Filters. Allow10minutes. Attempt the starter before opening the complete Solution. The strict local Starter and Solution are in this lecture's Practice/C43 - Parse Storefront Query folder in the course source repository, accessed through How to Download Source Code. Run npm ci, then npm test in either folder. Native passing checks the runtime cases; the local companion also checks strict TypeScript.
+
+On Windows, copy Starter to C:\react\c43-starter before running npm ci and npm test. Later copy Solution separately to C:\react\c43-solution and install there too. Check that the entire working path, including all parent folders, contains no &. Preserve the supplied resources and return to the guided ShopFront working project after the comparison.

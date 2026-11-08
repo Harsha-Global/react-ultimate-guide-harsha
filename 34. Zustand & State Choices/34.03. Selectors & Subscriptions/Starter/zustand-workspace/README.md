@@ -1,0 +1,7 @@
+# Admin Workspace — workspace actions for the overview and a display reset
+
+The Zustand workspace project with a larger store contract: src/workspaceStore.ts defines WorkspacePreferences (density and summaryOpen), WorkspaceState (the preferences with setDensity, toggleSummary and resetPreferences) and initialPreferences, spread into the store; toggleSummary calculates the opposite value from the current state with a set updater and resetPreferences sets a fresh copy of the initial preferences (a shallow merge, so the actions stay). src/components/WorkspaceControls.tsx selects summaryOpen and both actions and renders the density control, a Hide/Show overview button (aria-expanded, aria-controls="workspace-summary") and a Reset display button; src/App.tsx renders it beside the heading, gives the overview aside its id and hidden attribute and switches to a single-column layout while it is hidden. tests/workspace.test.mjs checks the actions (`npm run test:workspace`).
+
+## Run
+
+Copy the project into your React workspace (for example C:\react\zustand-workspace) and open it in VS Code. In one terminal run `npm ci`, then `npm run api` (the local catalog service on http://127.0.0.1:5191, in memory: a restart restores the four sample products). In a second terminal run `npm run dev` and open http://127.0.0.1:5190 (stop any other app using ports 5190 or 5191 first, and use the same 127.0.0.1 address throughout: localhost is a different browser-storage origin). Validate with `npm run lint` and `npm run build`.

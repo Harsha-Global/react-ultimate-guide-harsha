@@ -1,0 +1,9 @@
+Complete migratePreferences to translate a validated legacy preference snapshot into the current shape. This focused exercise uses plain TypeScript validation so it runs in the native editor; the lecture application uses the already-taught Zod schema for the same boundary.
+
+Accept only version 0 with a non-null, non-array object containing boolean dense and boolean summaryOpen fields. Translate dense:true to density:"compact" and dense:false to density:"comfortable". Preserve the validated summaryOpen value. Return only the two current fields; do not mutate the input or copy arbitrary saved properties into the result.
+
+For any unsupported version or invalid legacy input, return a fresh object with density:"comfortable" and summaryOpen:true. Do not coerce strings or numbers into booleans. The current-format validation and merge happen elsewhere in the application; this function handles only the supported old-format migration.
+
+For example, {dense:true,summaryOpen:false} at version0 becomes {density:"compact",summaryOpen:false}. The string "false" is invalid even though it is truthy. Keep the supplied function name, unknown input and Preferences result type.
+
+Target8–12minutes. Attempt the build before viewing the worked solution. The strict local Starter/Solution are in the current Persist Workspace Preferences lecture folder under Practice/C38 - Migrate Workspace Preferences. Use the course's How to Download Source Code article for the source route. In either independent local folder, run npm ci and npm test. No React app, API or extra package is required in the native editor.

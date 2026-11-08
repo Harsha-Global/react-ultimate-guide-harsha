@@ -1,0 +1,14 @@
+[
+  {
+    "question": "Which value should choose the displayed booking kind, and why?",
+    "answer": "Use result.kind from the validated server confirmation. A direct reload has no current form draft, and the number of places does not reliably define the booking kind."
+  },
+  {
+    "question": "How does your browser test prove more than a successful form submit?",
+    "answer": "It follows the saved reference and then reloads the direct URL, checking the kind label and two-place count after both loads. It uses the production server and real demo API."
+  },
+  {
+    "question": "What does the passing release evidence establish, and what remains limited?",
+    "answer": "It establishes the identified source/build passes the listed checks and journeys. It does not establish permanent storage, every possible journey or paid-production availability. Demo bookings are in memory and can disappear after restart."
+  }
+]

@@ -1,0 +1,6 @@
+Stop the ordinary Next server before suites whose launcher starts Next. Keep PostgreSQL running.
+TEST_DATABASE_URL must name local shopfront_test. The scripts refuse shopfront_dev and any non-loopback host.
+Migrate deploy applies committed migrations; the launcher never uses reset or migrate dev. Seed uses explicit course rows. Authentication fixtures use only example.test accounts and preserve their existing passwords.
+The constraints test reserves one unit inside a transaction, then deliberately inserts an order for a missing customer. The foreign-key failure must roll back the stock change. A negative stock update and zero-quantity line must also fail.
+Use a unique fixture ID per test and delete only that test's records in finally. The failed transactions leave no rows. Related tests run serially because stock fixtures are shared; parallel workers need separate databases or schemas.
+A rollback in a test's connection cannot undo writes made by a separate Next server connection. HTTP/browser tests therefore use a separate named database and explicit fixture cleanup, not an enclosing pretend rollback.

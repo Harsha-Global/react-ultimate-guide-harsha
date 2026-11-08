@@ -1,0 +1,13 @@
+The original uses logical OR for each fallback. OR selects the fallback when its left operand is falsy, so it replaces the valid zero quantity, empty label and false display choice.
+
+The repair uses the nullish-coalescing operator. It selects the fallback only for null or undefined, including the undefined result of reading an absent property. It therefore preserves 0, "", false and other provided values. Each field makes that decision independently.
+
+The example changes from quantity 1, label Untitled and true, to quantity 0, an empty label and false. Missing fields still produce the same intended defaults. Constructing the result leaves saved unchanged; there is no stored state between calls. Alternate implementations are valid when they satisfy the same behavior.
+
+Complete function:
+
+const restoreSelection = saved => ({
+  quantity: saved.quantity ?? 1,
+  label: saved.label ?? "Untitled",
+  showDetails: saved.showDetails ?? true
+});

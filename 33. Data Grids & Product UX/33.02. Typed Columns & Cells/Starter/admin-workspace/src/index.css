@@ -1,0 +1,89 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+@theme inline {
+  --color-popover: var(--card);
+  --color-popover-foreground: var(--foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-destructive: var(--destructive);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-hover: var(--primary-hover);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-success: var(--success);
+  --color-success-surface: var(--success-surface);
+  --color-warning: var(--warning);
+  --color-warning-surface: var(--warning-surface);
+  --color-danger: var(--danger);
+  --color-danger-surface: var(--danger-surface);
+}
+
+:root {
+  --accent: #e2e8f0;
+  --accent-foreground: #111827;
+  --secondary: #e2e8f0;
+  --secondary-foreground: #111827;
+  --destructive: #be123c;
+  --background: #f8fafc;
+  --foreground: #111827;
+  --card: #ffffff;
+  --card-foreground: #111827;
+  --muted: #e2e8f0;
+  --muted-foreground: #475569;
+  --primary: #1e40af;
+  --primary-foreground: #ffffff;
+  --primary-hover: #1e3a8a;
+  --border: #cbd5e1;
+  --input: #94a3b8;
+  --ring: #1d4ed8;
+  --success: #166534;
+  --success-surface: #f0fdf4;
+  --warning: #78350f;
+  --warning-surface: #fffbeb;
+  --danger: #9f1239;
+  --danger-surface: #fff1f2;
+}
+
+[data-theme="dark"] {
+  --accent: #29364d;
+  --accent-foreground: #f1f5f9;
+  --secondary: #29364d;
+  --secondary-foreground: #f1f5f9;
+  --destructive: #e11d48;
+  --background: #0b1220;
+  --foreground: #f1f5f9;
+  --card: #172033;
+  --card-foreground: #f1f5f9;
+  --muted: #29364d;
+  --muted-foreground: #c1ccdb;
+  --primary: #b9c7ff;
+  --primary-foreground: #15254b;
+  --primary-hover: #d3dcff;
+  --border: #53647d;
+  --input: #7385a0;
+  --ring: #b9c7ff;
+  --success: #a6edbd;
+  --success-surface: #123224;
+  --warning: #ffd799;
+  --warning-surface: #382716;
+  --danger: #ffc0ce;
+  --danger-surface: #3b1a29;
+}
+
+@font-face {font-family:"DM Sans";src:url("/assets/fonts/DMSans-variable.woff2") format("woff2");font-weight:100 1000;font-display:swap;}
+@font-face {font-family:"Manrope";src:url("/assets/fonts/Manrope-variable.woff2") format("woff2");font-weight:200 800;font-display:swap;}
+body {margin:0;font-family:"DM Sans",sans-serif;background:var(--background);color:var(--foreground);}
+h1,h2,h3 {font-family:"Manrope",sans-serif;}

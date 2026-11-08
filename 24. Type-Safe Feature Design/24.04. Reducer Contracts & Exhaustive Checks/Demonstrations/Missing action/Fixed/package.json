@@ -1,0 +1,11 @@
+{
+  "name": "booking-action-fixed",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "tsc -p tsconfig.json"
+  },
+  "devDependencies": {
+    "typescript": "6.0.3"
+  }
+}

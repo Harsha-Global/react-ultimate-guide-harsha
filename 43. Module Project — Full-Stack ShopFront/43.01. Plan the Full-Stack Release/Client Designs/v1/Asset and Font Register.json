@@ -1,0 +1,46 @@
+{
+  "design": "Original Section43 vectors; no new third-party photography",
+  "fonts": [
+    {
+      "file": "Fonts/DMSans-OFL.txt",
+      "sha256": "9af36190332437f5ecd09974de43c1f7c77a310a996cdd8ceb25628b458840e1",
+      "source": "Preserved course Shared Assets/ShopFront/fonts; Google Fonts OFL"
+    },
+    {
+      "file": "Fonts/DMSans-variable.ttf",
+      "sha256": "8cd08d97e89c24d0aa92edd2f0f4c8ee6195eee9b7c9f154865a58b02f0c1c0d",
+      "source": "Preserved course Shared Assets/ShopFront/fonts; Google Fonts OFL"
+    },
+    {
+      "file": "Fonts/DMSans-variable.woff2",
+      "sha256": "ff926f173dad59f850b87f019bd6f6db9dd69bc81b48cb483e66b34e9affcd2f",
+      "source": "Preserved course Shared Assets/ShopFront/fonts; Google Fonts OFL"
+    },
+    {
+      "file": "Fonts/Manrope-OFL.txt",
+      "sha256": "58172e0c0fac2cda8a37b348164bb55e44b0e69051e557e92b1d3f6910141f7b",
+      "source": "Preserved course Shared Assets/ShopFront/fonts; Google Fonts OFL"
+    },
+    {
+      "file": "Fonts/Manrope-variable.ttf",
+      "sha256": "3ae11c49db0455a3cc33e37d380f20fdb8c7f8b41dc07625c177e3d87a9d6ae6",
+      "source": "Preserved course Shared Assets/ShopFront/fonts; Google Fonts OFL"
+    },
+    {
+      "file": "Fonts/Manrope-variable.woff2",
+      "sha256": "94911f8475082db257921a685724640c7bdc6f11c0d94898e36fc4f1f50504e1",
+      "source": "Preserved course Shared Assets/ShopFront/fonts; Google Fonts OFL"
+    },
+    {
+      "file": "Fonts/Sources.json",
+      "sha256": "8a72ec2edea96ec6f1f512f66009d0d0697f10c69aa58e818bf6be17d3d82bd2",
+      "source": "Preserved course Shared Assets/ShopFront/fonts; Google Fonts OFL"
+    },
+    {
+      "file": "Fonts/google-fonts.css",
+      "sha256": "86f5d1b8366bdc72216d8bbb264a9e10fbdb0743062bf14c85e73a63c3e509d1",
+      "source": "Preserved course Shared Assets/ShopFront/fonts; Google Fonts OFL"
+    }
+  ],
+  "product_images": "Existing course assets remain inside shopfront-next/public/assets; copied source register preserved below"
+}

@@ -1,0 +1,60 @@
+--- before/src/App.tsx
++++ after/src/App.tsx
+@@ -6,10 +6,12 @@
+ export default function App() {
+   const [query, setQuery] = useState("");
+   const [category, setCategory] = useState("all");
++  const [inStockOnly, setInStockOnly] = useState(false);
+   const normalizedQuery = query.trim().toLowerCase();
+   const visibleProducts = products.filter(product =>
+     product.name.toLowerCase().includes(normalizedQuery) &&
+-    (category === "all" || product.category === category));
++    (category === "all" || product.category === category) &&
++    (!inStockOnly || product.inStock));
+ 
+   return (
+     <>
+@@ -17,8 +19,8 @@
+       <main id="main-content" tabIndex={-1}>
+         <header><p className="eyebrow">Everyday finds</p><h1>Product Explorer</h1>
+           <p>Find useful things for your day.</p></header>
+-        <ProductFilters query={query} category={category}
+-          onQueryChange={setQuery} onCategoryChange={setCategory} />
++        <ProductFilters query={query} category={category} inStockOnly={inStockOnly}
++          onQueryChange={setQuery} onCategoryChange={setCategory} onInStockChange={setInStockOnly} />
+         <p role="status">Products found: {visibleProducts.length}</p>
+         <section aria-labelledby="products-heading">
+           <h2 id="products-heading">Products</h2>
+--- before/src/ProductFilters.tsx
++++ after/src/ProductFilters.tsx
+@@ -1,11 +1,13 @@
+ type ProductFiltersProps = {
+   readonly query: string;
+   readonly category: string;
++  readonly inStockOnly: boolean;
+   readonly onQueryChange: (query: string) => void;
+   readonly onCategoryChange: (category: string) => void;
++  readonly onInStockChange: (inStockOnly: boolean) => void;
+ };
+ 
+-export default function ProductFilters({ query, category, onQueryChange, onCategoryChange }: ProductFiltersProps) {
++export default function ProductFilters({ query, category, inStockOnly, onQueryChange, onCategoryChange, onInStockChange }: ProductFiltersProps) {
+   return (
+     <section className="filters" aria-label="Product filters">
+       <label htmlFor="search">Search products
+@@ -17,6 +19,8 @@
+           <option value="Home">Home</option><option value="Audio">Audio</option>
+         </select>
+       </label>
++      <label className="check"><input type="checkbox" checked={inStockOnly}
++        onChange={event => onInStockChange(event.currentTarget.checked)} /> In stock only</label>
+     </section>
+   );
+ }
+--- before/src/index.css
++++ after/src/index.css
+@@ -25,3 +25,4 @@
+ .filters { display: flex; flex-wrap: wrap; align-items: end; gap: 20px; padding: 20px; background: #e5edf8; border-radius: 12px; }
+ .filters label { display: grid; gap: 6px; }
+ .filters input[type="search"], .filters select { padding: 9px; max-width: 100%; min-width: 0; border: 1px solid #75889c; border-radius: 6px; background: white; }
++.filters .check { display: flex; align-items: center; gap: 8px; padding: 9px 0; }

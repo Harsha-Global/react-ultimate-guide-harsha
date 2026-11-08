@@ -1,0 +1,1 @@
+Copy Support Files/Verification/tests/api.test.mjs to tests/api.test.mjs in C:\react\admin-workspace (replace this file; create tests if absent). Run npm run test:api after completing the lecture edits. Do not replace package.json with the completed checkpoint.

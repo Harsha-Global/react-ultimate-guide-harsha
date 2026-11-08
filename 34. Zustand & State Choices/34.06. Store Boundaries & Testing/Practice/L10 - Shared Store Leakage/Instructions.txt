@@ -1,0 +1,17 @@
+Shared Store Leakage — local coding task (10–15 minutes)
+
+The compact-row test passes, but the next supposedly independent fixture starts with the previous test's density. Two fixtures also disagree about who changed the overview. Reproduce the failure, inspect the fixture setup, and make the smallest repair. Preserve the application's real browser store and all assertions.
+
+Copy Starter/admin-workspace into a NEW working folder. Open it in VS Code. Run npm ci, then npm run test:leak. This test task does not require the API or browser server. Each complete project has its own dependency installation; do not assume another folder's node_modules is available.
+
+Acceptance:
+- The first fixture can choose compact rows.
+- A subsequent independent fixture begins with comfortable rows.
+- Changing one fixture's overview does not change another fixture.
+- npm run test:workspace, npm run test:preferences, npm run test:storage, npm run build and npm run lint continue to pass.
+- Do not change expected values, reorder tests or remove a test to hide the failure.
+
+Hint 1: Inspect tests/test-store.mjs and the lifetime of the value returned to each caller.
+Hint 2: Calling a helper twice does not necessarily construct two stores; also consider each store's backing storage.
+
+Explain the root cause and your repair in one or two sentences. After attempting it, compare with the complete Solution/admin-workspace beside this task in the current lecture's course-source folder. Use the course's How to Download Source Code article to locate the source; no separate service or AI account is required.

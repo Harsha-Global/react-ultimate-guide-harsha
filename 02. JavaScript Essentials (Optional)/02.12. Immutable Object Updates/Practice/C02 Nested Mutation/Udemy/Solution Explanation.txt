@@ -1,0 +1,14 @@
+The starter creates a new outer object, but its delivery property still references the original delivery object. Assigning changed.delivery.fee therefore mutates an object that the original product also uses.
+
+The solution creates a new outer product and a new delivery object. It copies the existing delivery fields, then puts fee last so the requested value wins. The original delivery object is never assigned to. Other product properties remain available; the solution can reuse untouched references such as the tags array.
+
+Before repair, both fee reads are 25. After repair, the original fee remains 40 and the returned fee is 25. The city stays Hyderabad, and both the outer-object and delivery-object identity comparisons are false. A later update can create another result without changing either earlier version.
+
+Other implementations are valid when they satisfy the same behavior. The grader does not require a particular source-code string or require unrelated nested objects to be cloned.
+
+Complete function:
+
+const changeDeliveryFee = (item, fee) => ({
+  ...item,
+  delivery: { ...item.delivery, fee }
+});

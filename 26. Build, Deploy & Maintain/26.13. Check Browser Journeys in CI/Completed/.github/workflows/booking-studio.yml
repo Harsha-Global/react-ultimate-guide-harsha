@@ -1,0 +1,42 @@
+name: Booking Studio checks
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: booking-studio-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: booking-studio
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: booking-studio/.node-version
+          cache: npm
+          cache-dependency-path: booking-studio/package-lock.json
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run check:tests
+      - run: npm run test:run
+      - run: npm run build
+      - run: npm run verify:production
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:production
+      - name: Keep browser failure evidence
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: booking-studio-failure
+          path: booking-studio/test-results/
+          retention-days: 3
+          if-no-files-found: ignore

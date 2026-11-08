@@ -1,0 +1,3 @@
+# Controlled local storage denial
+
+Use the completed local lab. Open its home page first. In DevTools, inspect and run Storage Denial Fixture.js; this overrides only the current page's in-memory methods. Close DevTools and follow the home link to the catalog through client navigation. The effect should report that the preference could not be restored while keeping the default view usable. Select Compact: the UI should change, and the message should explain that saving the preference failed. A full browser reload removes these overrides. Do not use this fixture on another site. This is a controlled error simulation, not a claim that the browser's actual storage permissions were changed.

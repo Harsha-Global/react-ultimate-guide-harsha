@@ -1,0 +1,70 @@
+import { c as _c } from "react/compiler-runtime";
+import { useState } from "react";
+import { rankMovies } from "./movies";
+import type { SortOrder } from "./movies";
+import { MovieCard } from "./MovieCard";
+import { measureInteraction } from "./measurements";
+type Props = {
+  query: string;
+  sort: SortOrder;
+  showYear: boolean;
+  onSelect: (id: string) => void;
+};
+export function MovieResults(t0) {
+  const $ = _c(11);
+  const {
+    query,
+    sort,
+    showYear,
+    onSelect
+  } = t0;
+  let t1;
+  if ($[0] === Symbol.for("react.memo_cache_sentinel")) {
+    t1 = [];
+    $[0] = t1;
+  } else {
+    t1 = $[0];
+  }
+  const [savedIds, setSavedIds] = useState(t1);
+  let t2;
+  if ($[1] !== onSelect || $[2] !== query || $[3] !== savedIds || $[4] !== showYear || $[5] !== sort) {
+    const ranked = rankMovies(query, sort);
+    let t3;
+    if ($[7] === Symbol.for("react.memo_cache_sentinel")) {
+      t3 = id => {
+        measureInteraction("Toggle saved film");
+        setSavedIds(ids => ids.includes(id) ? ids.filter(saved => saved !== id) : [...ids, id]);
+      };
+      $[7] = t3;
+    } else {
+      t3 = $[7];
+    }
+    const toggleSaved = t3;
+    let t4;
+    if ($[8] === Symbol.for("react.memo_cache_sentinel")) {
+      t4 = <p className="eyebrow">THE COLLECTION</p>;
+      $[8] = t4;
+    } else {
+      t4 = $[8];
+    }
+    const t5 = query ? `Results for “${query}”` : "A story for every mood";
+    let t6;
+    if ($[9] !== t5) {
+      t6 = <div>{t4}<h2 id="results-heading">{t5}</h2></div>;
+      $[9] = t5;
+      $[10] = t6;
+    } else {
+      t6 = $[10];
+    }
+    t2 = <section aria-labelledby="results-heading"><div className="section-heading">{t6}<p className="result-count">{ranked.length} films · {savedIds.length} saved</p></div>{ranked.length ? <div className="movie-grid">{ranked.map(entry => <MovieCard key={entry.movie.id} entry={entry} showYear={showYear} saved={savedIds.includes(entry.movie.id)} onToggle={toggleSaved} onSelect={onSelect} />)}</div> : <div className="empty"><h3>No films found</h3><p>Try a shorter title, such as “Paper” or “Garden”.</p></div>}</section>;
+    $[1] = onSelect;
+    $[2] = query;
+    $[3] = savedIds;
+    $[4] = showYear;
+    $[5] = sort;
+    $[6] = t2;
+  } else {
+    t2 = $[6];
+  }
+  return t2;
+}

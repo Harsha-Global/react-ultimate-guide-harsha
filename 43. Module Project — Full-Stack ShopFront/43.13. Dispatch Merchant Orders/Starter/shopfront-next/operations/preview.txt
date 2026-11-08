@@ -1,0 +1,17 @@
+The workflow is at the Git repository root: .github/workflows/full-stack.yml.
+For a monorepo, adapt working-directory and cache-dependency-path before pushing.
+Use a separate private practice repository.
+The CI database runs only for that job. The displayed CI password protects disposable data,
+not a hosted database. Do not replace it with any real service secret.
+The job runs serially because launchers share .next and the same test database.
+A browser-test checkout response is deliberately stubbed. It does not confirm Stripe delivery.
+Upload decoding and real provider sandbox checks are separate release checks.
+Never expose deployment credentials to untrusted pull_request code or use pull_request_target
+as a shortcut. Review code before deploying it with secrets.
+For a Render service preview, create a separate database/schema and dedicated provider sandbox
+credentials; the preview must not inherit the production database or webhook signing secret.
+Free Render allows one free Postgres database per workspace, so do not promise unlimited free
+full-stack previews. Reuse the isolated local production-build rehearsal when unavailable.
+Before preview deploy: CI passed, reviewed commit SHA, separate data, exact callback origins.
+After preview: sign-in/private route, direct reload, failure recovery, then remove disposable
+resources only after retaining required evidence and backup.

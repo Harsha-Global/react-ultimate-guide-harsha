@@ -1,0 +1,17 @@
+node_modules/
+dist/
+server/data.json
+server/control.json
+*.tsbuildinfo
+.DS_Store
+
+.vite-cache/
+test-results/
+playwright-report/
+server/uploads/
+server/checkout-drafts.json
+*.log
+
+.env
+.env.*
+!.env.example

@@ -1,0 +1,1 @@
+Copy Support Files/Verification/tests/formats.test.mjs to tests/formats.test.mjs in C:\react\admin-workspace (add this file; create tests if absent). In package.json scripts, add "test:formats": "node tests/formats.test.mjs". Run npm run test:formats after completing the lecture edits. Do not replace package.json with the completed checkpoint.

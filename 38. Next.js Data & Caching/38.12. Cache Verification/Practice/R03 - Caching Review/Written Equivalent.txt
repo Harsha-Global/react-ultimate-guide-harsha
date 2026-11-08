@@ -1,0 +1,13 @@
+R03 — Caching Review
+
+About 10 minutes. This written equivalent does not require an AI account or a live role-play session.
+
+Morgan proposes one shared, five-minute cache for the public product catalog and every signed-in shopper’s private account summary. A local inventory action currently reports success, but a cached product card still shows the old stock. Review the proposal and explain a concrete verification plan using the caching tools taught in this section.
+
+1. Which data may be shared between requests, and which data must stay scoped to the requesting user? Explain why a lifetime setting does not establish privacy.
+
+2. Trace an accepted stock edit through the API, cache tag and rendered interface. Distinguish immediate expiration from stale-while-revalidate marking, and explain what refresh does.
+
+3. Give a reproducible test for the old-card defect, plus rejection and navigation checks. Explain how a separate TanStack Query browser cache affects your interpretation.
+
+Success criteria: separate public and private ownership; connect an accepted write to the exact tag; distinguish invalidation from UI refresh; describe reproducible accepted/rejected/navigation checks.

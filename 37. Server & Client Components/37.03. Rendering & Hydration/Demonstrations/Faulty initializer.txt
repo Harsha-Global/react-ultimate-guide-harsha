@@ -1,0 +1,11 @@
+Create a disposable copy of Starter/component-workshop. Write these intentional changes live; do not replace the guided main. The faulty completed reference follows:
+
+'use client';
+import { useState } from 'react';
+const storageKey = 'component-workshop:lamp-saved';
+export function SaveProduct({ name }: { name: string }) {
+ const [saved, setSaved] = useState(() => typeof window !== 'undefined' && localStorage.getItem(storageKey) === 'yes');
+ return <button type="button" aria-pressed={saved} onClick={() => { const next = !saved; setSaved(next); localStorage.setItem(storageKey, next ? 'yes' : 'no'); }}>{saved ? 'Saved' : 'Save'} {name}</button>;
+}
+
+Use localhost:3000for both faulty and repaired copies, stopping one server before the other. Save then reload to expose different initial server/browser values. Stop and return to the unchanged incoming source, then write the repair. The saved key remains available to the repaired copy at the same origin.

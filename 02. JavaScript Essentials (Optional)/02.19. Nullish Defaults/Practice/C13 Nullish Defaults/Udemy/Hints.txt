@@ -1,0 +1,5 @@
+Hint 1
+Trace the three saved choices through the expressions that build the result. Which expressions choose a fallback even though a value is present?
+
+Hint 2
+Recall the lecture's difference between testing for any falsy value and testing specifically for null or undefined. Which condition matches the issue's acceptance criteria?

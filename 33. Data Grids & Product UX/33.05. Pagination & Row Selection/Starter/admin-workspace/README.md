@@ -1,0 +1,7 @@
+# Admin Workspace — server-side sorting and filtering
+
+The Admin Workspace project with sorting and filtering done by the catalog service: GET /api/products accepts q, sort and dir (server/query-inventory.mjs validates them, filters by name, orders numbers numerically and text by name, and returns the matching items, their total and a whole-catalog summary). src/catalogQuery.ts builds the query string from the search text and the first supported sort; src/catalogApi.ts fetches /api/products with it and validates the complete response (src/productSchema.ts); src/useProducts.ts keys each result to its request (query and retry attempt), aborts superseded requests and shows loading immediately for a new query. src/App.tsx reads the rows, the total and the sidebar counts from the response and requests the list again after a save; src/components/ProductTable.tsx uses manual sorting and filtering, stays mounted while loading or on an error, marks the region busy and shows the count or the no-results message only for a ready response.
+
+## Run
+
+Copy the project into your React workspace (for example C:\react\admin-workspace) and open it in VS Code. In one terminal run `npm ci`, then `npm run api` (the local catalog service on http://127.0.0.1:5191, in memory: a restart restores the four sample products). In a second terminal run `npm run dev` and open http://127.0.0.1:5190 (stop any other app using ports 5190 or 5191 first). Validate with `npm run lint` and `npm run build`; `npm run test:api` checks the service while it runs.

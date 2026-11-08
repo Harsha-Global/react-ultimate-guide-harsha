@@ -1,0 +1,86 @@
+--- incoming/src/CustomerForm.tsx
++++ outgoing/src/CustomerForm.tsx
+@@ -4,14 +4,20 @@
+ import type { CustomerDraft, Seating } from "./customer";
+ import { readCustomerForm } from "./readCustomerForm";
+ import { validateCustomer, hasErrors } from "./validateCustomer";
+-import type { FieldErrors } from "./validateCustomer";
+ 
+ type Props = { draft: CustomerDraft; onChange: (draft: CustomerDraft) => void };
+ 
+ export default function CustomerForm({ draft, onChange }: Props) {
+   const [submitted, setSubmitted] = useState<CustomerDraft | null>(null);
+   const [formMessage, setFormMessage] = useState("");
+-  const [errors, setErrors] = useState<FieldErrors>({});
++  const [touched, setTouched] = useState<Partial<Record<keyof CustomerDraft, boolean>>>({});
++  const [attempted, setAttempted] = useState(false);
++  const errors = validateCustomer(draft);
++  const initialDraft: CustomerDraft = { fullName: "", email: "", city: "Seattle", arrivalMinutes: "15", note: "", updates: false, seating: "aisle" };
++  const dirty = (Object.keys(draft) as (keyof CustomerDraft)[]).some(key => draft[key] !== initialDraft[key]);
++  function markTouched(field: keyof CustomerDraft) {
++    setTouched(current => ({ ...current, [field]: true }));
++  }
+   function changeText(field: "fullName" | "email" | "arrivalMinutes" | "note", value: string) {
+     onChange({ ...draft, [field]: value });
+   }
+@@ -25,8 +31,8 @@
+       setFormMessage("The form could not be read. Check its named controls.");
+       return;
+     }
++    setAttempted(true);
+     const nextErrors = validateCustomer(candidate);
+-    setErrors(nextErrors);
+     if (hasErrors(nextErrors)) {
+       setFormMessage("Check the highlighted customer details.");
+       return;
+@@ -34,26 +40,26 @@
+     setSubmitted(candidate);
+     setFormMessage("Customer details submitted locally. No reservation was sent.");
+   }
+-  const fullNameError = errors.fullName;
+-  const emailError = errors.email;
+-  const arrivalMinutesError = errors.arrivalMinutes;
+-  const noteError = errors.note;
++  const fullNameError = (touched.fullName || attempted) ? errors.fullName : undefined;
++  const emailError = (touched.email || attempted) ? errors.email : undefined;
++  const arrivalMinutesError = (touched.arrivalMinutes || attempted) ? errors.arrivalMinutes : undefined;
++  const noteError = (touched.note || attempted) ? errors.note : undefined;
+   return (
+     <form className="customer-form" onSubmit={handleSubmit} noValidate>
+       <div className="fields">
+         <div className="field">
+           <label htmlFor="customer-fullName">Full name</label>
+-          <input id="customer-fullName" name="fullName" type="text" required autoComplete="name" value={draft.fullName} onChange={event => changeText("fullName", event.currentTarget.value)} />
++          <input id="customer-fullName" name="fullName" type="text" required autoComplete="name" value={draft.fullName} onChange={event => changeText("fullName", event.currentTarget.value)} onBlur={() => markTouched("fullName")} />
+           {fullNameError && <p className="error">{fullNameError}</p>}
+         </div>
+         <div className="field">
+           <label htmlFor="customer-email">Email</label>
+-          <input id="customer-email" name="email" type="email" required autoComplete="email" value={draft.email} onChange={event => changeText("email", event.currentTarget.value)} />
++          <input id="customer-email" name="email" type="email" required autoComplete="email" value={draft.email} onChange={event => changeText("email", event.currentTarget.value)} onBlur={() => markTouched("email")} />
+           {emailError && <p className="error">{emailError}</p>}
+         </div>
+         <div className="field">
+           <label htmlFor="customer-arrivalMinutes">Minutes before show</label>
+-          <input id="customer-arrivalMinutes" name="arrivalMinutes" type="number" required min="0" max="60" step="1" value={draft.arrivalMinutes} onChange={event => changeText("arrivalMinutes", event.currentTarget.value)} />
++          <input id="customer-arrivalMinutes" name="arrivalMinutes" type="number" required min="0" max="60" step="1" value={draft.arrivalMinutes} onChange={event => changeText("arrivalMinutes", event.currentTarget.value)} onBlur={() => markTouched("arrivalMinutes")} />
+           <p className="hint">A whole number from 0 to 60; zero means arriving at showtime.</p>
+           {arrivalMinutesError && <p className="error">{arrivalMinutesError}</p>}
+         </div>
+@@ -66,7 +72,7 @@
+         </div>
+         <div className="field">
+           <label htmlFor="customer-note">Seating note</label>
+-          <textarea id="customer-note" name="note" value={draft.note} onChange={event => changeText("note", event.currentTarget.value)} />
++          <textarea id="customer-note" name="note" value={draft.note} onChange={event => changeText("note", event.currentTarget.value)} onBlur={() => markTouched("note")} />
+           <p className="hint">Optional; up to 200 characters. Do not enter sensitive information.</p>
+           {noteError && <p className="error">{noteError}</p>}
+         </div>
+@@ -77,6 +83,7 @@
+       </fieldset>
+       <label className="choice"><input type="checkbox" name="updates" value="yes" checked={draft.updates} onChange={event => onChange({ ...draft, updates: event.currentTarget.checked })} />Email booking updates</label>
+       <div className="draft-summary">Draft: {draft.fullName || "No name yet"} · {draft.city} · {draft.seating} · Arrival: {draft.arrivalMinutes === "" ? "not entered" : `${draft.arrivalMinutes} minutes`}</div>
++      <p>{dirty ? "Draft has changes." : "Draft matches its defaults."}</p>
+       <div className="actions"><button type="submit">Submit customer details</button>
+         <button type="button" onClick={() => changeText("note", "")}>Clear seating note</button>
+       </div>

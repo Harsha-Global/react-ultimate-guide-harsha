@@ -1,0 +1,18 @@
+The course uses a separate Sentry project with no personal data.
+Create it at sentry.io: choose/create the practice organization, then Settings >
+Projects > Create Project. Select Next.js, a practice name and the available team.
+Keep the existing manual SDK files; do not run another installation wizard.
+Project Settings > Client Keys (DSN) provides the destination used for BOTH
+SENTRY_DSN and NEXT_PUBLIC_SENTRY_DSN. Finish the privacy settings from Controlled Error Capture
+before setting those values and sending a new controlled event.
+The DSN identifies an ingestion destination; it is not an administrative API token.
+No source maps are uploaded. No Sentry auth token is required for this recipe.
+Error messages are allowlisted; unexpected messages become Application error.
+The shared filter removes users, request payloads, headers, cookies, extra values,
+breadcrumbs, query strings, local paths and stack variables. Logs/metrics are dropped.
+Tracing and session replay are disabled. This reduces diagnostic detail deliberately.
+Run npm run test:unit and npm test before connecting a real course DSN.
+Enable COURSE_TELEMETRY_DEMO only for a private rehearsal, send the controlled event,
+find its exact event ID in the Sentry Issues view, and inspect the event JSON.
+An SDK event ID alone does not establish ingestion. Disable the demo endpoint afterwards.
+The local SDK transport test verifies filtering; cloud delivery is a separate check.

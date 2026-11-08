@@ -1,0 +1,26 @@
+{
+  "id": "R03",
+  "title": "Caching Review",
+  "character": "Morgan",
+  "role": "Engineering lead",
+  "scenario": "Morgan proposes one shared, five-minute cache for the public product catalog and every signed-in shopper’s private account summary. A local inventory action currently reports success, but a cached product card still shows the old stock. Review the proposal and explain a concrete verification plan using the caching tools taught in this section.",
+  "learner_goal": "Separate public and private data, connect accepted mutations to the correct cache owner, and propose an observable verification sequence.",
+  "goals": [
+    "Distinguish shareable public catalog data from request-specific private account data.",
+    "Explain matching cache tags and the roles of updateTag, revalidateTag and refresh.",
+    "Propose accepted, rejected and fresh-navigation checks without assuming every cache has the same owner."
+  ],
+  "opening": "Could we put the catalog and every account summary into one five-minute cache? The stock form says it saved, but the product card still has the old value. What would you change, and how would you prove it works?",
+  "written_prompts": [
+    "Which data may be shared between requests, and which data must stay scoped to the requesting user? Explain why a lifetime setting does not establish privacy.",
+    "Trace an accepted stock edit through the API, cache tag and rendered interface. Distinguish immediate expiration from stale-while-revalidate marking, and explain what refresh does.",
+    "Give a reproducible test for the old-card defect, plus rejection and navigation checks. Explain how a separate TanStack Query browser cache affects your interpretation."
+  ],
+  "sample_answers": [
+    "The public catalog may use a shared server cache when its contents are the same for every visitor. A private account summary must be read under the authenticated request and a correctly isolated data policy; it must never enter an unscoped public cache. A five-minute lifetime limits freshness, not who can receive the stored result.",
+    "After validation and authorization, wait for the API to accept the write. Expire the exact tag attached by the reader with updateTag in the Server Action, then refresh the current interface. A mismatched tag leaves the relevant entry unchanged. revalidateTag(tag, \"max\") marks a tagged result stale for its revalidation policy; it does not itself repaint the current page. refresh requests new server output and does not by itself establish a data-invalidating policy.",
+    "Warm the catalog and record its stock and revision. Save a different stock value before natural expiry can hide the defect, then compare the confirmed API result, cached card and category snapshot. Reject another edit and verify that the previous confirmed value remains. Check direct reload, navigation and history. Inspect TanStack Query separately because its browser cache has its own key and stale-time policy; a Next data tag does not directly clear it."
+  ],
+  "placement": "End of the section, after the Cache Verification lecture and its Incorrect Cache Tags practice.",
+  "duration_minutes": 10
+}

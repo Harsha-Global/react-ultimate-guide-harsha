@@ -1,0 +1,4 @@
+C41 - Select Public Product Props
+Read Instructions.txt before opening the solution. Open Starter for your attempt. This is a small TypeScript project, not a Next application; it needs no API process, browser port or account.
+In Starter, run npm ci, then npm test. The command first performs strict TypeScript checking and then runs the behavior tests. The original starter intentionally passes only 8/12 behavior checks. Implement the required function and rerun until all 12 checks pass. Preserve the test files.
+The complete Solution is separate; run npm ci and npm test there to compare the finished result after your attempt. Udemy uses the matching native exercise with a supplied learner starter and grader. The local project retains strict checking.

@@ -1,0 +1,7 @@
+# Admin Workspace — explicit preference restoration and storage recovery
+
+The Zustand workspace project restores its saved display preferences explicitly and explains storage problems. src/preferenceStorage.ts (supplied) keeps a storage health status (restore, save or none) that the interface can subscribe to, and wraps localStorage so a failed read reaches the persist middleware while a failed write is reported as a save problem. src/workspaceStore.ts uses that adapter with skipHydration and an onRehydrateStorage callback that reports a restore problem. src/components/PreferenceBoundary.tsx subscribes to hydration start and finish and to the storage health with useSyncExternalStore, shows a short loading message, a restore alert with Use default display (reset, then restore again) or a save alert, and renders the workspace; src/main.tsx wraps App with it and calls restorePreferences() once. tests/storage.test.mjs checks the adapter (`npm run test:storage`).
+
+## Run
+
+Copy the project into your React workspace (for example C:\react\zustand-workspace) and open it in VS Code. In one terminal run `npm ci`, then `npm run api` (the local catalog service on http://127.0.0.1:5191, in memory: a restart restores the four sample products). In a second terminal run `npm run dev` and open http://127.0.0.1:5190 (stop any other app using ports 5190 or 5191 first, and use the same 127.0.0.1 address throughout: localhost is a different browser-storage origin). Validate with `npm run lint` and `npm run build`.

@@ -1,0 +1,1 @@
+Copy Support Files/Verification/tests/view.test.mjs to tests/view.test.mjs in C:\react\admin-workspace (add this file; create tests if absent). In package.json scripts, add "test:view": "node tests/view.test.mjs". Run npm run test:view after completing the lecture edits. Do not replace package.json with the completed checkpoint.

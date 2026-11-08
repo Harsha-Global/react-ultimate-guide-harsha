@@ -1,0 +1,7 @@
+The request must pass the configured origin check, real database session validation, and the ownership/membership query. A hidden button and Proxy cookie-presence redirect are not authorization.
+Request JSON is read with a4096-byte bound; Zod rejects client prices, roles and unknown order fields. Queries use Prisma's parameterized operations. Treat a note as text in JSX/defaultValue; do not insert user text with dangerouslySetInnerHTML.
+The limited CSP blocks framing and embedded objects and restricts base URLs. It is not a complete script-src policy; nonce-based CSP needs a separate compatible design with Next's rendering/cache behavior.
+Better Auth supplies secure session-cookie settings for HTTPS production and its configured database rate limiter. Do not disable CSRF checks or cookie protections to make a broken proxy configuration work. Configure trusted proxy/IP behavior for the real host; client-supplied forwarding headers are not automatically trustworthy.
+Keep DATABASE_URL, BETTER_AUTH_SECRET, GITHUB_CLIENT_SECRET, STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, S3_SECRET_KEY, INNGEST_EVENT_KEY and INNGEST_SIGNING_KEY server-only and out of Git. Never prefix these names with NEXT_PUBLIC_.
+Inspect the generated public JavaScript and request payloads before deployment. Test keys remain credentials. The telemetry DSN introduced next is a public routing identifier; its auth token is a different, private credential.
+This is a scoped application review, not a claim of a complete security audit.

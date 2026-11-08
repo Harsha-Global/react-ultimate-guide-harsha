@@ -1,0 +1,1 @@
+Reference fault only. Write the guarded storage initializer live in a separate copy of Starter; keep restoration effect/ready persistence. Save lamp then reload: server[]and browser[P-101]differ. Repair to useState<string[]>([]), rebuild and verify selection/empty reload. Do not carry the faulty source into the deployment lecture.

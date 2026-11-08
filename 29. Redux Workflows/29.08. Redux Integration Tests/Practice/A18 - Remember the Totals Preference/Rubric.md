@@ -1,0 +1,1 @@
+Manual/self-review rubric (10 points): 2 points each for the correct visible control; allowlisted and validated restoration; cancelable reset; preservation of the separate guided main project; and meaningful tests. Aim for 8/10 with no stale-write or invalid-value defect. Compare the complete solution only after attempting the task.

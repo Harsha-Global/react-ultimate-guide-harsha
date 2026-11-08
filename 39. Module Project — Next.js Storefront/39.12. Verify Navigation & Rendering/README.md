@@ -1,0 +1,17 @@
+# Verify Navigation & Rendering
+
+The completed application is the exact source demonstrated in the video.
+
+- Starter/shopfront-next and Completed/shopfront-next: the ShopFront app as completed in the previous lecture (this lecture changes no file of the guided project; the bug is reproduced and repaired in a separate copy).
+- Bug Demo/shopfront-next: a copy with the deliberately faulty shortlist initializer, for reference only (see Bug Demo/README.txt).
+- Recording Support: the Storage Failure Demo (browser-storage reads or writes made to fail) and the Uncached Recovery Check (its public reader bypasses the cache, so cached data cannot hide an API outage), each run with its own install, API and app; see Recording Support/README.txt.
+
+This lecture verifies the finished navigation and rendering in production (search, the overlay with Escape and focus return, direct reloads, Back and Forward across query changes, keyboard use and a narrow window), then reproduces a hydration mismatch in a separate copy: a shortlist state initializer that reads localStorage during the first render makes the server and the browser render different HTML. The one-line repair returns to `useState<string[]>([])`, with the saved choice restored after hydration.
+
+## Run
+
+Copy the shopfront-next folder into your React workspace (for example C:\react\shopfront-next; no folder anywhere in the path may contain the & character) and open it in VS Code. Stop any other app using ports 3000 or 5211 first. In a first terminal run `npm ci` (the first installation needs registry access), then `npm run api:reset` and `npm run api`: the local sample catalog API listens on http://127.0.0.1:5211 (http://127.0.0.1:5211/health reports its status). Copy .env.local.example to .env.local (COURSE_ALLOW_WRITES=local-fixture shows the local inventory editor on the collection when the site is opened on this computer; it is a teaching switch, not authentication, and never belongs on a public deployment). In a second terminal run `npm run dev -- --port 3000` and open http://localhost:3000 (the npm scripts bind 127.0.0.1; keep using localhost, as 127.0.0.1 is a different browser-storage origin for the shortlist). Run the fixture commands (`npm run api:slow`, `npm run api:error`, `npm run api:ready`, `npm run api:reset`) in a third terminal in the same folder as the running API. To check a production build, stop the development server with Ctrl+C (keep the API running: the build reads the catalog from it), then run `npm test`, `npm run typecheck`, `npm run build` and `npm start -- --port 3000`. Finish with `npm run api:reset` and stop both processes.
+
+## Try it
+
+To repeat the investigation, copy the Starter folder to a new folder such as C:\react\shopfront-next-bug-copy and run `npm ci` there. In its components/PublicShortlistProvider.tsx replace the useState argument [] with `() => typeof window === "undefined" ? [] : parseShortlist(localStorage.getItem(publicShortlistKey))`, start its API (`npm run api`) and `npm run dev -- --port 3000`, shortlist the lamp and reload: the browser reports a hydration mismatch. Restore `useState<string[]>([])`, stop the dev server (keep the API), run `npm run build` and `npm start -- --port 3000`: the saved choice returns without a mismatch. Finish with `npm test`, `npm run typecheck` and `npm run build` in the copy. The Storage Failure Demo and the Uncached Recovery Check run on their own as Recording Support/README.txt describes (stop the other processes first).

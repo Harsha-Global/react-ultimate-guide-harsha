@@ -1,0 +1,43 @@
+name: ShopFront release checks
+on:
+  pull_request:
+    paths:
+      - 'shopfront/**'
+      - '.github/workflows/shopfront.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'shopfront/**'
+      - '.github/workflows/shopfront.yml'
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: shopfront
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: shopfront/.node-version
+          cache: npm
+          cache-dependency-path: shopfront/package-lock.json
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run check:tests
+      - run: npm run test:run
+      - run: npm run build
+      - run: npm run verify:production
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:production
+      - name: Keep browser failure evidence
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: shopfront-browser-failure
+          path: shopfront/test-results/
+          if-no-files-found: ignore
+          retention-days: 3

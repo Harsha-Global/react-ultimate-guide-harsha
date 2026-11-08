@@ -1,0 +1,5 @@
+Hint 1
+Compare the original delivery fee before and after one call. Inspect the path used by the assignment inside changeDeliveryFee.
+
+Hint 2
+Recall the lecture's distinction between a new outer object and the references held by its properties. Which objects along the changed path need their own identities?

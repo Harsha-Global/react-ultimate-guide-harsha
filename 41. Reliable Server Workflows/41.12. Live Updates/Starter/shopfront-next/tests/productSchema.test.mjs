@@ -1,0 +1,4 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {productSchema,safeJsonLd} from '../lib/productSchema.ts';import {products} from '../lib/catalog.ts';
+test('structured product values match displayed sample',()=>{const x=productSchema(products[0],'https://example.com');assert.equal(x.offers.price,89);assert.equal(x.offers.priceCurrency,'USD');assert.equal(x.offers.url,'https://example.com/products/studio-desk-lamp');});
+test('sold out data is explicit',()=>assert.equal(productSchema(products[1],'https://example.com').offers.availability,'https://schema.org/OutOfStock'));
+test('JSON-LD cannot close its script through supplied text',()=>{const s=safeJsonLd({name:'</script><script>alert(1)</script>'});assert.ok(!s.includes('<'));assert.equal(JSON.parse(s).name,'</script><script>alert(1)</script>');});

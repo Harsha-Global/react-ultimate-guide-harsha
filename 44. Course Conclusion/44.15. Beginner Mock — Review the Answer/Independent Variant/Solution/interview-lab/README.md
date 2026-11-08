@@ -1,0 +1,5 @@
+# Attendee-name variant — Solution
+
+Use the previously taught Node.js 24 environment. Copy this project into `C:\react\attendee-drafts-solution` on Windows, or a separate local folder whose full path, including every parent folder, contains no `&` character. Preserve the original resources and keep the attempt and comparison separate. Stop the other lab using port 3044 first. In the copied project, run `npm ci`, then `npm run dev -- --port 3044`. Open http://localhost:3044. Run `npm run typecheck` to check types. For a production check, stop development and wait for the terminal prompt, run `npm run build`, then `npm start -- --port 3044`. Stop that server before changing copies.
+
+This sample is local and resets on full reload. Permanent removal lasts for this mounted parent; there is no server persistence. Duplicate display names are intentional. The complete solution keeps drafts by ID, preserves blank strings, deletes a permanently removed ID's draft, and resets remaining drafts explicitly. The starter contains the deliberate index-key/local-state defects.
